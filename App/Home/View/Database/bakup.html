@@ -1,0 +1,79 @@
+<div class="bjui-pageHeader">
+<form id="pagerForm" data-toggle="ajaxsearch" action="__SELF__" method="post">
+	<input type="hidden" name="pageSize" value="{$numPerPage}">
+	<input type="hidden" name="pageCurrent" value="{$_REQUEST['pageNum']|default=1}">
+	<div class="bjui-searchBar">
+		<div class="btn-group floatright" role="group">
+			<button type="button" class="btn-green" onclick="$(this).navtab('refresh', '{:strtolower(CONTROLLER_NAME)}/{:ACTION_NAME}');" data-icon="refresh">{:L('_REFRESH_')}</button>
+			<button type="button" class="btn-close" data-icon="close">{:L('_CLOSE_')}</button>
+		</div>
+	</div> 
+</form>
+<!--database/bakup-->
+</div>
+<div class="bjui-pageContent tableContent">
+     <table data-toggle="tablefixed" data-width="100%" data-layout-h="0" data-nowrap="true">
+            <thead>
+                <tr>
+                    <th height="27">备份名称</th>
+                    <th>卷数</th>
+                    <th>压缩</th>
+                    <th>数据大小</th>
+                    <th>备份时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <volist name="list" id="data">
+                    <tr data-id="{$data.time|date='Ymd-His',###}">
+                        <td>{$data.time|date='Ymd-His',###}</td>
+                        <td>{$data.part}</td>
+                        <td>{$data.compress}</td>
+                        <td>{$data.size|format_bytes}</td>
+                        <td>{$key}</td>
+                        <td class="action">
+                            <!--<a class="db-import" href="{:U('import?time='.$data['time'])}">还原</a>&nbsp;-->
+                         <a href="{:U('del?time='.$data['time'].'&navTabId=database/bakup')}" data-toggle="doajax" data-confirm-msg="确定要操作吗？">删除</a>
+                        </td>
+                    </tr>
+                </volist>
+            </tbody>
+        </table>
+    </div>
+
+
+<block name="script">
+    <script type="text/javascript">
+        $(".db-import").click(function(){
+            var self = this, status = ".";
+            $.get(self.href, success, "json");
+            window.onbeforeunload = function(){ return "正在还原数据库，请不要关闭！" }
+            return false;
+        
+            function success(data){
+                if(data.status){
+                    if(data.gz){
+                        data.info += status;
+                        if(status.length === 5){
+                            status = ".";
+                        } else {
+                            status += ".";
+                        }
+                    }
+                    $(self).parent().prev().text(data.info);
+                    if(data.part){
+                        $.get(self.href, 
+                            {"part" : data.part, "start" : data.start}, 
+                            success, 
+                            "json"
+                        );
+                    }  else {
+                        window.onbeforeunload = function(){ return null; }
+                    }
+                } else {
+                    updateAlert(data.info,'alert-error');
+                }
+            }
+        });
+    </script>
+</block>

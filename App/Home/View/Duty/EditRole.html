@@ -1,0 +1,39 @@
+<script language=JavaScript>
+function CheckAll_Duty_role(form)
+{
+	for (var i=0;i<form.elements.length;i++)
+	{
+		var e = form.elements[i];
+		if (e.name != 'chkall' )
+		e.checked = form.chkall.checked;
+	}
+}
+</script>
+<div class="bjui-pageContent tableContent">
+<form action="__URL__/editrole/navTabId/{:CONTROLLER_NAME}" class="pageForm" data-toggle="validate">
+<input type="hidden" name="id" value="{$id}">
+     <table data-toggle="tablefixed" data-width="100%" data-layout-h="0" data-nowrap="true">
+        <thead>
+            <tr>
+            <th width="60" height="35"> <label class="lineh20 w100" for="j_duty_editrole_chkall">
+            <input type="checkbox" class="checkboxCtrl" data-group="rules[]" data-toggle="icheck"> 业务权限</label></th>
+            </tr>
+        </thead>
+        <tbody>
+        
+       <foreach name="duty_list" item="v">
+    	<tr data-id="{$v.id}">
+        <td height="25"> <label class="font-normal lineh20 w100" for="j_duty_editrole_chkall-{$v.id}"><input id="j_duty_editrole_chkall-{$v.id}" type="checkbox" name="rules[]" data-toggle="icheck" <if condition="in_array($v[id],$rs)">checked="checked"</if> value="{$v.id}"> {$v.name}</label></td>
+        </tr>
+        </foreach>
+        
+        </tbody>
+    </table>
+</form>
+</div>
+<div class="bjui-pageFooter">
+<ul>
+<li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+<li><button type="submit" class="btn-success" data-icon="save">保存</button></li>
+</ul>
+</div>

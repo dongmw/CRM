@@ -1,0 +1,153 @@
+<div class="bjui-pageContent tableContent">
+<form action="" class="pageForm" data-toggle="validate" id="form_jxcpurchase_add" name="form_jxcpurchase_add">
+        <!--2016-06-06 【新增】上传附件参数【开始】-->
+        <input type="hidden" name="attid" value="{$attid}">
+        <input type="hidden" name="randid" value="{$attid}">
+        <input type="hidden" name="jxcpurchase_add_MaxNum" id="jxcpurchase_add_MaxNum" value="10" />
+        <input type="hidden" name="jxcpurchase_add_FileNum" id="jxcpurchase_add_FileNum" value="0" />
+        <!--2016-06-06 【新增】上传附件参数【结束】-->
+    <div class="col-md-12 mt10">
+<table class="table table-top" width="100%">
+<thead>
+<tr height="35"><th>
+	<label for="j_form_jxcpurchase_add_mp_ywtype" class="control-label x85">业务类别：</label><select data-width="50" id="j_form_jxcpurchase_add_mp_ywtype" name="mp_ywtype" data-toggle="selectpicker" data-rule="required">
+		<option value="购货">购货</option>
+		<option value="退货">退货</option>
+	</select>
+</th>
+<th>
+	<label for="j_form_jxcpurchase_add_ms_id" class="control-label x85">供应商：</label><select data-width="150" id="j_form_jxcpurchase_add_ms_id" name="ms_id" data-toggle="selectpicker" data-rule="required">
+		<foreach name="list_jxcsuppliers" item="v">
+		<option value="{$v.id}" <if condition="$v.id EQ $Rs['ms_id'] ">selected<else/></if> >{$v.ms_mc} <if condition="$v.status EQ 1 "><else/><font color=red>[未启用]</font></if>
+		</option>
+		</foreach>
+	</select>
+</th>
+<th><label for='j_form_jxcpurchase_add_mp_ddrq' class='control-label x85'>单据日期：</label><input type='text' data-rule='required;date' data-toggle='datepicker' id='j_form_jxcpurchase_add_mp_ddrq' name='mp_ddrq' size='12' value='<php>echo date("Y-m-d",time());</php>' data-min-date="{%y-10}-%M-%d" data-max-date="{%y+10}-%M-%d" ></th>
+<th><label for='j_form_jxcpurchase_add_mp_jhrq' class='control-label x85'>交货日期：</label><input type='text' data-rule='required;date' data-toggle='datepicker' id='j_form_jxcpurchase_add_mp_jhrq' name='mp_jhrq' size='12' value='<php>echo date("Y-m-d",time());</php>' data-min-date="{%y-10}-%M-%d" data-max-date="{%y+10}-%M-%d" ></th>
+</tr>
+</thead>
+</table>
+    </div>
+    
+
+<!--联系人开始-->
+
+    <div class="col-md-12">
+<table id="table_jxcsuppliers_add" class="table table-bordered table-hover table-striped table-top" data-toggle="tabledit" data-initnum="0" data-action="{:U('public/contactselect','id='.$id.'&type=hold')}" data-single-noindex="true">
+<thead>
+<tr data-idname="jxcpurchase[#index#].id" id="jxcpurchase_add_#index#">
+<th title="No." width="38"><input type="text" readonly="readonly" name="jxcpurchase[#index#]" class="no textcenter" data-rule="required" value="1" size="1"></th>
+<th title="商品"><input type="text" name="mi_id[#index#]" data-rule="required;length[~100]" value="" size="8" data-group="jxcpurchase[#index#]" data-toggle="lookup" data-url="{:U('public/jxcinformation')}"></th>
+<th title="单位"><input type="text" name="mi_dw[#index#]" data-rule="required;length[~50]" value="" size="8" data-group="jxcpurchase[#index#]"></th>
+<th title="仓库"><input type="text" name="mw_id[#index#]" data-rule="required;length[~50]" value="" size="8" data-group="jxcpurchase[#index#]"></th>
+<th title="数量"><input type="text" name="mpl_sl[#index#]" data-rule="required;digits;length[~20]" value="" size="8" data-group="jxcpurchase[#index#]"></th>
+<th title="购货单价"><input type="text" name="mpl_jg[#index#]" data-rule="required;digits;length[~20]" value="" size="8" data-group="jxcpurchase[#index#]"></th>
+<th title="折扣率(%)"><input type="text" name="mpl_zkl[#index#]" data-rule="required;digits;length[~20]" value="" size="8" data-group="jxcpurchase[#index#]"></th>
+<th title="折扣额"><input type="text" name="mpl_zke[#index#]" data-rule="required;digits;length[~20]" value="" size="8" data-group="jxcpurchase[#index#]"></th>
+<th title="金额"><input type="text" name="mpl_je[#index#]" data-rule="required;digits;length[~20]" value="" size="8" data-group="jxcpurchase[#index#]"></th>
+<th title="税率(%)"><input type="text" name="mpl_sl[#index#]" data-rule="required;digits;length[~20]" value="" size="8" data-group="jxcpurchase[#index#]"></th>
+<th title="税额"><input type="text" name="mpl_se[#index#]" data-rule="required;digits;length[~20]" value="" size="8" data-group="jxcpurchase[#index#]"></th>
+<th title="价税合计"><input type="text" name="mpl_jshj[#index#]" data-rule="required;digits;length[~20]" value="" size="8" data-group="jxcpurchase[#index#]"></th>
+<th title="备注"><input type="text" name="mpl_bz[#index#]" data-rule="length[~50]" value="" size="8" data-group="jxcpurchase[#index#]"></th>
+<th title="" data-addtool="true" width="65"><a href="{:U('public/flow','id='.$id.'&type=del')}" onclick="del_html_inc(jxcpurchase_add_#index#)" class="btn btn-red row-del">删</a></th>
+</tr>
+</thead>
+<tbody>{$list}
+</tbody>
+<thead>
+<tr style="height:27px">
+<th></th>
+<th>合计：</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th>4.0000</th>
+<th></th>
+<th></th>
+<th>0.00</th>
+<th>0.00</th>
+<th></th>
+<th>0.00</th>
+<th></th>
+</tr>
+</thead>
+</table>
+
+
+    </div>
+
+<!--联系人结束-->
+
+    <div class="col-md-12 m00100">
+<table class="table table-top" width="100%">
+<thead><tr><th><div style='display: inline-block; vertical-align: middle; width:100%;'><textarea class="form-control" placeholder="暂无备注信息" style="width:100%;height:50px;border:0px;line-height:150%" name="comment">{$Rs.beizhu}</textarea></div></th></tr></thead>
+<tbody><tr><td>制单人：{:gettruename()}</td></tr></tbody>
+</table>
+    </div>
+   
+<!--附件开始-->
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-paperclip"></i> 附件 <span class="font-normal font12">（允许：最大文件30MB，最多数量10个）</span> </h3></div>
+                    <div class="panel-body">
+
+	{:W('FileUpload/add',array('id'=>'jxcpurchase_add','attid'=>$attid,'module'=>'Jxcpurchase'))}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--附件结束-->
+
+          
+</div>
+<div class="bjui-pageFooter">
+<ul>
+<li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+<li><button type="button" class="btn-success" data-icon="save" onclick="save_jxcpurchase_add();">提交</button></li>
+</ul>
+</form>
+</div>
+
+
+
+<script type="text/javascript">
+
+	function save_jxcpurchase_add(){
+		window.onbeforeunload=null;
+		var ijxcpurchase_add_FileNum = parseInt($("#jxcpurchase_add_FileNum").val(), 10);
+		var ijxcpurchase_add_MaxNum = parseInt($("#jxcpurchase_add_MaxNum").val(), 10);
+		if (ijxcpurchase_add_FileNum > ijxcpurchase_add_MaxNum) {
+			alert('上传文件数量最多'+ijxcpurchase_add_MaxNum+'个');
+			return false;
+		}
+		sendForm("form_jxcpurchase_add", "__URL__/add/navTabId/{:CONTROLLER_NAME}");
+	}
+	
+	/*上传成功*/
+	function jxcpurchase_add_upload_success(file, data) {
+		var json = $.parseJSON(data)
+		$(this).bjuiajax('ajaxDone', json)
+		if (json[BJUI.keys.statusCode] == BJUI.statusCode.ok) {
+			$('#j_jxcpurchase_add_file').val(json.filename).trigger('validate');
+			var sLi = '<li id=\"j_jxcpurchase_add_file_span-' + json.id.toString() + '\" class="tbody">';
+			sLi += '<div style="width: 100%;" class="loading"></div>';
+			sLi += '<div class="data">';
+			sLi += '<span class="del text-center"><a href="javascript:DeleteFile_id_name_reduce(\'j_jxcpurchase_add_file_span-' + json.id.toString() + '\',\'' + json.id + '\',\'<?php echo(getuserid()); ?>\',\'jxcpurchase_add_FileNum\')" style="display: inline;" class="link del"><i class="fa fa-remove"></i></a></span>';
+			sLi += '<span class="size text-right">' + GetFileSize(json.size) + '</span>';
+			sLi += '<span class="auto autocut">' + json.filename + '</span></div></li>';
+			$('#j_jxcpurchase_add_file_span').html($('#j_jxcpurchase_add_file_span').html()+sLi);
+			/*上传数量加1*/
+			var ijxcpurchase_add_FileNum = parseInt($("#jxcpurchase_add_FileNum").val(), 10);
+			$("#jxcpurchase_add_FileNum").val(ijxcpurchase_add_FileNum + 1);
+		}
+	}
+
+</script>

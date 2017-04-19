@@ -1,0 +1,35 @@
+<div class="bjui-pageContent">
+<!-- Tabs -->
+<ul class="nav nav-tabs" role="tablist">
+	<li class="active"><a href="javascript:;" data-url="{:U('public/onlineonline')}" role="tab" data-toggle="ajaxtab" data-target="#onlineonline" data-reload="true">在线用户</a></li>
+	<li><a href="javascript:;" data-url="{:U('public/onlineall')}" role="tab" data-toggle="ajaxtab" data-target="#onlineall" data-reload="true">所有用户</a></li>
+	<li><a href="javascript:;" data-url="{:U('public/onlinerecently')}" role="tab" data-toggle="ajaxtab" data-target="#onlinerecently" data-reload="true">最近联系</a></li>
+</ul>
+<!-- Tab panes -->
+<div class="tab-content m00100">
+	<div class="tab-pane fade active in" id="onlineonline">
+     	<!--onlineonline-->
+		<foreach name="list" item="v">
+        <a href="javascript:;" data-url="index.php/home/message/add/id/{$v.id}/name/{$v.truename}/navTabId/{:CONTROLLER_NAME}" class="btn btn-default btn-sm m1" data-title="{$v.truename}" data-toggle="dialog" data-id="dialog-user-{$v.id}" data-width="580" data-height="510">{$v.truename} <span class="c9">[{$v.depname}-{$v.posname}]</span></a>
+        </foreach>
+    </div>
+	<div class="tab-pane fade" id="onlineall">
+		<!--onlineall-->
+    </div>
+	<div class="tab-pane fade" id="onlinerecently">
+		<!--onlinerecently-->
+    </div>
+</div>
+
+</div>
+
+<div class="bjui-pageFooter">
+    <ul>
+    	<li>
+		<div class="btn-group floatright" role="group">
+			<button type="button" class="btn-green" data-icon="refresh" data-toggle="refreshlayout" data-target="#onlineonline" data-url="{:U('public/onlineonline')}">{:L('_REFRESH_')}</button>
+			<button type="button" class="btn-close" data-icon="close">{:L('_CLOSE_')}</button>
+        </div>
+		</li>
+    </ul>
+</div>

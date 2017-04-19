@@ -1,0 +1,4 @@
+<!--onlineonline-->
+<foreach name="list" item="v">
+<a href="javascript:;" data-url="index.php/home/message/add/id/{$v.id}/name/{$v.truename}/navTabId/{:CONTROLLER_NAME}" class="btn btn-default btn-sm m1" data-title="{$v.truename}" data-toggle="dialog" data-id="dialog-user-{$v.id}" data-width="580" data-height="510">{$v.truename} <span class="c9">[{$v.depname}-{$v.posname}]</span></a>
+</foreach>

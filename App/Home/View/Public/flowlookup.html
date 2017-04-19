@@ -1,0 +1,24 @@
+<form method="post" action="WebSysManage/WSMColumnFlow_List_Set_Power_Do.ashx?act=Lookup_Audit_power" onsubmit="return dwzSearch(this, 'dialog')">
+<div class="bjui-pageContent tableContent">
+<div class="m5">
+
+<!--dp_21_8|dept_21|emp_admin|-->
+<select name="province1" data-toggle="selectpicker" data-nextselect="#j_form_city1" data-refurl="ajax/city_{value}.html">
+<option value="emp" selected>用户</option>
+<option value="dp">职位</option>
+<option value="dept">部门</option>
+</select>
+<select name="city1" id="j_form_city1" data-toggle="selectpicker" data-val="bj" data-emptytxt="请选择">
+{:fill_option($user_list)}
+</select>
+
+</div>
+</div>
+<div class="bjui-pageFooter">
+	<ul>
+        <li><button type="button" class="btn-close">取消</button></li>
+		<li><input class="btn btn-success" type="submit" value="确定" onclick="save_FlowType_edit();"></li>
+	</ul>
+</div>
+</form>
+

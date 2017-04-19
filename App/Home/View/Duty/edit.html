@@ -1,0 +1,48 @@
+<div class="bjui-pageContent tableContent">
+    <form action="__URL__/edit/navTabId/{:CONTROLLER_NAME}" class="pageForm" data-toggle="validate">
+		<input type="hidden" name="id" value="{$id}">
+          <table class="table table-condensed table-hover" width="100%">
+           <tbody>
+            <tr><td>
+                <label for="j_duty_duty_no" class="control-label x85">编码：</label>
+                <input type="text" data-rule="required" name="duty_no" id="j_duty_duty_no" value="{$Rs['duty_no']}" >
+             </td></tr>
+             
+            <tr><td>
+                <label for="j_duty_name" class="control-label x85">名称：</label>
+                <input type="text" data-rule="required" name="name" id="j_duty_name" value="{$Rs['name']}" >
+             </td></tr>
+            
+               <tr><td>
+                <label for="j_duty_sort" class="control-label x85">排序：</label>
+                <input type="text" size="5" data-toggle="spinner" data-min="0" data-max="100" data-step="1" data-rule="integer" name="sort" id="j_duty_sort" value="{$Rs['sort']}" >
+            </td></tr>
+
+            <tr><td>
+                <label for="j_duty_is_del" class="control-label x85">是否启用：</label>
+                <select name="is_del"  data-container="body" id="j_duty_is_del" data-toggle="selectpicker" data-rule="required">
+                <if condition="$Rs['is_del'] EQ 0 ">
+                <option value="0" selected>启用</option>
+                <else/>
+                <option value="1" selected>禁用</option>
+                </if>
+                <option value="0">启用</option>
+                <option value="1">禁用</option>
+                </select>
+           </td></tr>
+           
+            <tr><td>
+                <label for="j_duty_remark" class="control-label x85">备注：</label>
+                <textarea id="j_duty_remark" name="remark" class="form-control" rows="2" >{$Rs['remark']}</textarea>
+             </td></tr>
+            
+            </tbody>
+            </table>
+    </form>
+</div>
+<div class="bjui-pageFooter">
+<ul>
+<li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+<li><button type="submit" class="btn-success" data-icon="save">保存</button></li>
+</ul>
+</div>

@@ -1,0 +1,73 @@
+<script language=JavaScript>
+function CheckAll_Dep_copy(form)
+{
+	for (var i=0;i<form.elements.length;i++)
+	{
+		var e = form.elements[i];
+		if (e.name != 'chkall' )
+		e.checked = form.chkall.checked;
+	}
+}
+</script>
+<div class="bjui-pageContent tableContent">
+    <form action="__URL__/copy/navTabId/{:CONTROLLER_NAME}" class="pageForm" data-toggle="validate">
+		<input type="hidden" name="id" value="{$id}"><input type="hidden" name="type" value="{$type}">
+          <table class="table table-bordered table-hover table-striped table-top" width="100%">
+           <tbody>
+            <tr>
+            <td height="30" colspan="2">
+			<span class="control-label x85">复制【<a>{$id|get_table_field=###,'id','title','auth_group'}</a>】权限 到</span>
+             <select name="pid" data-toggle="selectpicker" data-rule="required">
+               <option value="">请选择职位</option>
+	          <foreach name="list_rule" item="v">
+	          <option <if condition="$v.id EQ $Rs['pid'] ">selected value="{$Rs['pid']}" <else/>value="{$v.id}"</if> >
+	          <switch name="v.level"><case value="0"></case><case value="1">—</case><case value="2">——</case><case value="3">———</case><case value="4">————</case><case value="5">—————</case><case value="6">——————</case><case value="7">———————</case><default /></switch>{$v.title} <if condition="$v.status EQ 1 "><else/><font color=red>[未启用]</font></if>
+              </foreach>
+             </select>
+            </td>
+            </tr>
+             <tr>
+            <td height="30"><input onclick='CheckAll_Dep_EditRule(this.form)' type='checkbox' value='on' name='chkall' /> 全选</td>
+			<td>菜单</td>
+             </tr>
+            
+            
+		<foreach name="list" item="v">
+    	<tr>
+        <td height=25 width=75>
+		<input type="checkbox" name="rules[]" <if condition="in_array($v[id],$rs)">checked="checked"</if> value="{$v.id}">  {$v.title}
+	    </td>
+		<td>
+		<table width="100%">
+		<php>$list1 = M('auth_rule')->where('level=1 and pid='.$v['id'])->order('sort')->select();</php>
+		<foreach name="list1" item="v">
+    	<tr><td height=30 width=100>
+        <input type="checkbox" name="rules[]" <if condition="in_array($v[id],$rs)">checked="checked"</if> value="{$v.id}">  {$v.title}
+	    </td>
+		<td>
+		
+		<php>$list2 = M('auth_rule')->where('level=2 and pid='.$v['id'])->order('sort')->select();</php>
+		<foreach name="list2" item="v">
+        <span style="width:150px;">
+	    <input type="checkbox" name="rules[]" <if condition="in_array($v[id],$rs)">checked="checked"</if> value="{$v.id}">  {$v.title}
+        </foreach> 
+	
+		</td>
+		</tr>
+        </foreach> 
+		</table>
+		</td>
+        </tr>
+        </foreach>
+
+            
+            </tbody>
+            </table>
+</div>
+<div class="bjui-pageFooter">
+<ul>
+<li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+<li><button type="submit" class="btn-success" data-icon="save">确定</button></li>
+</ul>
+</form>
+</div>

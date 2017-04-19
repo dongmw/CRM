@@ -1,0 +1,73 @@
+<div class="bjui-pageHeader">
+<form id="pagerForm" data-toggle="ajaxsearch" action="__URL__" method="post">
+	<input type="hidden" name="pageSize" value="{$numPerPage}">
+	<input type="hidden" name="pageCurrent" value="{$_REQUEST['pageNum']|default=1}">
+	<div class="bjui-searchBar">
+		<label>部门：</label>
+		<select name="filter" data-toggle="selectpicker">
+		<option value="">全部</option>
+		<foreach name="filters" item="v">
+			<option value="{$v.title}" <if condition="$v.title EQ $_REQUEST['filter'] ">selected<else/>{$_REQUEST['filter']}</if> >
+			<switch name="v.level"><case value="0"></case><case value="1">—</case><case value="2">——</case><case value="3">———</case><case value="4">————</case><case value="5">—————</case><case value="6">——————</case><case value="7">———————</case><default /></switch>{$v.title} <if condition="$v.status EQ 1 "><else/><font color=red>[未启用]</font></if>
+		</option>
+		</foreach>
+		</select>&nbsp;
+		<label>关键词：</label><input type="text" value="{$_REQUEST['keys']}" name="keys" class="form-control" size="15" />
+		<div class="btn-group " role="group">
+			<button type="submit" class="btn-success" data-icon="search">查询</button>
+			<button type="button" class="btn-orange" data-icon="undo" onclick="$(this).navtab('reloadForm', true);">清空查询</button>
+		</div>
+		<div class="btn-group " role="group">
+			<button type="button" class="btn btn-blue" data-url="__URL__/outxls" data-toggle="doexport" data-icon="arrow-down" data-confirm-msg="确定要导出吗？"> 导出</button>
+		</div>
+		<div class="btn-group floatright" role="group">
+			<button type="button" class="btn-green" onclick="$(this).navtab('reloadForm', true);" data-icon="refresh">刷新</button>
+			<button type="button" class="btn-close" data-icon="close">关闭</button>
+		</div>
+	</div> 
+</form>
+    
+</div>
+<div class="bjui-pageContent tableContent">
+     <table data-toggle="tablefixed" data-width="100%" data-layout-h="0" data-nowrap="true">
+        <thead>
+            <tr>
+            <th width="10" height="27"></th>
+			<th width="50" data-order-direction="desc" data-order-field="id" title="编号">编号</th>
+			<th data-order-direction="desc" data-order-field="username" title="账号">账号</th>
+            <th data-order-direction="desc" data-order-field="truename" title="姓名">姓名</th>
+			<th data-order-direction="desc" data-order-field="sex" title="性别">性别</th>
+		    <th data-order-direction="desc" data-order-field="depname" title="部门">部门</th>
+	    	<th data-order-direction="desc" data-order-field="posname" title="职位">职位</th>
+		    <th data-order-direction="desc" data-order-field="tel" title="电话">电话</th>
+            <th data-order-direction="desc" data-order-field="phone" title="手机">手机</th>
+            <th data-order-direction="desc" data-order-field="email" title="邮箱">邮箱</th>
+			<th data-order-direction="desc" data-order-field="neixian" title="内线">内线</th>
+			<th data-order-direction="desc" data-order-field="qq" title="QQ">QQ</th>
+            </tr>
+        </thead>
+        <tbody>
+		<volist id="v" name="list">
+		<tr data-id="{$v.id}">
+		   <td></td>
+		   <td>{$v.id}</td>
+           <td>{$v.username}</td>
+           <td>{$v.truename}</td>
+		   <td>{$v.sex}</td>
+		   <td>{$v.depname} </td>
+		   <td>{$v.posname}</td>
+		   <td>{$v.tel}</td>
+           <td>{$v.phone}</td>
+           <td>{$v.email}</td>
+		   <td>{$v.neixian}</td>
+		   <td>{$v.qq}</td> 
+         </tr> 
+		</volist>
+        </tbody>
+    </table>
+</div>
+<div class="bjui-pageFooter">
+<div class="pages"><span>共 {$totalCount} 条  每页 {$numPerPage} 条</span></div>
+<div class="pagination-box" data-toggle="pagination" data-total="{$totalCount}" data-page-size="{$numPerPage}" data-page-current="{$currentPage}">
+</div>
+</div>

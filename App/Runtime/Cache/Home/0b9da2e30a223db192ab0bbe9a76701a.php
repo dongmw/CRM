@@ -1,0 +1,29 @@
+<?php if (!defined('THINK_PATH')) exit();?><div class="bjui-pageContent tableContent">
+
+<form action="/renhe/crm/index.php/home/jxcsuppliers/import/navTabId/<?php echo CONTROLLER_NAME;?>" data-toggle="validate" enctype="multipart/form-data">
+    <div class="col-md-12" style="margin-top:15px;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default" style=" margin-bottom:15px;">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-paperclip"></i> 批量导入供应商 </h3></div>
+                    <div class="panel-body">
+                        <p class="height30"><span class="label label-default">1.下载模版</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;<span class="label label-default">2.选择Excel</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;<span class="label label-default">3.导入数据</span></p>
+                        <p class="height30"><span class="alert alert-danger p3535" role="alert"><i class="fa fa-warning"></i> 温馨提示：导入模板的格式不能修改，录入方法请参考演示模板。</span></p>
+                        <p class="height30"><span class="label label-default">1.下载模版</span>&nbsp;&nbsp;<a class="link del" target="_blank" href="index.php?m=home&amp;c=public&amp;a=down&amp;attach_id=oBkduwGtjUMjQzhIqNGRocXD">下载导入模版 <i class="fa fa-download"></i></a>&nbsp;&nbsp;&nbsp;<a class="link del" target="_blank" href="index.php?m=home&amp;c=public&amp;a=down&amp;attach_id=RvQeqyAxLJMjQ0ieRZFqfPkE">下载演示模版 <i class="fa fa-download"></i></a></p>
+
+                    <p class="height30"><span class="label label-default">2.选择Excel</span>&nbsp;&nbsp;<input type="file" name="excelData" value="" style="height:25px;" /></p>
+                    <p class="height30"><span class="label label-default">3.导入数据</span>
+                    <span class="floatright">
+                    <button type="submit" class="btn btn-primary" data-icon="arrow-up">导入</button>
+                    <button type="button" class="btn-close" data-icon="close">关闭</button>
+                    </span>
+                    </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+</div>

@@ -1,0 +1,41 @@
+<div class="bjui-pageHeader">
+    <form id="pagerForm" data-toggle="ajaxsearch" action="{:U('public/flowlookupuser')}" method="post">
+        <input type="hidden" name="pageCurrent" value="1">
+        <input type="hidden" name="pageSize" value="${model.pageSize}">
+        <input type="hidden" name="orderField" value="${param.orderField}">
+        <div class="bjui-searchBar">
+            <label>名称：</label><input type="text" value="" name="code" size="10">&nbsp;
+            <button type="submit" class="btn-default" data-icon="search">查询</button>&nbsp;
+            <a class="btn btn-orange" href="javascript:;" data-toggle="reloadsearch" data-clear-query="true" data-icon="undo">清空查询</a>&nbsp;
+            <span class="floatright"><button type="button" class="btn-close" data-icon="close">关闭</button></span>
+        </div>
+    </form>
+</div>
+<div class="bjui-pageContent tableContent">
+    <table data-toggle="tablefixed" data-width="100%">
+        <thead>
+            <tr>
+                <th data-order-field="id">No.</th>
+                <th>名称</th>
+                <th>部门</th>
+                <th>职位</th>
+                <th width="74">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+<!--<span data="emp_gaozhe" id="emp_gaozhe"><nobr><b title="高哲/信息部主任<grazel@yahua-med.com.cn>">高哲/信息部主任</b></nobr></span>-->        
+<foreach name="user_list" item="v">
+<tr>
+    <td>{$v.id}</td>
+    <td>{$v.truename}</td>
+    <td>{$v.posname}</td>
+    <td>{$v.depname}</td>
+    <td>
+        <a href="javascript:;" data-toggle="lookupback" data-args="{confirm:'{$v.username}',confirm_name:'{$v.truename}:{$v.username}'}" class="btn btn-blue" title="选择本项" data-icon="check">选择</a>
+    </td>
+</tr>
+</foreach>
+
+        </tbody>
+    </table>
+</div>

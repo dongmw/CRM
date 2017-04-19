@@ -1,0 +1,37 @@
+<div class="bjui-pageHeader">
+<form id="pagerForm" data-toggle="ajaxsearch" action="__URL__/jxcwarehouselist" method="post">
+	<input type="hidden" name="id" value="{$_REQUEST['id']}">
+	<input type="hidden" name="pageSize" value="{$numPerPage}">
+	<input type="hidden" name="pageCurrent" value="{$_REQUEST['pageNum']|default=1}">
+	<div class="bjui-searchBar">
+		<div class="btn-group" role="group">
+        	<span class="lineh25 font-bold">{$_REQUEST['id']|get_table_field=###,'id','mi_mc','jxcinformation'}</span>
+		</div>
+		<div class="btn-group pull-right" role="group">
+            <button type="button" class="btn btn-close" data-icon="close">关闭</button>
+		</div>
+	</div>
+</form>
+</div>
+<div class="bjui-pageContent tableContent">
+    <table data-toggle="tablefixed" data-width="100%" data-layout-h="0">
+        <thead>
+            <tr>
+				<th data-order-field='mw_id' height="30" class="textcenter">仓库名称</th>
+				<th data-order-field='mwl_num' class="textcenter">数量</th>
+            </tr>
+        </thead>
+        <tbody>
+		  <volist name="list" id="v">
+            <tr>
+			 <td>{$v.mw_id|get_table_field=###,'id','name','jxcwarehouse'}</td>
+             <td class="textright">{$v.mwl_num}</td>
+            </tr>
+			</volist>
+        </tbody>
+    </table>
+</div>
+<div class="bjui-pageFooter">
+<div class="pages"><span>共 {$totalCount} 条  每页 {$numPerPage} 条</span></div>
+<div class="pagination-box" data-toggle="pagination" data-total="{$totalCount}" data-page-size="{$numPerPage}" data-page-current="{$currentPage}"></div>
+</div>

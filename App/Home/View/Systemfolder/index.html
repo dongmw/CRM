@@ -1,0 +1,48 @@
+<div class="bjui-pageHeader">
+<form id="pagerForm" data-toggle="ajaxsearch" action="__URL__" method="post">
+	<input type="hidden" name="pageSize" value="{$numPerPage}">
+	<input type="hidden" name="pageCurrent" value="{$_REQUEST['pageNum']|default=1}">
+	<div class="bjui-searchBar">
+		<div class="btn-group " role="group">
+			<button type="button" class="btn btn-success" data-url="__URL__/add/folder/{$folder}/navTabId/{:CONTROLLER_NAME}" data-toggle="dialog" data-width="600" data-height="300" data-id="dialog-mask" data-mask="true" data-icon="plus"> 添加</button>
+			<button type="button" class="btn btn-danger" data-url="__URL__/del/navTabId/{:CONTROLLER_NAME}" data-toggle="doajax" data-confirm-msg="确定要清理吗？" data-icon="remove"> 清理</button>
+		</div>
+		<div class="btn-group floatright" role="group">
+			<button type="button" class="btn-green" onclick="$(this).navtab('reloadForm', true);" data-icon="refresh">刷新</button>
+			<button type="button" class="btn-close" data-icon="close">关闭</button>
+		</div>
+	</div> 
+</form>
+</div>
+<div class="bjui-pageContent tableContent">
+     <table data-toggle="tablefixed" data-width="100%" data-layout-h="0" data-nowrap="true">
+        <thead>
+            <tr>
+            <th width="10" height="27"></th>
+            <th width="50">编号</th>
+			<th>名称</th>
+			<th width="30">排序</th>
+			<th <php>echo display(CONTROLLER_NAME.'/edit');</php> >操作</th>
+            </tr>
+        </thead>
+        <tbody>
+
+       <foreach name="list" item="v">
+		<tr data-id="{$v.id}">
+		<td></td>
+        <td>{$v.id}</td><td>
+		<switch name="v.level"><case value="0"><b>{$v.name}</b></case><case value="1">—{$v.name}</case><case value="2">——{$v.name}</case><case value="3">———{$v.name}</case><case value="4">————{$v.name}</case><case value="5">—————{$v.name}</case><case value="6">——————{$v.name}</case><case value="7">———————{$v.name}</case><default /></switch>
+	     <if condition="$v.is_del EQ 0 "><else/><img src="__PUBLIC__/images/locked.gif" border="0"/></if>
+	    </td>
+        <td>{$v.sort}</td>
+		<td <php>echo display(CONTROLLER_NAME.'/edit');</php> > <a href="__URL__/edit/id/{$v['id']}/folder/{$folder}/navTabId/{:CONTROLLER_NAME}" class="btn btn-green btn-sm" data-toggle="dialog" data-width="600" data-height="300" data-id="dialog-mask" data-mask="true" data-icon="edit">编辑</a>
+        &nbsp;
+<a href="{:U('public/folder','id='.$v['id'].'&type=admin')}" data-toggle="navtab" data-id="navtab-flow_type-confirm" class="btn btn-green btn-sm">管理权限</a>
+<a href="{:U('public/folder','id='.$v['id'].'&type=write')}" data-toggle="navtab" data-id="navtab-flow_type-confirm" class="btn btn-green btn-sm">改写权限</a>
+<a href="{:U('public/folder','id='.$v['id'].'&type=read')}" data-toggle="navtab" data-id="navtab-flow_type-confirm" class="btn btn-green btn-sm">读取权限</a>
+		</td>
+        </tr>
+        </foreach>
+        </tbody>
+    </table>
+</div>

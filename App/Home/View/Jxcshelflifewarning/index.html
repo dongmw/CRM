@@ -1,0 +1,74 @@
+<div class="bjui-pageHeader">
+<form action="__SELF__" method="post" class="" data-toggle="ajaxsearch" id="pagerForm">
+	<div class="bjui-searchBar">
+		<select id='j_form_jxcsuppliers_add_mw_id' name='mw_id' data-toggle='selectpicker'>
+		<option value="">所有仓库</option>
+		<foreach name="mw_id_list" item="v">
+		<option value="{$v.id}" <if condition="$v.id EQ $_REQUEST['mw_id']">selected<else/></if> >
+		<switch name="v.level"><case value="0"></case><case value="1">—</case><case value="2">——</case><case value="3">———</case><case value="4">————</case><case value="5">—————</case><case value="6">——————</case><case value="7">———————</case><default /></switch>{$v.name} 
+		</option>
+		</foreach>
+		</select>&nbsp;&nbsp;
+		<div class="btn-group " role="group">
+			<button type="submit" class="btn-success" data-icon="search">查询</button>
+		</div>
+		<div class="btn-group " role="group">
+			<button type="button" class="btn btn-primary" data-url="__URL__/outxls" data-toggle="doexport" data-icon="arrow-down" data-confirm-msg="确定要导出吗？"> 导出</button>
+		</div>
+		<div class="btn-group floatright" role="group">
+			<button type="button" class="btn-green" onclick="$(this).navtab('reloadForm', true);" data-icon="refresh">刷新</button>
+			<button type="button" class="btn-close" data-icon="close">关闭</button>
+		</div>
+    </div>
+</form>
+</div>
+<div class="bjui-pageContent tableContent">
+<form action="" method="post" class="" data-toggle="ajaxsearch" id="form_jxcwarehouselist_inventory" name="form_jxcwarehouselist_inventory">
+     <table data-toggle="tablefixed" data-width="100%" data-layout-h="0" data-nowrap="true">
+        <thead>
+            <tr>
+<th width="10" height="30"></th>
+<th>仓库</th>
+
+<th>商品类别</th>
+<th>商品编号</th>
+<th>商品名称</th>
+<th>规格型号</th>
+<th>单位</th>
+
+<th class="textright green">库存上限</th>
+<th class="textright red">库存下限</th>
+<th class="textright blue">当前库存</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+          <volist name="list" id="v">
+          <tr data-id="{$v.id}">
+<td></td>
+<td>{$v.mw_id}</td>
+<td>{$v.mc_id}</td>
+<td>{$v.mi_bh}</td>
+<td>{$v.mi_mc}</td>
+<td>{$v.mi_gg}</td>
+<td>{$v.mi_dw}</td>
+
+<td class="textright green">{$v.mi_sx|doubleval=###}</td>
+<td class="textright red">{$v.mi_xx|doubleval=###}</td>
+<td class="textright blue">{$v.mwl_num|doubleval=###}</td>
+
+         </tr> 
+          </volist>
+
+        </tbody>
+    </table>
+</form>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		set_val("jxc_pd_mp_ywtype", "{$Rs.mp_ywtype}");
+		set_val("jxc_pd_ms_id", "{$Rs.ms_id}");
+	});
+</script>

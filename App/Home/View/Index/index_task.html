@@ -1,0 +1,65 @@
+<div class="bjui-pageContent tableContent">
+    <!--//任务 开始-->
+    
+    <div class="w100">
+		<div class="panel panel-default">
+        	<div class="panel-heading"><h3 class="panel-title"><i class="fa fa-pencil-square-o"></i> {:L('_INDEX_LAYOUT_ReceivedTask_')}<!--接收的任务--> <a class="pull-right" href="javascript:;" data-url="{:U('mytask/index')}" data-toggle="navtab" data-id="mytask/index" data-title="{:L('_INDEX_LAYOUT_ReceivedTask_')}"><i class="fa fa-caret-right"></i>  {:L('_INDEX_LAYOUT_Detail_')}</a></h3></div>
+			<div style="min-height:185px;">
+          
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th height=30>{:L('_INDEX_LAYOUT_TaskTitle_')}</th>
+                            <th>{:L('_INDEX_LAYOUT_Author_')}</th>
+                            <th>{:L('_INDEX_LAYOUT_StartTime_')}</th>
+                            <th>{:L('_INDEX_LAYOUT_EndTime_')}</th>
+                       </tr>
+                    </thead>
+                    <tbody>
+                        <php>$list=M('task')->where(array('juid'=>array('like','%,'.getuserid().',%')))->order("id desc")->limit(5)->select();</php>
+                        <volist id="v" name="list">
+                        <tr>
+                            <td>{$v.title|msubstr=###,0,20}</td>
+                            <td>{$v.uname}</td>
+                            <td>{$v.kssj|substr=###,0,10}</td>
+                            <td>{$v.jssj|substr=###,0,10}</td>
+                        </tr>
+                        </volist>
+                    </tbody>
+                </table>
+          
+			</div>
+		</div>
+	</div>
+    
+    <div class="w100">
+		<div class="panel panel-default">
+        	<div class="panel-heading"><h3 class="panel-title"><i class="fa fa-pencil-square-o"></i> {:L('_INDEX_LAYOUT_InitiateTask_')}<!--发起的任务--> <a class="pull-right" href="javascript:;" data-url="{:U('task/index')}" data-toggle="navtab" data-id="mytask/index" data-title="{:L('_INDEX_LAYOUT_InitiateTask_')}"><i class="fa fa-caret-right"></i>  {:L('_INDEX_LAYOUT_Detail_')}</a></h3></div>
+			<div style="min-height:185px;">
+          
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th height=30>{:L('_INDEX_LAYOUT_TaskTitle_')}</th>
+                            <th>{:L('_INDEX_LAYOUT_StartTime_')}</th>
+                            <th>{:L('_INDEX_LAYOUT_EndTime_')}</th>
+                            <th>{:L('_INDEX_LAYOUT_Status_')}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <php>$list=M('task')->where(array('uid'=>array('EQ',getuserid())))->order("id desc")->limit(5)->select();</php>
+                        <volist id="v" name="list">
+                        <tr>
+                            <td>{$v.title|msubstr=###,0,20}</td>
+                            <td>{$v.kssj|substr=###,0,10}</td>
+                            <td>{$v.jssj|substr=###,0,10}</td>
+                            <td><php>if ($v['zhuangtai'] == '已完成') {echo '<span class="label label-success">'.$v['zhuangtai'].'</span>';} else {echo '<span class="label label-default">'.$v['zhuangtai'].'</span>';}</php></td>
+                        </tr>
+                        </volist>
+                    </tbody>
+                </table>
+          
+			</div>
+		</div>
+	</div>
+    <!--//任务 结束-->

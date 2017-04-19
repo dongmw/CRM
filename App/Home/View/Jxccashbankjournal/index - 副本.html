@@ -1,0 +1,91 @@
+<div class="bjui-pageHeader">
+<form action="__SELF__" method="post" class="" data-toggle="ajaxsearch" id="pagerForm">
+	<div class="bjui-searchBar">
+		<label>结算账户:</label>
+        <select id='j_form_jxcsuppliers_add_pid' name='pid' data-toggle='selectpicker'>
+		<option value="">所有账户</option>
+		<foreach name="list_jxcaccount" item="v">
+		<option value="{$v.id}" <if condition="$v.id EQ $_REQUEST['pid']">selected<else/></if> >
+		<switch name="v.level"><case value="0"></case><case value="1">—</case><case value="2">——</case><case value="3">———</case><case value="4">————</case><case value="5">—————</case><case value="6">——————</case><case value="7">———————</case><default /></switch>{$v.name} 
+		</option>
+		</foreach>
+		</select>
+        <label>日期：</label>
+        <input type="text" data-toggle='datepicker' value="<if condition="empty($_REQUEST['time1'])"><php> echo date('Y-m-01',time());</php><else/>{$_REQUEST['time1']}</if>" name="time1" class="form-control" size="12" data-pattern="yyyy-MM-dd" data-min-date="{%y-10}-%M-%d" data-max-date="{%y+10}-%M-%d" data-rule="开始日期:required;date;" /> - <input type="text" data-toggle='datepicker' value="<if condition="empty($_REQUEST['time2'])"><php> echo date('Y-m-d',time());</php><else/>{$_REQUEST['time2']}</if>" name="time2" class="form-control" size="12" data-pattern="yyyy-MM-dd" data-min-date="{%y-10}-%M-%d" data-max-date="{%y+10}-%M-%d" data-rule="结束日期:required;date;match[gt,time1,date]" />
+		<div class="btn-group " role="group">
+			<button type="submit" class="btn-success" data-icon="search">查询</button>
+		</div>
+		<div class="btn-group " role="group">
+			<button type="button" class="btn btn-blue" data-url="__URL__/outxls" data-toggle="doexport" data-icon="arrow-down" data-confirm-msg="确定要导出吗？"> 导出</button>
+            <button type="button" class="btn-blue" data-icon="print" onclick="save_jxcstorageother_addpy(this)">打印</button>
+		</div>
+		<div class="btn-group floatright" role="group">
+			<button type="button" class="btn-green" onclick="$(this).navtab('reloadForm', true);" data-icon="refresh">刷新</button>
+			<button type="button" class="btn-close" data-icon="close">关闭</button>
+		</div>
+    </div>
+</div>
+<div class="bjui-pageContent tableContent">
+
+<empty name="list">
+<div class="alert alert-danger p0505 m5 lineh20" role="alert"><i class="fa fa-warning"></i> 没找到数据，输入查询条件，点击查询吧！</div>
+<else/>
+     <table data-toggle="tablefixed" data-width="100%" data-layout-h="0" data-nowrap="true">
+        <thead>
+            <tr>
+<th width="10" height="30"></th>
+<th>账户编号</th>
+<th>账户名称</th>
+<th>日期</th>
+<th>单据编号</th>
+<th>业务类型</th>
+<th class="textright">收入</th>
+<th class="textright">支出</th>
+<th class="textright">账户余额</th>
+<th>往来单位</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+<volist name="list" id="v">
+<tr data-id="{$v.id}">
+<td></td>
+<td>{$v.caccount_number}</td>
+<td>{$v.name}</td>
+<td>{$v.addtime|substr=###,0,10}</td>
+<td>{$v.number}</td>
+<td>{$v.tag_name}</td>
+<td class="textright">{$v.income|doubleval=###}</td>
+<td class="textright">{$v.expenditure|doubleval=###}</td>
+<td class="textright">{$v.balance|doubleval=###}</td>
+<td>{$v.buname}</td><php>//echo get_buname($v['ywtype'],$v['buname']);</php>
+</tr> 
+</volist>
+
+<tr class="font-bold">
+<td width="10" height="30"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>合计:</td>
+<td class="textright">{$num_all1|doubleval=###}</td>
+<td class="textright">{$num_all2|doubleval=###}</td>
+<td class="textright">{$num_all3|doubleval=###}</td>
+<td></td>
+</tr>
+
+        </tbody>
+    </table>
+</empty>
+
+</form>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		set_val("jxc_pd_mp_ywtype", "{$Rs.mp_ywtype}");
+		set_val("jxc_pd_ms_id", "{$Rs.ms_id}");
+	});
+</script>

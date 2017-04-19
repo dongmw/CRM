@@ -1,0 +1,47 @@
+<div class="bjui-pageContent tableContent">
+<form action="__URL__/usersettings/navTabId/usersettings" class="pageForm" data-toggle="validate">
+		<input type="hidden" name="id" value="{$id}">
+          <table class="table table-condensed table-hover" width="100%">
+           <tbody>
+			<tr><td>
+                <label for="j_title" class="control-label x85">每页显示：</label>
+                <input type="text"  size="7" name="numperpage" data-min="10" data-max="10000" maxlength="5" value="{$Rs['numperpage']}" data-toggle="spinner" data-step="10" data-rule="required;integer;range[1~10000]"> 条记录
+            </td></tr>
+            <tr><td>
+            <label for="j_title" class="control-label x85">导航栏：</label>
+              <select name="navigation" data-toggle="selectpicker" data-rule="required">
+			    <if condition="$Rs['navigation'] EQ 1 ">
+                <option value="1" selected>默认展开</option>
+                <option value="0">默认隐藏</option>
+                <else/>
+                <option value="1">默认展开</option>
+                <option value="0" selected>默认隐藏</option>
+                </if>
+                 </select>
+                 <if condition="$Rs['navigation'] EQ 1 "><span class=""><i class="glyphicon glyphicon-lock"></i></span><else/><span class="font16"><i class="fa fa-unlock-alt"></i></span></if>
+             </td></tr>
+            <tr><td>
+            <label for="j_title" class="control-label x85">子菜单：</label>
+              <select name="navigation1" data-toggle="selectpicker" data-rule="required">
+			    <if condition="$Rs['navigation1'] EQ 1 ">
+                <option value="1" selected>默认展开</option>
+                <option value="0">默认关闭</option>
+                <else/>
+                <option value="1">默认展开</option>
+                <option value="0" selected>默认关闭</option>
+                </if>
+                 </select>
+                 <span class=""><if condition="$Rs['navigation1'] EQ 1 "><i class="glyphicon glyphicon-folder-open"></i><else/><i class="glyphicon glyphicon-folder-close"></i></if></span>
+             </td></tr>
+            </tbody>
+            </table>
+
+</div>
+<div class="bjui-pageFooter">
+<ul>
+<li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+<li><button type="submit" class="btn-success" data-icon="save">保存</button></li>
+<li><span class="alert alert-danger p3535" role="alert"><i class="fa fa-warning"></i> 提示：更改设置后，刷新页面生效</span></li>
+</ul>
+</form>
+</div>

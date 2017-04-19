@@ -1,0 +1,30 @@
+<div class="col-sm-12">
+<div style="display: inline-block; vertical-align: middle;">
+    <div id="j_{$id}_file_up" data-toggle="upload" data-uploader="{:U('Public/uploading','sessionid='.$uid.'&attid='.$attid.'&module='.$module)}" 
+    data-file-size-limit="31457280"
+    data-file-type-exts="*.jpg;*.jpeg;*.png;*.gif;*.bmp;*.mpg;*.rar;*.zip;*.txt;*.doc;*.docx;*.xls;*.xlsx;*.pdf;*.ppt;*.pptx"
+    data-multi="true"
+    data-button-text="添加附件"
+    data-auto="true"
+    data-remove-timeout="0"
+    data-on-upload-success="{$id}_upload_success"
+    data-icon="cloud-upload"
+    data-button-css="btn-default"></div>
+    <input type="hidden" name="{$id}.file" value="" id="j_{$id}_file">
+</div>
+<div class="uploader" id="j_{$id}_file_span">
+<notempty name="file_list">
+    <volist name="file_list" id="file">
+        <li class="tbody" id="j_{$id}_file_span-{$file['id']}">
+            <div style="width: 100%;" class="loading"></div>
+            <div class="data">
+                <span class="del text-center"><a href="javascript:DeleteFile_id_name_reduce('j_{$id}_file_span-{$file['id']}','{$file['id']}','{$uid}','{$id}_FileNum')" class="link del"><i class="fa fa-remove"></i></a></span>
+                <span class="del text-center"><a class="link del" target="_blank" href="{:U('public/down?attach_id='.f_encode($file['id']))}"><i class="fa fa-download"></i></a></span>
+                <span class="size text-right" >{$file.size|reunit}</span>
+                <span class="auto autocut" title="{$file.name}">{$file.filedesc}</span>
+            </div>
+        </li>
+    </volist>
+</notempty>
+</div>
+</div>

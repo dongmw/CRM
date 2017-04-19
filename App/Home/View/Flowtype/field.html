@@ -1,0 +1,83 @@
+<div class="bjui-pageContent">
+<form action="" class="pageForm" data-toggle="validate" id="form_flow_type_index" name="form_flow_type_index">
+<div class="bjui-pageHeader">
+<div class="bjui-searchBar">
+    <div class="btn-group">
+<a href="{:U('fieldadd','type_id='.$type_id.'&navTabId='.CONTROLLER_NAME)}" data-toggle="navtab" data-id="navtab-flow_type-add"class="btn btn-success" data-icon="plus" <php>echo display(CONTROLLER_NAME.'/fieldadd');</php>>添加</a>
+<a class="btn btn-danger" href="__URL__/mark/action/delfield/navTabId/{:CONTROLLER_NAME}" data-toggle="doajaxchecked" data-idname="id" data-group="id" <php>echo display(CONTROLLER_NAME.'/fielddel');</php>>启用/禁用</a>
+    </div>
+    <div class="btn-group floatright" role="group">
+        <button type="button" class="btn-green" onclick="$(this).navtab('reloadForm', true);" data-icon="refresh">刷新</button>
+        <button type="button" class="btn-close" data-icon="close">关闭</button>
+    </div>
+</div>
+</div>
+<!-- 功能操作区域结束 -->
+<div class="ul_table border-bottom">
+	<ul>
+		<li class="thead"  >
+			<label class="inline pull-left col-3">
+                <input type="checkbox" class="checkboxCtrl" data-group="id" data-toggle="icheck">
+                <span class="lbl"></span></label>
+                <span class="col-4">编号 </span>
+			<div class="pull-right">		
+                <span class="col-9">控件类型</span>
+                <span class="col-8">控件布局</span>
+                <span class="col-20">控件数据</span>
+                <span class="col-4">排序</span>
+                <span class="col-8">验证</span>
+                <span class="col-8">错误提示</span>
+                <span class="col-4">状态</span>
+			</div>
+			<span class="autocut auto">名称</span>
+		</li>
+<empty name="field_list">
+	<li class="no-data">没找到数据</li>
+<else/>
+    <foreach name="field_list" item="vo">
+        <li class="tbody" >
+        <label class="inline pull-left col-3"><input class="ace" type="checkbox" name="id" data-toggle="icheck" value="{$vo.id}" /><span class="lbl"></span></label>
+        <span  class="col-4" >{$vo.id}&nbsp;</span>
+        <div class="pull-right">
+        <span class="col-9"><span class="label label-default">{$vo.control_type}</span></span>
+        <span class="col-8">{$vo.control_layout}&nbsp;</span>
+        <span class="col-20">{$vo.control_data}&nbsp;</span>
+        <span class="col-4">{$vo.sort}&nbsp;</span>
+        <span class="col-8">{$vo.validate}&nbsp;</span>
+        <span class="col-8">{$vo.msg}&nbsp;</span>
+        <span class="col-4">{$vo.is_del|status=1}</span>
+        </div >
+        <span class="autocut auto"><a href="{:U('fieldedit','id='.$vo['id'].'&navTabId=navtab-flow_type-field')}" data-toggle="navtab" data-id="navtab-flow_type-edit" data-title="修改"><span class="label label-primary">{$vo.name}</span></a></span>
+        </li>
+    </foreach>
+</empty>
+	</ul>
+</div>
+
+
+<!--表单展示开始-->
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-tasks"></i> 表单展示</h3></div>
+                    <div class="panel-body">
+
+
+<volist name="field_list_show" id="vo">
+    {:W('UserDefineField/edit',array($vo))}
+</volist>		
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--表单展示结束-->
+
+
+</form>
+</div>

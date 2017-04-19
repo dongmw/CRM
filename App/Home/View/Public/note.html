@@ -1,0 +1,34 @@
+<form action="__SELF__/navTabId/{:CONTROLLER_NAME}" class="pageForm" data-toggle="validate">
+<div class="bjui-pageContent tableContent" style="bottom:33px;">
+		<input type="hidden" name="id" value="{$Think.session.uid}">
+		<div style="margin:5px 5px 5px 5px;">
+        
+<textarea id="note_bian" name="bian" style="width:100%;visibility:hidden;" data-toggle="kindeditor" data-allowFileManager="false" data-minheight='150' data-items='source,|,undo,redo,|,preview,print,template,code,cut,copy,paste,plainpaste,wordpaste,|,justifyleft,justifycenter,justifyright,justifyfull,insertorderedlist,insertunorderedlist,indent,outdent,subscript,superscript,clearhtml,quickformat,selectall,|,fullscreen,/,formatblock,fontname,fontsize,|,forecolor,hilitecolor,bold,italic,underline,strikethrough,lineheight,removeformat,|,image,multiimage,flash,media,insertfile,table,hr,emoticons,baidumap,pagebreak,anchor,link,unlink' onBlur="javascript:FilterPasteText($('#MsgContent_{$receiver_id}').html());">{$Rs.bian}</textarea>
+
+
+
+		</div>
+</div>
+<div class="bjui-pageFooter">
+	<ul>
+		<li><button type="button" class="btn btn-close" data-icon="close">关闭</button></li>
+		<li><button type="submit" class="btn btn-success" data-icon="save">保存</button></li>
+	</ul>
+</div>
+</form>
+
+<script charset="utf-8" type="text/javascript">
+function postdata_note_add(){
+	//alert($("#note_bian").val());
+	$.ajax({
+		type: "POST",
+		url: "__SELF__/navTabId/{:CONTROLLER_NAME}",
+		data: "id={$Think.session.uid}&bian="+$("#note_bian").val(),
+		dataType: 'json',
+		success: function(d){
+			alert(d.message);
+		}
+	});
+}
+
+</script>

@@ -1,0 +1,5 @@
+<eq name="readonly" value="true">
+	{$val}
+	<else/>
+	<input class="form-control" type="text" name="flow_field_{$id}" id="flow_field_{$id}" value="{$val}" <notempty name="validate">check="{$validate}" msg="{$msg}" data-rule="{$validate}"</notempty>>
+</eq>

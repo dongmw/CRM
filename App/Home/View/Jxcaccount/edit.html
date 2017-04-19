@@ -1,0 +1,88 @@
+<div class="bjui-pageContent tableContent">
+<form action="" class="pageForm" data-toggle="validate" id="form_jxcaccount_edit" name="form_jxcaccount_edit">
+		<input type="hidden" name="id" value="{$Rs.id}">
+        <!--2016-06-06 【新增】上传附件参数【开始】-->
+        <input type="hidden" name="attid" value="{$attid}">
+        <input type="hidden" name="jxcaccount_edit_MaxNum" id="jxcaccount_edit_MaxNum" value="10" />
+        <input type="hidden" name="jxcaccount_edit_FileNum" id="jxcaccount_edit_FileNum" value="0" />
+        <!--2016-06-06 【新增】上传附件参数【结束】-->
+    <div class="col-md-12">
+			<table class="table table-bordered table-striped table-hover" width="100%">
+           <tbody>
+<tr><td><label for='j_form_jxcaccount_edit_name' class='control-label x85'>账户名称：</label><input type='text' id='j_form_jxcaccount_edit_name' name='name' data-rule='required;' size='20' value='{$Rs.name}' maxlenth='50' ></td></tr>
+<tr><td><label for='j_form_jxcaccount_edit_number' class='control-label x85'>账户编号：</label><input type='text' id='j_form_jxcaccount_edit_number' name='number' data-rule='required;' size='20' value='{$Rs.number}' maxlenth='50' ></td></tr>
+<tr><td>
+	<label for='j_form_jxcaccount_edit_type' class='control-label x85'>账户类别：</label><select id='j_form_jxcaccount_edit_type' name='type' data-toggle='selectpicker' ><volist name='Think.config.JXCACCOUNT_TYPE' id='type'><option value='{$type}' <if condition=" $type EQ $Rs['type'] " >selected</if> >{$type}</option></volist>
+</td></tr>
+<tr><td><label for='j_form_jxcaccount_add_accountsdate' class='control-label x85'>余额日期：</label><input type='text' data-toggle='datepicker' data-pattern='yyyy-MM-dd' id='j_form_jxcaccount_add_accountsdate' name='accountsdate' data-rule='余额日期:required;date' size='20' value='{$Rs.accountsdate}' ></td></tr>
+<tr><td><label for="j_form_jxcaccount_add_initbalance" class="control-label x85">期初余额：</label><input type="text" size="20" data-rule="期初余额:required;number" id="j_form_jxcaccount_add_initbalance" name="initbalance" value="{$Rs['initbalance']|doubleval=###}" class='textright' onfocus="select()" ></td></tr>
+<tr><td><label for="j_form_jxcaccount_edit_sort" class="control-label x85">排序：</label><input type="text" size="5" data-toggle="spinner" data-min="0" data-max="100" data-step="1" data-rule="integer" name="sort" id="j_form_jxcaccount_edit_sort" value="{$Rs['sort']}" ></td></tr>
+<tr><td><label for="j_form_jxcaccount_edit_sort" class="control-label x85">备注：</label><div style='display: inline-block; vertical-align: middle; width:80%;'><textarea style='width:100%;' name='beizhu' rows='3'>{$Rs.beizhu}</textarea></div></td></tr>
+           </tbody>
+          </table>
+    </div>
+          
+          
+<!--附件开始-->
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-paperclip"></i> 附件 <span class="font-normal font12">（允许最大30MB，最多10个）</span> </h3></div>
+                    <div class="panel-body">
+
+    {:W('FileUpload/edit',array('id'=>'jxcaccount_edit','attid'=>$Rs['attid'],'module'=>'Jxcaccount'))}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--附件结束-->
+
+</form>
+  
+</div>
+<div class="bjui-pageFooter">
+<ul>
+<li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+<li><button type="button" class="btn-success" data-icon="save" onclick="save_jxcaccount_edit();">提交</button></li>
+</ul>
+</div>
+
+
+<script type="text/javascript">
+
+	function save_jxcaccount_edit(){
+		window.onbeforeunload=null;
+		var ijxcaccount_edit_FileNum = parseInt($("#jxcaccount_edit_FileNum").val(), 10);
+		var ijxcaccount_edit_MaxNum = parseInt($("#jxcaccount_edit_MaxNum").val(), 10);
+		if (ijxcaccount_edit_FileNum > ijxcaccount_edit_MaxNum) {
+			alert('上传文件数量最多'+ijxcaccount_edit_MaxNum+'个');
+			return false;
+		}
+		sendForm("form_jxcaccount_edit", "__URL__/edit/navTabId/{:CONTROLLER_NAME}");
+	}
+	
+	/*上传成功*/
+	function jxcaccount_edit_upload_success(file, data) {
+		var json = $.parseJSON(data)
+		$(this).bjuiajax('ajaxDone', json)
+		if (json[BJUI.keys.statusCode] == BJUI.statusCode.ok) {
+			$('#j_jxcaccount_edit_file').val(json.filename).trigger('validate');
+			var sLi = '<li id=\"j_jxcaccount_edit_file_span-' + json.id.toString() + '\" class="tbody">';
+			sLi += '<div style="width: 100%;" class="loading"></div>';
+			sLi += '<div class="data">';
+			sLi += '<span class="del text-center"><a href="javascript:DeleteFile_id_name_reduce(\'j_jxcaccount_edit_file_span-' + json.id.toString() + '\',\'' + json.id + '\',\'<?php echo(getuserid()); ?>\',\'jxcaccount_edit_FileNum\')" style="display: inline;" class="link del"><i class="fa fa-remove"></i></a></span>';
+			sLi += '<span class="size text-right">' + GetFileSize(json.size) + '</span>';
+			sLi += '<span class="auto autocut">' + json.filename + '</span></div></li>';
+			$('#j_jxcaccount_edit_file_span').html($('#j_jxcaccount_edit_file_span').html()+sLi);
+			/*上传数量加1*/
+			var ijxcaccount_edit_FileNum = parseInt($("#jxcaccount_edit_FileNum").val(), 10);
+			$("#jxcaccount_edit_FileNum").val(ijxcaccount_edit_FileNum + 1);
+		}
+	}
+
+</script>

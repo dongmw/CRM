@@ -1,0 +1,71 @@
+<div class="bjui-pageContent">
+<form action="" class="pageForm" data-toggle="validate" id="form_flow_type_index" name="form_flow_type_index">
+<div class="bjui-pageHeader">
+<div class="bjui-searchBar">
+    <div class="btn-group">
+        <!--<a href="{:U('add','navTabId='.CONTROLLER_NAME)}" data-toggle="navtab" data-id="navtab-flow_type-add"class="btn btn-success" data-icon="plus" <php>echo display(CONTROLLER_NAME.'/add');</php>>添加</a>-->
+        <a href="{:U('add','navTabId='.CONTROLLER_NAME)}" data-toggle="dialog" data-mask="true" data-width="600" data-height="500" data-id="navtab-flow_type-add" class="btn btn-success" data-icon="plus" <php>echo display(CONTROLLER_NAME.'/add');</php>>添加</a>
+        <a class="btn btn-danger" href="__URL__/mark/action/del/navTabId/{:CONTROLLER_NAME}" data-toggle="doajaxchecked" data-idname="id" data-group="id" <php>echo display(CONTROLLER_NAME.'/del');</php>>启用/禁用</a>
+    </div>
+    <div class="btn-group" <php>echo display(CONTROLLER_NAME.'/mark');</php>>
+        <a class="btn btn-green  dropdown-toggle" data-toggle="dropdown" href="#"> 移动到 <span class="fa fa-caret-down"></span> </a>
+        <ul class="dropdown-menu">
+            <foreach name="tag_list" item="v">
+                <li>
+    <a href="__URL__/mark/action/move/key/{$key}/navTabId/{:CONTROLLER_NAME}" data-toggle="doajaxchecked" data-idname="id" data-group="id">{$v}</a>
+                </li>
+            </foreach>
+        </ul>
+    </div>
+    <div class="btn-group"><span class="label label-default">提示：</span><span class="font-normal"> (<span class="green font-bold">绿色</span> 表示已经设置参数，<span class="red font-bold">红色</span> 表示尚未设置参数)</span></div>
+    <div class="btn-group floatright" role="group">
+        <button type="button" class="btn-green" onclick="$(this).navtab('reloadForm', true);" data-icon="refresh">刷新</button>
+        <button type="button" class="btn-close" data-icon="close">关闭</button>
+    </div>
+</div>
+</div>
+<!-- 功能操作区域结束 -->
+<div class="ul_table border-bottom">
+	<ul>
+		<li class="thead"  >
+			<label class="inline pull-left col-3">
+                <input type="checkbox" class="checkboxCtrl" data-group="id" data-toggle="icheck">
+                <span class="lbl"></span></label>
+                <span class="col-14">分组 </span>
+			<div class="pull-right">		
+                <span class="col-7">流程类型</span>
+                <span class="col-4">排序</span>
+                <span class="col-15">编号</span>
+                <span class="col-5">状态</span>
+                <span class="col-8" <php>echo display(CONTROLLER_NAME.'/field');</php>>字段管理</span>	
+                <span class="col-8" <php>echo display(CONTROLLER_NAME.'/admin');</php>>审批流程</span>	
+                <span class="col-8" <php>echo display(CONTROLLER_NAME.'/admin');</php>>协商流程</span>	
+                <span class="col-7" <php>echo display(CONTROLLER_NAME.'/admin');</php>>抄送流程</span>
+			</div>
+			<span class="autocut auto">名称</span>
+		</li>
+<empty name="list">
+	<li class="no-data">没找到数据</li>
+<else/>
+    <foreach name="list" item="vo">
+        <li class="tbody" >
+        <label class="inline pull-left col-3"><input class="ace" type="checkbox" name="id" data-toggle="icheck" value="{$vo.id}" /><span class="lbl"></span></label>
+        <span  class="col-14" ><span class="label label-primary">{$vo.tag_name}</span>&nbsp;</span>
+        <div class="pull-right">
+        <span class="col-7"><eq name="vo.is_lock" value="0"><span class="label label-default">自由流程</span><else/><span class="label label-info">固定流程</span></eq></span>
+        <span class="col-4">{$vo.sort}&nbsp;</span>
+        <span class="col-15">{$vo.doc_no_format }&nbsp;</span>
+        <span class="col-5">{$vo.is_del|status=1}&nbsp;</span>
+<span class="col-8" <php>echo display(CONTROLLER_NAME.'/field');</php>><a href="{:U('field','type_id='.$vo['id'])}" data-toggle="navtab" data-id="navtab-flow_type-field" class='btn <?php $Mod = M("flow_field"); $modCount = $Mod->where('type_id='.$vo['id'])->count(); if ($modCount > 0) {echo 'btn-green';} else {echo 'btn-red';}?> btn-sm'>字段管理</a></span>
+<span class="col-8" <php>echo display(CONTROLLER_NAME.'/admin');</php>><a <eq name="vo.is_lock" value="0">disabled<else/></eq>  href="{:U('public/flow','id='.$vo['id'].'&type=confirm')}" data-toggle="lookupbtn" data-id="navtab-flow_type-confirm" class='btn <eq name="vo.confirm|strlen" value="0">btn-red<else/>btn-green</eq> btn-sm'>审批流程</a></span>	
+<span class="col-8" <php>echo display(CONTROLLER_NAME.'/admin');</php>><a <eq name="vo.is_lock" value="0">disabled<else/></eq>  href="{:U('public/flow','id='.$vo['id'].'&type=consult')}" data-toggle="lookupbtn" data-id="navtab-flow_type-confirm" class='btn <eq name="vo.consult|strlen" value="0">btn-red<else/>btn-green</eq> btn-sm'>协商流程</a></span>	
+<span class="col-7" <php>echo display(CONTROLLER_NAME.'/admin');</php>><a <eq name="vo.is_lock" value="0">disabled<else/></eq>  href="{:U('public/flow','id='.$vo['id'].'&type=refer')}" data-toggle="lookupbtn" data-id="navtab-flow_type-confirm" class='btn <eq name="vo.refer|strlen" value="0">btn-red<else/>btn-green</eq> btn-sm'>抄送流程</a></span>
+        </div >
+        <span class="autocut auto"><a href="{:U('edit','id='.$vo['id'].'&navTabId='.CONTROLLER_NAME)}" data-toggle="dialog" data-mask="true" data-width="750" data-height="560" data-id="navtab-flow_type-add" data-title="修改"><span class="label label-primary">{$vo.name}</span></a></span>
+        </li>
+    </foreach>
+</empty>
+	</ul>
+</div>
+</form>
+</div>

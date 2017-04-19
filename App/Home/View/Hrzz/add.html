@@ -1,0 +1,94 @@
+<div class="bjui-pageContent tableContent">
+<form action="" class="pageForm" data-toggle="validate" id="form_hrzz_add" name="form_hrzz_add">
+    <div class="col-md-12">
+		<input type="hidden" name="id" value="{$id}">
+        <!--2016-06-06 【新增】上传附件参数【开始】-->
+        <input type="hidden" name="attid" value="{$attid}">
+        <input type="hidden" name="hrzz_add_MaxNum" id="hrzz_add_MaxNum" value="10" />
+        <input type="hidden" name="hrzz_add_FileNum" id="hrzz_add_FileNum" value="0" />
+        <!--2016-06-06 【新增】上传附件参数【结束】-->
+          <table class="table table-condensed table-hover" width="100%">
+           <tbody>
+			<tr><td><label for='juid_input' class='control-label x85'>员工ID:</label><input type='text' id='juid' name='juid'  size='20' data-toggle='lookup' data-url='__MODULE__/public/hruser/navTabId/{:CONTROLLER_NAME}'  value='{$Rs.juid}'  ></td><td><label for='juname_input' class='control-label x85'>员工姓名:</label><input type='text' id='juname' name='juname'  size='20' data-toggle='lookup' data-url='__MODULE__/public/hruser/navTabId/{:CONTROLLER_NAME}'  value='{$Rs.juname}'  ></td></tr>
+<tr><td><label for='title_input' class='control-label x85'>证照名称:</label><input type='text' id='title' name='title' data-rule='required;' size='20'   value='{$Rs.title}'  ></td><td><label for='bianhao_input' class='control-label x85'>证照编号:</label><input type='text' id='bianhao' name='bianhao'  size='20'   value='{$Rs.bianhao}'  ></td></tr>
+<tr><td><label for='type_input' class='control-label x85'>证照类型:</label><select name='type'  data-toggle='selectpicker' ><option value=''>请选择</option><volist name='Think.config.HRZZ_TYPE' id='type'><option value='{$type}' <if condition=" $type EQ $Rs['type'] " >selected</if> >{$type}</option></volist></td><td><label for='sxrq_input' class='control-label x85'>生效日期:</label><input type='text' data-toggle='datepicker' id='sxrq' name='sxrq'   size='20'   value='{$Rs.sxrq|substr=###,0,10}'  ></td></tr>
+<tr><td><label for='jsrq_input' class='control-label x85'>结束日期:</label><input type='text' data-toggle='datepicker' id='jsrq' name='jsrq'   size='20'   value='{$Rs.jsrq|substr=###,0,10}'  ></td><td><label for='qzrq_input' class='control-label x85'>取证日期:</label><input type='text' data-toggle='datepicker' id='qzrq' name='qzrq'   size='20'   value='{$Rs.qzrq|substr=###,0,10}'  ></td></tr>
+<tr><td><label for='danwei_input' class='control-label x85'>发证单位:</label><input type='text' id='danwei' name='danwei'  size='20'   value='{$Rs.danwei}'  ></td></tr>
+<tr><td colspan=2><label for='beizhu_input' class='control-label x85'>说明:</label><div style='display: inline-block; vertical-align: middle;'><textarea name='beizhu'   data-toggle='kindeditor' data-minheight='150' data-items='fontname, fontsize, |, forecolor, hilitecolor, bold, italic, underline, removeformat, |, justifyleft, justifycenter, justifyright, insertorderedlist, insertunorderedlist, |, emoticons, image, link'>{$Rs.beizhu}</textarea></div></td></tr>
+           </tbody>
+          </table>
+    </div>
+
+
+
+<!--附件开始-->
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-paperclip"></i> 附件 <span class="font-normal font12">（允许.jpg.jpeg.png.gif.bmp.mpg.rar.zip.txt.doc.docx.xls.xlsx.pdf.ppt.pptx格式，最大30MB，最多10个）</span> </h3></div>
+                    <div class="panel-body">
+
+	{:W('FileUpload/add',array('id'=>'hrzz_add','attid'=>$attid,'module'=>'Hrzz'))}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--附件结束-->
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading" style="height:45px;">
+<div class="pull-right">
+<button type="button" class="btn-success" data-icon="save" onclick="save_hrzz_add();">提交</button>
+<button type="button" class="btn-close" data-icon="close">取消</button>
+</div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</form>
+</div>
+
+<script type="text/javascript">
+
+	function save_hrzz_add(){
+		window.onbeforeunload=null;
+		var ihrzz_add_FileNum = parseInt($("#hrzz_add_FileNum").val(), 10);
+		var ihrzz_add_MaxNum = parseInt($("#hrzz_add_MaxNum").val(), 10);
+		if (ihrzz_add_FileNum > ihrzz_add_MaxNum) {
+			alert('上传文件数量最多'+ihrzz_add_MaxNum+'个');
+			return false;
+		}
+		sendForm("form_hrzz_add", "__URL__/add/navTabId/{:CONTROLLER_NAME}");
+	}
+	
+	/*上传成功*/
+	function hrzz_add_upload_success(file, data) {
+		var json = $.parseJSON(data)
+		$(this).bjuiajax('ajaxDone', json)
+		if (json[BJUI.keys.statusCode] == BJUI.statusCode.ok) {
+			$('#j_hrzz_add_file').val(json.filename).trigger('validate');
+			var sLi = '<li id=\"j_hrzz_add_file_span-' + json.id.toString() + '\" class="tbody">';
+			sLi += '<div style="width: 100%;" class="loading"></div>';
+			sLi += '<div class="data">';
+			sLi += '<span class="del text-center"><a href="javascript:DeleteFile_id_name_reduce(\'j_hrzz_add_file_span-' + json.id.toString() + '\',\'' + json.id + '\',\'<?php echo(getuserid()); ?>\',\'hrzz_add_FileNum\')" style="display: inline;" class="link del"><i class="fa fa-remove"></i></a></span>';
+			sLi += '<span class="size text-right">' + GetFileSize(json.size) + '</span>';
+			sLi += '<span class="auto autocut">' + json.filename + '</span></div></li>';
+			$('#j_hrzz_add_file_span').html($('#j_hrzz_add_file_span').html()+sLi);
+			/*上传数量加1*/
+			var ihrzz_add_FileNum = parseInt($("#hrzz_add_FileNum").val(), 10);
+			$("#hrzz_add_FileNum").val(ihrzz_add_FileNum + 1);
+		}
+	}
+
+</script>

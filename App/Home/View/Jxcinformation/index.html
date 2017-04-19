@@ -1,0 +1,69 @@
+<div class="bjui-pageHeader">
+<form id="pagerForm" data-toggle="ajaxsearch" action="__URL__" method="post">
+	<input type="hidden" name="pageSize" value="{$numPerPage}">
+	<input type="hidden" name="pageCurrent" value="{$_REQUEST['pageNum']|default=1}">
+	<div class="bjui-searchBar">
+		<label>关键词：</label><input type="text" value="{$_REQUEST['keys']}" name="keys" class="form-control" size="15" />
+		<div class="btn-group " role="group">
+			<button type="submit" class="btn-success" data-icon="search">查询</button>
+			<button type="button" class="btn-orange" data-icon="undo" onclick="$(this).navtab('reloadForm', true);">清空查询</button>
+		</div>
+		<div class="btn-group " role="group">
+			<button type="button" class="btn btn-success" data-url="__URL__/add/navTabId/{:CONTROLLER_NAME}" data-toggle="dialog" data-width="950" data-height="500" data-id="dialog-mask" data-mask="true" data-icon="plus"> 添加</button>
+			<button type="button" class="btn btn-blue" data-url="__URL__/outxls" data-toggle="doexport" data-icon="arrow-down" data-confirm-msg="确定要导出吗？"> 导出</button>
+			<!--<button type="button" class="btn btn-red" data-url="__URL__/del/navTabId/{:CONTROLLER_NAME}" data-toggle="doajax" data-confirm-msg="确定要清理吗？" data-icon="remove"> 清理</button>-->
+		</div>
+		<div class="btn-group floatright" role="group">
+			<button type="button" class="btn-green" onclick="$(this).navtab('reloadForm', true);" data-icon="refresh">刷新</button>
+			<button type="button" class="btn-close" data-icon="close">关闭</button>
+		</div>
+	</div> 
+</form>
+</div>
+<div class="bjui-pageContent tableContent">
+     <table data-toggle="tablefixed" data-width="100%" data-layout-h="0" data-nowrap="true">
+        <thead>
+            <tr>
+<th width="10" height="30"></th>
+<th data-order-direction='desc' data-order-field='id'>ID</th>
+<th data-order-direction='desc' data-order-field='mc_id'>商品类别</th>
+<th data-order-direction='desc' data-order-field='mi_bh'>商品编号</th>
+<th data-order-direction='desc' data-order-field='mi_mc'>商品名称</th>
+<th data-order-direction='desc' data-order-field='mi_gg'>规格型号</th>
+<th data-order-direction='desc' data-order-field='mi_dw'>单位</th>
+<th data-order-direction='desc' data-order-field='mw_id'>首选仓库</th>
+<th class="textright green">库存上限</th>
+<th class="textright red">库存下限</th>
+<th class="textcenter" width="50">详细</th>
+<th class="textcenter" width="50" <php>echo display(CONTROLLER_NAME.'/edit');</php> >编辑</th>
+<th class="textcenter" width="50" <php>echo display(CONTROLLER_NAME.'/edit');</php> >库存</th>
+<th class="textcenter" width="50" <php>echo display(CONTROLLER_NAME.'/del');</php> >状态</th>
+            </tr>
+        </thead>
+        <tbody>
+
+          <volist name="list" id="v">
+<tr data-id="{$v.id}">
+<td></td>
+<td>{$v.id}</td>
+<td>{$v.mc_id|get_table_field=###,'id','name','jxccategory'}</td>
+<td>{$v.mi_bh}</td>
+<td>{$v.mi_mc}</td>
+<td>{$v.mi_gg}</td>
+<td>{$v.mi_dw|get_table_field=###,'id','name','system_tag'}</td>
+<td>{$v.mw_id|get_table_field=###,'id','name','jxcwarehouse'}</td>
+<td class="textright green">{$v.mi_sx|doubleval=###}</td>
+<td class="textright red">{$v.mi_xx|doubleval=###}</td>
+<td class="textcenter"><a href="__URL__/view/id/{$v['id']}/navTabId/{:CONTROLLER_NAME}" class="btn btn-green btn-sm" data-toggle="dialog" data-width="900" data-height="500" data-id="dialog-mask" data-mask="true" >详细</a></td>
+<td class="textcenter" <php>echo display(CONTROLLER_NAME.'/edit');</php> > <a href="__URL__/edit/id/{$v['id']}/navTabId/{:CONTROLLER_NAME}"   class="btn btn-green btn-sm" data-toggle="dialog" data-width="950" data-height="500" data-id="dialog-mask" data-mask="true" >编辑</a></td>
+<td class="textcenter" <php>echo display(CONTROLLER_NAME.'/edit');</php> > <a href="index.php/home/jxcwarehouselist/index/id/{$v['id']}/navTabId/navtab-jxcwarehouselist" class="btn btn-green btn-sm" data-toggle="navtab" data-id="navtab-jxcwarehouselist" data-title="库存设置" title="库存设置" >库存</a></td>
+<td class="textcenter" <php>echo display(CONTROLLER_NAME.'/del');</php> ><a href="__URL__/del/id/{$v['id']}/navTabId/{:CONTROLLER_NAME}" data-toggle="doajax" data-confirm-msg="确定要操作吗？"><if condition="$v.status EQ 1 "><span class="label label-success">启用</span><else/><span class="label label-default">禁用</span></if></a></td>
+</tr> 
+          </volist>
+        </tbody>
+    </table>
+</div>
+<div class="bjui-pageFooter">
+<div class="pages"><span>共 {$totalCount} 条  每页 {$numPerPage} 条</span></div>
+<div class="pagination-box" data-toggle="pagination" data-total="{$totalCount}" data-page-size="{$numPerPage}" data-page-current="{$currentPage}"></div>
+</div>

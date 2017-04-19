@@ -1,0 +1,100 @@
+<div class="bjui-pageContent tableContent">
+<form action="" class="pageForm" data-toggle="validate" id="form_document_add" name="form_document_add">
+
+    <input type="hidden" name="id" value="{$id}">
+    <!--2016-06-06 【新增】上传附件参数【开始】-->
+    <input type="hidden" name="attid" value="{$attid}">
+    <input type="hidden" name="document_add_MaxNum" id="document_add_MaxNum" value="10" />
+    <input type="hidden" name="document_add_FileNum" id="document_add_FileNum" value="0" />
+    <!--2016-06-06 【新增】上传附件参数【结束】-->
+
+<div class="col-md-12">
+    <table class="table table-bordered table-condensed table-hover" width="100%">
+	<tbody>
+        <tr><td>
+            <label for="j_form_folder" class="control-label x85">文件夹</label>
+            <select id="j_form_folder" name="folder" data-toggle="selectpicker" data-rule='required'>
+            <option value="">请选择</option>
+            <foreach name="system_folder_list" item="v">
+            <option value="{$v.id}">
+            <switch name="v.level"><case value="0"></case><case value="1">—</case><case value="2">——</case><case value="3">———</case><case value="4">————</case><case value="5">—————</case><case value="6">——————</case><case value="7">———————</case><default /></switch>{$v.name}
+            </option>
+            </foreach>
+            </select>
+        </td></tr>
+
+        <tr><td>
+        	<label for="j_form_folder" class="control-label x85">文档名</label>
+            <input type='text' id='j_form_name' name='name' value='{$Rs.name}' data-rule='required;' style="width:70%;">
+        </td></tr>
+
+        <tr><td>
+    		<textarea data-toggle='kindeditor' class="editor" name="content" style="width:100%;height:100px;">{$Rs.content}</textarea>
+        </td></tr>
+	</tbody>
+	</table>
+</div>
+</form>
+
+<!--附件开始-->
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-paperclip"></i> 附件 <span class="font-normal font12">（允许.jpg.jpeg.png.gif.bmp.mpg.rar.zip.txt.doc.docx.xls.xlsx.pdf.ppt.pptx格式，最大30MB，最多10个）</span> </h3></div>
+                    <div class="panel-body">
+
+	{:W('FileUpload/add',array('id'=>'document_add','attid'=>$attid,'module'=>'Document'))}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--附件结束-->
+
+</div>
+<div class="bjui-pageFooter">
+<ul>
+<li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+<li><button type="submit" class="btn-success" data-icon="save" onclick="save_document_add();">提交</button></li>
+</ul>
+</div>
+
+
+
+<script type="text/javascript">
+
+	function save_document_add(){
+		window.onbeforeunload=null;
+		var idocument_add_FileNum = parseInt($("#document_add_FileNum").val(), 10);
+		var idocument_add_MaxNum = parseInt($("#document_add_MaxNum").val(), 10);
+		if (idocument_add_FileNum > idocument_add_MaxNum) {
+			alert('上传文件数量最多'+idocument_add_MaxNum+'个');
+			return false;
+		}
+		sendForm("form_document_add", "__URL__/add/navTabId/{:CONTROLLER_NAME}");
+	}
+	
+	/*上传成功*/
+	function document_add_upload_success(file, data) {
+		var json = $.parseJSON(data)
+		$(this).bjuiajax('ajaxDone', json)
+		if (json[BJUI.keys.statusCode] == BJUI.statusCode.ok) {
+			$('#j_document_add_file').val(json.filename).trigger('validate');
+			var sLi = '<li id=\"j_document_add_file_span-' + json.id.toString() + '\" class="tbody">';
+			sLi += '<div style="width: 100%;" class="loading"></div>';
+			sLi += '<div class="data">';
+			sLi += '<span class="del text-center"><a href="javascript:DeleteFile_id_name_reduce(\'j_document_add_file_span-' + json.id.toString() + '\',\'' + json.id + '\',\'<?php echo(getuserid()); ?>\',\'document_add_FileNum\')" style="display: inline;" class="link del"><i class="fa fa-remove"></i></a></span>';
+			sLi += '<span class="size text-right">' + GetFileSize(json.size) + '</span>';
+			sLi += '<span class="auto autocut">' + json.filename + '</span></div></li>';
+			$('#j_document_add_file_span').html($('#j_document_add_file_span').html()+sLi);
+			/*上传数量加1*/
+			var idocument_add_FileNum = parseInt($("#document_add_FileNum").val(), 10);
+			$("#document_add_FileNum").val(idocument_add_FileNum + 1);
+		}
+	}
+
+</script>

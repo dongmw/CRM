@@ -1,0 +1,93 @@
+<div class="bjui-pageContent tableContent">
+<form action="" class="pageForm" data-toggle="validate" id="form_hrgh_add" name="form_hrgh_add">
+    <div class="col-md-12">
+		<input type="hidden" name="id" value="{$id}">
+        <!--2016-06-06 【新增】上传附件参数【开始】-->
+        <input type="hidden" name="attid" value="{$attid}">
+        <input type="hidden" name="hrgh_add_MaxNum" id="hrgh_add_MaxNum" value="10" />
+        <input type="hidden" name="hrgh_add_FileNum" id="hrgh_add_FileNum" value="0" />
+        <!--2016-06-06 【新增】上传附件参数【结束】-->
+          <table class="table table-condensed table-hover" width="100%">
+           <tbody>
+			<tr><td><label for='juid_input' class='control-label x85'>员工ID:</label><input type='text' id='juid' name='juid'  size='20' data-toggle='lookup' data-url='__MODULE__/public/hruser/navTabId/{:CONTROLLER_NAME}'  value='{$Rs.juid}'  ></td><td><label for='juname_input' class='control-label x85'>员工姓名:</label><input type='text' id='juname' name='juname'  size='20' data-toggle='lookup' data-url='__MODULE__/public/hruser/navTabId/{:CONTROLLER_NAME}'  value='{$Rs.juname}'  ></td></tr>
+<tr><td><label for='title_input' class='control-label x85'>关怀主题:</label><input type='text' id='title' name='title' data-rule='required;' size='20'   value='{$Rs.title}'  ></td><td><label for='type_input' class='control-label x85'>关怀类型:</label><select name='type'  data-toggle='selectpicker' ><option value=''>请选择</option><volist name='Think.config.HRGH_TYPE' id='type'><option value='{$type}' <if condition=" $type EQ $Rs['type'] " >selected</if> >{$type}</option></volist></td></tr>
+<tr><td><label for='sj_input' class='control-label x85'>关怀时间:</label><input type='text' data-toggle='datepicker' id='sj' name='sj'   size='20'   value='{$Rs.sj|substr=###,0,10}'  ></td><td><label for='feiyong_input' class='control-label x85'>关怀费用:</label><input type='text' id='feiyong' name='feiyong'  size='20'   value='{$Rs.feiyong}'  ></td></tr>
+<tr><td><label for='name_input' class='control-label x85'>关怀效果:</label><input type='text' id='name' name='name'  size='20'   value='{$Rs.name}'  ></td></tr>
+<tr><td colspan=2><label for='beizhu_input' class='control-label x85'>详情:</label><div style='display: inline-block; vertical-align: middle;'><textarea name='beizhu'   data-toggle='kindeditor' data-minheight='150' data-items='fontname, fontsize, |, forecolor, hilitecolor, bold, italic, underline, removeformat, |, justifyleft, justifycenter, justifyright, insertorderedlist, insertunorderedlist, |, emoticons, image, link'>{$Rs.beizhu}</textarea></div></td></tr>
+           </tbody>
+          </table>
+    </div>
+
+
+
+<!--附件开始-->
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-paperclip"></i> 附件 <span class="font-normal font12">（允许.jpg.jpeg.png.gif.bmp.mpg.rar.zip.txt.doc.docx.xls.xlsx.pdf.ppt.pptx格式，最大30MB，最多10个）</span> </h3></div>
+                    <div class="panel-body">
+
+	{:W('FileUpload/add',array('id'=>'hrgh_add','attid'=>$attid,'module'=>'Hrgh'))}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--附件结束-->
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading" style="height:45px;">
+<div class="pull-right">
+<button type="button" class="btn-success" data-icon="save" onclick="save_hrgh_add();">提交</button>
+<button type="button" class="btn-close" data-icon="close">取消</button>
+</div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</form>
+</div>
+
+<script type="text/javascript">
+
+	function save_hrgh_add(){
+		window.onbeforeunload=null;
+		var ihrgh_add_FileNum = parseInt($("#hrgh_add_FileNum").val(), 10);
+		var ihrgh_add_MaxNum = parseInt($("#hrgh_add_MaxNum").val(), 10);
+		if (ihrgh_add_FileNum > ihrgh_add_MaxNum) {
+			alert('上传文件数量最多'+ihrgh_add_MaxNum+'个');
+			return false;
+		}
+		sendForm("form_hrgh_add", "__URL__/add/navTabId/{:CONTROLLER_NAME}");
+	}
+	
+	/*上传成功*/
+	function hrgh_add_upload_success(file, data) {
+		var json = $.parseJSON(data)
+		$(this).bjuiajax('ajaxDone', json)
+		if (json[BJUI.keys.statusCode] == BJUI.statusCode.ok) {
+			$('#j_hrgh_add_file').val(json.filename).trigger('validate');
+			var sLi = '<li id=\"j_hrgh_add_file_span-' + json.id.toString() + '\" class="tbody">';
+			sLi += '<div style="width: 100%;" class="loading"></div>';
+			sLi += '<div class="data">';
+			sLi += '<span class="del text-center"><a href="javascript:DeleteFile_id_name_reduce(\'j_hrgh_add_file_span-' + json.id.toString() + '\',\'' + json.id + '\',\'<?php echo(getuserid()); ?>\',\'hrgh_add_FileNum\')" style="display: inline;" class="link del"><i class="fa fa-remove"></i></a></span>';
+			sLi += '<span class="size text-right">' + GetFileSize(json.size) + '</span>';
+			sLi += '<span class="auto autocut">' + json.filename + '</span></div></li>';
+			$('#j_hrgh_add_file_span').html($('#j_hrgh_add_file_span').html()+sLi);
+			/*上传数量加1*/
+			var ihrgh_add_FileNum = parseInt($("#hrgh_add_FileNum").val(), 10);
+			$("#hrgh_add_FileNum").val(ihrgh_add_FileNum + 1);
+		}
+	}
+
+</script>

@@ -1,0 +1,110 @@
+<div class="bjui-pageContent">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-tasks"></i> 添加</h3></div>
+                    <div class="panel-body">
+
+<form action="__URL__/add/navTabId/{:CONTROLLER_NAME}" class="" data-toggle="validate" id="form_flow_type_add" name="form_flow_type_add">
+	<input type="hidden" name="opmode" value="add">
+	<div class="form-group col-sm-12">
+		<label class="col-sm-4 control-label" for="j_form_flow_type_add_name"><span class="label label-default">名称*：</span></label>
+		<div class="col-sm-8">
+			<input class="form-control" type="text" id="j_form_flow_type_add_name" name="name" data-rule="required" msg="请输入姓名">
+		</div>
+	</div>
+
+	<div class="form-group col-sm-12">
+		<label class="col-sm-4 control-label" for="j_form_flow_type_add_short"><span class="label label-default">简称*：</span></label>
+		<div class="col-sm-8">
+			<input class="form-control" type="text" id="j_form_flow_type_add_short" name="short" data-rule="required" msg="请输入简称">
+		</div>
+	</div>
+
+	<div class="form-group col-sm-12">
+		<label class="col-sm-4 control-label" for="j_form_flow_type_add_doc_no_format"><span class="label label-default">编号*：</span></label>
+		<div class="col-sm-8">
+			<input class="form-control" type="text" id="j_form_flow_type_add_doc_no_format" name="doc_no_format" data-rule="required" msg="请输入编号规则">
+		</div>
+	</div>
+
+	<div class="form-group col-sm-12">
+		<label class="col-sm-4 control-label" for="j_form_flow_type_add_tag"><span class="label label-default">分组*：</span></label>
+		<div class="col-sm-8">
+			<select class="form-control" name="tag" id="j_form_flow_type_add_tag" data-rule="required" msg="请选择分组">
+				<option value="">请选择分组</option>
+				{:fill_option($tag_list)}
+			</select>
+		</div>
+	</div>
+	<div class="form-group col-sm-12">
+		<label class="col-sm-4 control-label" for="j_form_flow_type_add_request_duty"><span class="label label-default">流程申请权限：</span></label>
+		<div class="col-sm-8">
+			<select class="form-control" name="request_duty" id="j_form_flow_type_add_request_duty">
+				{:fill_option($duty_list)}
+			</select>
+		</div>
+	</div>
+	<div class="form-group col-sm-12">
+		<label class="col-sm-4 control-label" for="j_form_flow_type_add_report_duty"><span class="label label-default">流程报告权限：</span></label>
+		<div class="col-sm-8">
+			<select class="form-control" name="report_duty" id="j_form_flow_type_add_report_duty">
+				{:fill_option($duty_list)}
+			</select>
+		</div>
+	</div>
+	<div class="form-group col-sm-12">
+		<label class="col-sm-4 control-label" for="j_form_flow_type_add_sort"><span class="label label-default">排序：</span></label>
+		<div class="col-sm-8">
+			<input class="form-control" type="text" id="j_form_flow_type_add_sort" name="sort" >
+		</div>
+	</div>
+
+	<div class="form-group col-sm-12">
+		<label class="col-sm-4 control-label" for="j_form_flow_type_add_is_del"><span class="label label-default">状态：</span></label>
+		<div class="col-sm-8">
+			<select class="form-control" name="is_del" id="j_form_flow_type_add_is_del">
+				<option value="0">启用</option>
+				<option value="1">禁用</option>
+			</select>
+		</div>
+	</div>	
+	<div class="form-group col-sm-12">
+		<label class="col-sm-4 control-label" for="j_form_flow_type_add_is_lock"><span class="label label-default">流程类型：</span></label>
+		<div class="col-sm-8">
+			<select class="form-control" name="is_lock" id="j_form_flow_type_add_is_lock" type="select-one">
+				<option value="0">自由</option>
+				<option value="1">固定</option>
+			</select>
+		</div>
+	</div>
+	<div class="form-group col-sm-12">
+		<label class="col-sm-4 control-label" for="j_form_flow_type_add_is_edit"><span class="label label-default">编辑器：</span></label>
+		<div class="col-sm-8">
+			<select class="form-control" name="is_edit" id="j_form_flow_type_add_is_edit">
+				<option value="0">审批人不能编辑</option>
+				<!--<option value="1">审批人可以编辑</option>-->
+				<option value="2">不显示编辑器</option>
+			</select>
+		</div>
+	</div>
+	<div class="clearfix"></div>
+	<div class="m5050">
+		<div style="width:100%;">
+			<textarea data-toggle='kindeditor' class="editor" id="content" name="content" style="width:100%;height:100px;">{$vo.content}</textarea>
+		</div>
+	</div>
+	<div class="action textright">
+<button type="submit" class="btn-success" data-icon="save">保存</button>
+<button type="button" class="btn-close" data-icon="close">取消</button>
+	</div>
+</form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

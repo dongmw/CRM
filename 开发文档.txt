@@ -1,0 +1,201 @@
+【基于THINKPHP+BJUI开发的OA系统开发文档】
+
+【项目待办事宜】
+1、进销存管理 - 仓库 - 保质期预警 
+	      - 购货 - 购货单 - 购货总数 当前数量 
+	      	选择商品 - 带回相应库存
+		按照批次出库
+		     
+系统版本信息：
+1、升级到最新版本的B-JUI前端框架；
+2、增加多语种；
+3、增加工作流模块；
+4、增加业务权限，方便工作流、业务流权限控制；
+5、增加审批流；
+6、增加即时通讯；
+7、增加在线用户状态查看；
+8、完善附件上传模块；
+9、完善用户管理模块；
+......
+
+
+【新增表单】
+1、工作流
+xy_flow			工作流 数据表
+xy_flow_field		工作流 字段表		select/radio/checkbox	1|国事,2|家事,3|天下事
+xy_flow_field_data	工作流 字段表 数据表
+xy_flow_log		工作流 流程表
+xy_flow_type		工作流 项目表
+xy_system_tag		工作流 分组表
+xy_system_tag_data
+xy_system_folder
+xy_duty			工作流 业务权限管理表
+xy_role_duty		工作流 业务权限分配表
+xy_message		工作流 消息推送表
+
+2、文档
+xy_document		文档表
+
+3、办公用品
+xy_officesupplies	办公用品表
+
+4、进销存管理
+xy_jxccategory		商品类别表
+xy_jxcinformation	商品表
+xy_jxcaccount		账户表
+xy_jxcaccountlist	账户明细表
+xy_jxccontact		联系人
+xy_jxcsuppliers		供应商表
+xy_jxccustomers		客户表
+xy_jxcwarehouse		仓库表
+xy_jxcwarehouselist	仓库明细表
+xy_jxcpurchase		购货订单总单表
+xy_jxcpurchaselist	购货订单细单表
+xy_jxcstorage		购货单总单表
+xy_jxcstoragelist	购货单细单表
+xy_jxcstoragereturn	购货退货总单表
+xy_jxcstoragereturnlist	购货退货细单表
+xy_jxcsalesorder	销货订单总单表
+xy_jxcsalesorderlist	销货订单细单表
+xy_jxcoutbound		销货单总单表
+xy_jxcoutboundlist	销货单细单表
+xy_jxcoutboundreturn	销货退货总单表
+xy_jxcoutboundreturnlist销货退货细单表
+xy_jxctransfer		调拨单总单表
+xy_jxctransferlist	调拨单细单表
+xy_jxcfundtransfer	资金转账单总单表
+xy_jxcfundtransferlist	资金转账单细单表
+
+
+
+
+【采购订单总单表】 xy_jxcpurchase
+字段		描述
+mp_ddbh		订单编号
+mp_ddrq		订单日期
+mp_jhrq		交货日期
+mp_ywtype	业务类型（购货/退货）
+ms_id		供应商ID：供应商ID 供应商名称
+mp_ghje		购货金额
+mp_ghsl		购货数量
+mp_ddzt		订单状态：未入库 全部入库 部分入库
+mp_zdr		制单人
+mp_cgr		采购人
+mp_shr		审核人
+
+
+【采购订单细单表】 xy_jxcpurchaselist
+字段		描述
+attid		随机字符串
+mi_id		商品ID：商品ID 商品名称 属性 单位 仓库
+mi_mc		商品名称
+mi_dw		单位
+mw_id		仓库ID：仓库ID 仓库名称
+mpl_sl		数量
+mpl_jg		购货单价
+mpl_zkl		折扣率
+mpl_zke		折扣额
+mpl_je		金额
+mpl_slv		税率
+mpl_se		税额
+mpl_jshj	价税合计
+mpl_bz		备注
+
+【销货单总单表】 xy_jxcoutbound
+销售人员
+客户承担费用
+
+
+
+
+栏目菜单
+
+【购货】
+
+购货单
+购货退货单
+
+【销货】
+
+销货单
+销货退货单
+
+【仓库】
+
+调拨单
+盘点
+其他入库单
+其他出库单
+成本调整单
+
+【资金】
+
+收款单
+付款单
+其他收入单
+其他支出单
+资金转账单
+
+【报表】
+
+采购报表
+
+    采购明细表
+    采购汇总表（按商品）
+    采购汇总表（按供应商）
+
+销售报表
+
+    销售明细表
+    销售汇总表（按商品）
+    销售汇总表（按客户）
+    往来单位欠款表
+
+仓存报表
+
+    商品库存余额表
+    商品收发明细表
+    商品收发汇总表
+
+资金报表
+
+    现金银行报表
+    应付账款明细表
+    应收账款明细表
+    客户对账单
+    供应商对账单
+    其他收支明细表
+
+【设置】
+
+基础资料
+
+    客户管理
+    供应商管理
+    商品管理
+    仓库管理
+    职员管理
+    账户管理
+
+辅助资料
+
+    客户类别
+    供应商类别
+    商品类别
+    支出类别
+    收入类别
+    计量单位
+    结算方式
+
+高级设置
+
+    系统参数
+    权限设置
+    操作日志
+    套打模板
+    备份与恢复
+
+    增值服务
+
+
+

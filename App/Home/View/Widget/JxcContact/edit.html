@@ -1,0 +1,20 @@
+<div class="col-sm-12">
+<div style="display: inline-block; vertical-align: middle;">
+    
+</div>
+<div class="uploader" id="j_{$id}_contact_span">
+<notempty name="contact_list">
+    <volist name="contact_list" id="contact">
+        <li class="tbody" id="j_{$id}_contact_span-{$contact['id']}">
+            <div style="width: 100%;" class="loading"></div>
+            <div class="data">
+                <span class="del text-center"><a href="javascript:DeleteFile_id_name_reduce('j_{$id}_contact_span-{$contact['id']}','{$contact['id']}','{$uid}','{$id}_FileNum')" class="link del"><i class="fa fa-remove"></i></a></span>
+                <span class="del text-center"><a class="link del" target="_blank" href="{:U('public/down?attach_id='.f_encode($contact['id']))}"><i class="fa fa-download"></i></a></span>
+                <span class="size text-right" >{$contact.size|reunit}</span>
+                <span class="auto autocut" title="{$contact.name}">{$contact.filedesc}</span>
+            </div>
+        </li>
+    </volist>
+</notempty>
+</div>
+</div>

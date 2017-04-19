@@ -1,0 +1,352 @@
+<div class="bjui-pageHeader">
+<ul><li>
+        <div class="btn-group" role="group">
+            <a href="#id_flow_title" class="btn btn-success">主题</a>
+            <a href="#id_flow_flow" class="btn btn-success">流程</a>
+            <a href="#id_flow_detail" class="btn btn-success">明细</a>
+            <notempty name="vo.content">
+            <a href="#id_flow_content" class="btn btn-success">内容</a>
+            </notempty>
+            <a href="#id_flow_attachment" class="btn btn-success">附件</a>
+            <a href="#id_flow_status" class="btn btn-success">审批情况</a>
+            <notempty name="to_confirm">
+            <a href="#id_flow_confirm" class="btn btn-success">办理意见</a>
+            </notempty>
+        </div>
+        <div class="btn-group floatright" role="group">
+			<button type="button" class="btn-green" onclick="$(this).navtab('reloadForm', true);" data-icon="refresh">刷新</button>
+			<button type="button" class="btn-close" data-icon="close">关闭</button>
+        </div>
+</li></ul>
+</div>
+
+<div class="bjui-pageContent">
+    <div style="padding:10px 0px 10px 0px; width:100%;">
+        <div class="row" style="padding:0px; margin:0px;">
+<form method='post' id="form_data" name="form_data" enctype="multipart/form-data"  class="">
+	<input type="hidden" id="ajax" name="ajax" value="0">
+	<input type="hidden" id="opmode" name="opmode" value="edit">
+	<input type="hidden" id="name" name="name" value="{$vo.name}">
+	<input type="hidden" id="id" name="id" value="{$vo.id}">
+
+<!--主题开始-->
+
+    <div class="col-md-12"><a id="id_flow_title"></a>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-tasks"></i> 主题&nbsp;&nbsp;<span class="font14">{$vo.name}</span></h3></div>
+                    <div class="panel-body">
+
+	<div class="form-group col-sm-12">
+		<label class="col-sm-2 control-label" ><span class="label label-default">流程项目</span></label>
+		<div class="col-sm-10">
+        	<span class="label label-success">{$flow_type.name}</span> - <span class="label label-info">{$flow_type.doc_no_format}</span>
+		</div>
+	</div>
+
+	<div class="form-group col-sm-12">
+		<label class="col-sm-2 control-label" ><span class="label label-default">流程标题</span></label>
+		<div class="col-sm-10">
+        	<span class="label label-primary">{$vo.name}</span>
+		</div>
+	</div>
+
+	<div class="form-group col-sm-12">
+		<label class="col-sm-2 control-label" ><span class="label label-default">日期</span></label>
+		<div class="col-sm-10">
+        	<span class="label label-primary">{$vo.create_time|toDate='Y-m-d'}</span>
+		</div>
+	</div>
+
+	<div class="form-group col-sm-12">
+		<label class="col-sm-2 control-label" ><span class="label label-default">发起人</span></label>
+		<div class="col-sm-10">
+        	<span class="label label-primary">{$vo.user_name}</span>
+		</div>
+	</div>
+
+	<div class="form-group col-sm-12">
+		<label class="col-sm-2 control-label" ><span class="label label-default">部门</span></label>
+		<div class="col-sm-10">
+        	<span class="label label-primary">{$vo.dept_name}</span>
+		</div>
+	</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--主题结束-->
+
+
+<!--流程开始-->
+
+    <div class="col-md-12"><a id="id_flow_flow"></a>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-tasks"></i> 流程</h3></div>
+                    <div class="panel-body">
+
+	<div class="form-group col-sm-12">
+		<label class="col-sm-2 control-label" ><span class="label label-default">审批流程</span></label>
+		<div class="col-sm-10">
+
+<?php
+if (strlen($vo['confirm_name']) > 2){
+	echo('<span class="label label-primary">'.$vo['confirm_name'].'</span>');
+} else {
+	echo('<span id="refer_wrap" class="label label-default">无</span>');
+}
+?>
+
+		</div>
+	</div>
+	<div class="form-group col-sm-12">
+		<label class="col-sm-2 control-label" ><span class="label label-default">协商流程</span></label>
+		<div class="col-sm-10">
+
+<?php
+if (strlen($vo['consult_name']) > 2){
+	echo('<span class="label label-primary">'.$vo['consult_name'].'</span>');
+} else {
+	echo('<span id="refer_wrap" class="label label-default">无</span>');
+}
+?>
+
+		</div>
+	</div>
+	<div class="form-group col-sm-12">
+		<label class="col-sm-2 control-label" ><span class="label label-default">抄送流程</span></label>
+		<div class="col-sm-10">
+
+<?php
+if (strlen($vo['refer_name']) > 2){
+	echo('<span class="label label-primary">'.$vo['refer_name'].'</span>');
+} else {
+	echo('<span id="refer_wrap" class="label label-default">无</span>');
+}
+?>
+
+		</div>
+	</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--流程结束-->
+
+
+<!--明细开始-->
+
+    <div class="col-md-12"><a id="id_flow_detail"></a>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-list-alt"></i> 明细</h3></div>
+                    <div class="panel-body lineh30">
+                        
+                        
+<!--模板内容开始-->
+	<volist name="field_list" id="field_vo">{:W('UserDefineField/view',array($field_vo))}</volist>
+<!--模板内容结束-->
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<!--明细结束-->
+
+
+<!--内容开始-->
+	<notempty name="vo.content">
+    <div class="col-md-12"><a id="id_flow_content"></a>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-list-alt"></i> 内容</h3></div>
+                    <div class="panel-body">
+
+	<div class="col-sm-12">
+    <div style="width:100%;">
+    {$vo.content}
+	</div>
+	</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	</notempty>
+
+<!--内容结束-->
+
+</form>
+
+<!--附件开始-->
+
+    <div class="col-md-12"><a id="id_flow_attachment"></a>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-paperclip"></i> 附件 <PHP>$num=M('files')->where('attid='.$vo['attid'])->count();if ($num>0){echo ' <span class="font14">('.$num.'个)</span>';}</PHP></h3></div>
+                    <div class="panel-body">
+
+        {:W('FileUpload/view',array('add_file'=>$vo['attid']))}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--附件结束-->
+
+<!--审批情况开始-->
+
+    <div class="col-md-12"><a id="id_flow_status"></a>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-comment"></i> 审批情况</h3></div>
+                    <div class="panel-body">
+
+
+<div class="ul_table border-bottom">
+	<ul class="p010010 m00100">
+		<li class="thead">
+			<span class="col-9">类型</span>
+			<span class="col-9">审批人</span>
+			<span class="col-11">日期</span>
+			<span class="col-9">结果</span>
+			<span class="auto">意见</span>
+		</li>
+	<empty name="flow_log">
+    
+    
+		<li class="tbody"><div class="alert alert-warning p010010" role="alert"><i class="fa fa-warning"></i> 暂无内容</div></li>
+    <else/>
+		<volist name="flow_log" id="item">
+			<li class="tbody">
+				<span class="col-9">{$item.step|show_step_type=1}</span>
+				<span class="col-9"><span class="label label-default">{$item.user_name}</span></span>
+				<span class="col-11"><span class="label label-default">{$item.create_time|toDate='Y-m-d'}</span></span>
+				<span class="col-9">{$item.result|show_result=1}</span>
+				<span class="auto">
+					<div style="overflow:hidden">
+						{$item.comment}
+					</div> </span>
+			</li>
+		</volist>
+	</empty>
+	</ul>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--审批情况结束-->
+
+<!--办理意见开始-->
+
+<notempty name="to_confirm">
+
+    <div class="col-md-12"><a id="id_flow_confirm"></a>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-send"></i> 办理意见</h3></div>
+                    <div class="panel-body">
+
+	<form method="post" action="" name="form_confirm" id="form_confirm" data-toggle="validate" data-callback=""><!-- data-callback="flowread_callback"-->
+		<input type="hidden" name="id" value="{$to_confirm.id}">
+		<input type="hidden" id="flow_id" name="flow_id" value="{$vo.id}">
+		<input type="hidden" name="step" value="{$to_confirm.step}">
+		<div class="operate panel panel-default">
+			<div class="form-group panel-body">
+					<textarea class="form-control" style="width:100%;height:120px;border:0px;line-height:150%" name="comment"></textarea>
+			</div>
+			<div class="panel-heading clearfix">
+				<div class="pull-right">
+					<notempty name="is_edit">
+						<div class="btn-group">
+							<a class="btn btn-warning dropdown-toggle" data-toggle="dropdown" href="#">退回到 <span class="fa fa-caret-down"></span> </a>
+							<ul class="dropdown-menu col-5">
+								<volist name="confirmed" id="vo">
+									<li onclick="back_to('{$vo['emp_no']}');">
+										<a href="javascript:;">{$vo.user_name}</a>
+									</li>
+								</volist>
+								<li onclick="back_to('{$emp_no}');">
+									<a href="javascript:;">{$user_name}</a>
+								</li>
+							</ul>
+						</div>
+					|
+					</notempty>
+					<a onclick="approve();" class="btn btn-success">同意</a>
+					|
+					<a onclick="reject();" class="btn btn-danger">否决</a>
+				</div>
+			</div>
+		</div>
+	</form>
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</notempty>
+
+<!--办理意见结束-->
+
+
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+	function approve() {
+		//alert($("#flow_id").val());
+		window.onbeforeunload = null;
+		sendForm("form_confirm", "{:U('mark','action=approve')}");
+	}
+
+	function reject() {
+		window.onbeforeunload = null;
+		sendForm("form_confirm", "{:U('mark','action=reject')}");
+	}
+
+	function back_to(emp_no) {
+		window.onbeforeunload = null;
+		sendForm("form_confirm", fix_url("{:U('mark','action=back')}?emp_no=" + emp_no));
+	}
+
+	function select_confirm() {
+		winopen("{:U('popup/confirm')}", 730, 750);
+	};
+
+	function flowread_callback(json) {
+		$(this)
+		.navtab('refresh')
+		.navtab('reloadFlag', 'flow/confirm')
+		
+		/*.navtab('refresh') // 刷新当前navtab*/
+		/*.navtab('closeCurrent')*/
+	}
+</script>

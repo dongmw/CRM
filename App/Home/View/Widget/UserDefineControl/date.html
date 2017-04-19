@@ -1,0 +1,5 @@
+<eq name="readonly" value="true">
+	{$val}
+	<else/>
+	<input data-date-format="YYYY-MM-DD" class="form-control input-date" type="text" name="flow_field_{$id}" id="flow_field_{$id}" value="{$val}" <notempty name="validate">check="{$validate}" msg="{$msg}" data-rule="date;{$validate}"</notempty> data-toggle="datepicker" >
+</eq>

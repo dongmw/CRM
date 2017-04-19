@@ -1,0 +1,94 @@
+<div class="bjui-pageContent tableContent">
+    <div class="pageFormContent" style="margin:1px;" data-layout-h="0">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active"><a href="#jxcinformation_view_1" role="tab" data-toggle="tab">品种信息</a></li>
+            <li><a href='#jxcinformation_view_2' role='tab' data-toggle='tab'>修改记录</a></li>
+        </ul>
+        <div class="tab-content">
+			<div class="tab-pane fade active in" id="jxcinformation_view_1">
+<table class="table table-bordered table-striped table-hover">
+<tbody>
+<tr><td><label class='control-label x85'>ID:</label>{$Rs.id}</td>
+<td><label class='control-label x85'>名称:</label>{$Rs.mc_mc}</td></tr>
+
+<tr><td><label class='control-label x85'>类别:</label><php>echo get_table_field($Rs['mc_type'], 'id', 'name', 'system_tag');</php></td>
+<td><label class='control-label x85'>编号:</label>{$Rs.mc_bh}</td></tr>
+
+<tr><td><label class='control-label x85'>排序:</label>{$Rs.sort}</td>
+<td><label class='control-label x85'>状态:</label>{$Rs.status}</td></tr>
+
+<tr><td><label class='control-label x85'>添加用户:</label>{$Rs.uname}</td>
+<td><label class='control-label x85'>添加时间:</label>{$Rs.addtime}</td></tr>
+
+<tr><td><label class='control-label x85'>更新用户:</label>{$Rs.uuname}</td>
+<td><label class='control-label x85'>更新时间:</label>{$Rs.updatetime}</td></tr>
+<tr><td colspan=2><label class='control-label x85'>备注:</label></td></tr>
+<tr><td colspan=2>{$Rs.beizhu|html_out=###}</td></tr>
+
+<tr><td colspan=2>
+<!--联系人开始-->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-user"></i> 联系人 <span class="font-normal font12"></span> </h3></div>
+                    <div class="panel-body">
+                    
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+<tr height="27">
+<th title="No." width="38">No.</th>
+<th title="联系人">联系人</th>
+<th title="性别">性别</th>
+<th title="手机">手机</th>
+<th title="座机">座机</th>
+<th title="QQ">QQ</th>
+<th title="联系地址">联系地址</th>
+<th title="首要">首要</th>
+</tr>
+            </thead>
+            <tbody>{$list}
+            </tbody>
+        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!--联系人结束-->
+</td></tr>
+
+<tr><td colspan=2>
+<!--附件开始-->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-paperclip"></i> 附件</h3></div>
+                    <div class="panel-body">
+
+    {:W('FileUpload/view',array('add_file'=>$Rs['attid']))}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!--附件结束-->
+
+</td></tr>
+</tbody>
+</table>
+			</div>
+            <div class='tab-pane fade lineh20' id='jxcinformation_view_2'>
+            <php>if (strlen($Rs['history']) > 0) {echo html_out($Rs['history']);} else {echo '无修改记录';}</php>
+			</div>
+		</div>
+    </div>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close" data-icon="close">关闭</button></li>
+    </ul>
+</div>

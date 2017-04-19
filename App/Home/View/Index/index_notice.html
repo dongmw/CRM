@@ -1,0 +1,30 @@
+    <!--//通知公告 开始-->
+    <div class="w100">
+      <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-volume-up"></i>  {:L('_INDEX_LAYOUT_Notice_')} <a class="pull-right" href="javascript:;" data-url="{:U('myinfo/index')}" data-toggle="navtab" data-id="myinfo/index" data-title="{:L('_INDEX_LAYOUT_Notice_')}"><i class="fa fa-caret-right"></i> {:L('_INDEX_LAYOUT_Detail_')}</a></h3></div>
+          <div style="min-height:185px">
+          <table class="table table-striped table-hover">
+           <thead>
+            <tr>
+            <th height=30>{:L('_INDEX_LAYOUT_NoticeTitle_')}</th>
+            <th>{:L('_INDEX_LAYOUT_EndTime_')}</th>
+            <th>{:L('_INDEX_LAYOUT_Author_')}</th>
+            <th>{:L('_INDEX_LAYOUT_Time_')}</th>
+            </tr>
+          </thead>
+          <tbody>
+          <php>$list=M('info')->where(array('juid'=>array('like','%'.session(uid).'%')))->order("id desc")->limit(10)->select();</php>
+          <volist id="v" name="list">
+          <tr>
+            <td>{$v.title|msubstr=###,0,20}</td>
+            <td>{$v.jzrq|substr=###,0,10}</td>
+            <td>{$v.uname}</td>
+            <td>{$v.addtime|substr=###,0,10}</td>
+          </tr>
+          </volist>
+         </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+    <!--//通知公告 结束-->

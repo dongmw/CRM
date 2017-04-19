@@ -1,0 +1,166 @@
+<div class="bjui-pageHeader">
+<form action="__SELF__" method="post" class="" data-toggle="ajaxsearch" id="pagerForm">
+	<div class="bjui-searchBar">
+		<select id='j_form_jxcsuppliers_add_mw_id' name='mw_id' data-toggle='selectpicker'>
+		<option value="">所有仓库</option>
+		<foreach name="mw_id_list" item="v">
+		<option value="{$v.id}" <if condition="$v.id EQ $_REQUEST['mw_id']">selected<else/></if> >
+		<switch name="v.level"><case value="0"></case><case value="1">—</case><case value="2">——</case><case value="3">———</case><case value="4">————</case><case value="5">—————</case><case value="6">——————</case><case value="7">———————</case><default /></switch>{$v.name} 
+		</option>
+		</foreach>
+		</select>&nbsp;&nbsp;
+		<input data-toggle="icheck" data-label="显示零库存" type="checkbox" name="iszero" value="true" <if condition="true EQ $_REQUEST['iszero']"> checked="checked"<else/></if> />&nbsp;&nbsp;
+		<div class="btn-group " role="group">
+			<button type="submit" class="btn-success" data-icon="search">查询</button>
+		</div>
+		<div class="btn-group " role="group">
+			<button type="button" class="btn btn-primary" data-url="__URL__/outxls" data-toggle="doexport" data-icon="arrow-down" data-confirm-msg="确定要导出吗？"> 导出系统库存</button>
+			<!--<button type="button" class="btn btn-red" data-url="__URL__/del/navTabId/{:CONTROLLER_NAME}" data-toggle="doajax" data-confirm-msg="确定要清理吗？" data-icon="remove"> 清理</button>-->
+		</div>
+		<div class="btn-group " role="group">
+            <button type="button" class="btn-success" data-icon="plus" onclick="save_jxcstorageother_addpy(this)">生成盘盈单据</button>
+            <button type="button" class="btn-danger" data-icon="plus" onclick="save_jxcoutboundother_addpk(this);">生成盘亏单据</button>
+		</div>
+		<div class="btn-group floatright" role="group">
+			<button type="button" class="btn-green" onclick="$(this).navtab('reloadForm', true);" data-icon="refresh">刷新</button>
+			<button type="button" class="btn-close" data-icon="close">关闭</button>
+		</div>
+    </div>
+</form>
+</div>
+<div class="bjui-pageContent tableContent">
+<form action="" method="post" class="" data-toggle="ajaxsearch" id="form_jxcwarehouselist_inventory" name="form_jxcwarehouselist_inventory">
+     <table data-toggle="tablefixed" data-width="100%" data-layout-h="0" data-nowrap="true">
+        <thead>
+            <tr>
+<th width="10" height="30"></th>
+<th>仓库</th>
+
+<th>商品类别</th>
+<th>商品编号</th>
+<th>商品名称</th>
+<th>规格型号</th>
+<th>单位</th>
+
+<th class="textright">系统库存</th>
+<th class="textright blue" width="80">盘点库存</th>
+<th class="textright green" width="80">盘盈</th>
+<th class="textright red" width="80">盘亏</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+          <volist name="list" id="v">
+          <tr data-id="{$v.id}">
+<td></td>
+<td>{$v.mw_id|get_table_field=###,'id','name','jxcwarehouse'}<input id="jxc_pd_mw_id[{$i-1}]" name="jxc_pd_mw_id[{$i-1}]" value="{$v.mw_id}" type="hidden"></td>
+<input type="hidden" id="jxc_pd" name="jxc_pd" value="{$i-1}" size="1">
+<td>{$v.mc_id|get_table_field=###,'id','name','jxccategory'}</td>
+<td>{$v.mi_bh}<input id="jxc_pd_mi_id[{$i-1}]" name="jxc_pd_mi_id[{$i-1}]" value="{$v.mi_id}" type="hidden"></td>
+<td>{$v.mi_mc}</td>
+<td>{$v.mi_gg}</td>
+<td>{$v.mi_dw|get_table_field=###,'id','name','system_tag'}</td>
+<td class="textright">{$v.mwl_num|doubleval=###}
+<input type="hidden" id="jxc_pd_kc[{$i-1}]" name="jxc_pd_kc[{$i-1}]" value="{$v.mwl_num|doubleval=###}"></td>
+<td class="textright"><input id="jxc_pd_pdkc[{$i-1}]" name="jxc_pd_pdkc[{$i-1}]" onkeyup="jxc_pd_get_num_('jxc_pd_group',$(this).attr('data-group'),'jxc_pd')" value="{$v.mwl_num|doubleval=###}" style="width:100%" data-group="jxc_pd_group[{$i-1}]" onfocus="select()" class="textright blue" type="text" data-rule="required;number;length[1~20]"></td>
+<td class="textright"><input id="jxc_pd_py[{$i-1}]" name="jxc_pd_py[{$i-1}]" value="0" style="width:100%" data-group="jxc_pd_group[{$i-1}]" onfocus="select()" class="textright green" type="text" data-rule="required;number;length[1~20]" readonly="readonly"></td>
+<td class="textright"><input id="jxc_pd_pk[{$i-1}]" name="jxc_pd_pk[{$i-1}]" value="0" style="width:100%" data-group="jxc_pd_group[{$i-1}]" onfocus="select()" class="textright red" type="text" data-rule="required;number;length[1~20]" readonly="readonly"></td>
+
+         </tr> 
+          </volist>
+<tr class="font-bold">
+<td width="10" height="30"></td>
+<td>合计:</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td class="textright">{$num_all1|doubleval=###}</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+        </tbody>
+    </table>
+</form>
+</div>
+<div class="bjui-pageFooter">
+<div class="alert alert-danger p0505 m0 lineh20" role="alert"><i class="fa fa-warning"></i> 提示：“<span class="blue">盘点库存</span>”请输入实际数量；输入完实际数量后系统自动计算“<span class="green">盘盈</span>”和“<span class="red">盘亏</span>”数量，然后生成“<span class="green">盘盈</span>”和“<span class="red">盘亏</span>”单据</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		set_val("jxc_pd_mp_ywtype", "{$Rs.mp_ywtype}");
+		set_val("jxc_pd_ms_id", "{$Rs.ms_id}");
+	});
+
+/*购货单合计*/
+function jxc_pd_get_num_(id,group,num) {
+	var i = group.replace(id+'[','').replace(']','');/*当前行数*/
+	var n = document.getElementsByName(num).length;/*数组长度*/
+	var id_pd_kc = document.getElementById("jxc_pd_kc[" + i +"]").value;
+	var id_pd_pdkc = document.getElementById("jxc_pd_pdkc[" + i +"]").value;
+	if(parseFloat(id_pd_kc)<parseFloat(id_pd_pdkc)){
+		document.getElementById("jxc_pd_py[" + i +"]").value = (parseFloat(id_pd_pdkc) - parseFloat(id_pd_kc)).toFixed(4);
+		document.getElementById("jxc_pd_pk[" + i +"]").value = 0;
+	}else if(parseFloat(id_pd_kc)>parseFloat(id_pd_pdkc)){
+		document.getElementById("jxc_pd_py[" + i +"]").value = 0;
+		document.getElementById("jxc_pd_pk[" + i +"]").value = (parseFloat(id_pd_kc) - parseFloat(id_pd_pdkc)).toFixed(4);
+	}else{
+		document.getElementById("jxc_pd_py[" + i +"]").value = 0;
+		document.getElementById("jxc_pd_pk[" + i +"]").value = 0;
+	}
+}
+
+	function save_jxcstorageother_addpy(obj) {
+		var n = document.getElementsByName('jxc_pd').length;/*数组长度*/
+		var mi = '0';
+		var mw = '0';
+		var py = '0';
+		for (var j=0;j<n;j++){
+			var str_mi = "jxc_pd_mi_id[" + j +"]";
+			var str_mw = "jxc_pd_mw_id[" + j +"]";
+			var str_py = "jxc_pd_py[" + j +"]";
+			if(parseFloat(document.getElementById(str_py).value)>0){
+				mi = mi +','+ parseFloat(document.getElementById(str_mi).value);
+				mw = mw +','+ parseFloat(document.getElementById(str_mw).value);
+				py = py +','+ parseFloat(document.getElementById(str_py).value);
+			}
+		}
+		if(py.length>1){
+			mi = mi.substring(2, mi.length);
+			mw = mw.substring(2, mw.length);
+			py = py.substring(2, py.length);
+			//alert('mi:'+mi+';mw:'+mw+';py:'+py+';');
+			$(obj).dialog({id:'jxcstorageother_addpy', url:'index.php/home/jxcstorageother/addpy/type/addpy1/mi/'+mi+'/mw/'+mw+'/py/'+py+'', title:'生成盘盈单据', width:'950', height:'500'});
+		}
+	}
+
+	function save_jxcoutboundother_addpk(obj) {
+		var n = document.getElementsByName('jxc_pd').length;/*数组长度*/
+		var mi = '0';
+		var mw = '0';
+		var pk = '0';
+		for (var j=0;j<n;j++){
+			var str_mi = "jxc_pd_mi_id[" + j +"]";
+			var str_mw = "jxc_pd_mw_id[" + j +"]";
+			var str_pk = "jxc_pd_pk[" + j +"]";
+			if(parseFloat(document.getElementById(str_pk).value)>0){
+				mi = mi +','+ parseFloat(document.getElementById(str_mi).value);
+				mw = mw +','+ parseFloat(document.getElementById(str_mw).value);
+				pk = pk +','+ parseFloat(document.getElementById(str_pk).value);
+			}
+		}
+		if(pk.length>1){
+			mi = mi.substring(2, mi.length);
+			mw = mw.substring(2, mw.length);
+			pk = pk.substring(2, pk.length);
+			//alert('mi:'+mi+';mw:'+mw+';pk:'+pk+';');
+			$(obj).dialog({id:'jxcoutboundother_addpk', url:'index.php/home/jxcoutboundother/addpk/type/addpk1/mi/'+mi+'/mw/'+mw+'/pk/'+pk+'', title:'生成盘亏单据', width:'950', height:'500'});
+		}
+	}
+
+</script>

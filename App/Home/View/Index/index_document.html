@@ -1,0 +1,27 @@
+	<!--//文档查看 开始-->
+    <div class="w100">
+      <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-file"></i> {:L('_INDEX_LAYOUT_DocumentView_')} <a class="pull-right" href="javascript:;" data-url="{:U('document/index')}" data-toggle="navtab" data-id="document/index" data-title="{:L('_INDEX_LAYOUT_DocumentView_')}"><i class="fa fa-caret-right"></i> {:L('_INDEX_LAYOUT_Detail_')}</a></h3></div>
+          <div style="min-height:185px">
+          <table class="table table-striped table-hover">
+           <thead>
+            <tr>
+			<th height=30>{:L('_INDEX_LAYOUT_Folder_')}</th>
+			<th>{:L('_INDEX_LAYOUT_DocumentName_')}</th>
+			<th>{:L('_INDEX_LAYOUT_InputTime_')}</th>
+            </tr>
+          </thead>
+          <tbody>
+          <volist name="list_document" id="v">
+          <tr>
+			<td>{$v.folder_name|msubstr=###,0,20}</td>
+			<td>{$v.name|msubstr=###,0,20}</a></td>
+			<td>{$v.create_time|toDate='Y-m-d'}</td>
+          </tr>
+          </volist>
+         </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+    <!--//文档查看 结束-->

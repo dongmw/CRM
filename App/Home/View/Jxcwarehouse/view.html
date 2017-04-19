@@ -1,0 +1,91 @@
+<div class="bjui-pageContent tableContent">
+    <div class="pageFormContent" style="margin:1px;" data-layout-h="0">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active"><a href="#jxccategory_view_1" role="tab" data-toggle="tab">品种类别</a></li>
+            <li><a href='#jxccategory_view_2' role='tab' data-toggle='tab'>修改记录</a></li>
+            <li><a href='#jxccategory_view_3' role='tab' data-toggle='tab'>品种信息列表</a></li>
+        </ul>
+        <div class="tab-content">
+			<div class="tab-pane fade active in" id="jxccategory_view_1">
+<table class="table table-bordered table-striped table-hover">
+<tbody>
+<tr><td><label class='control-label x85'>ID:</label>{$Rs.id}</td>
+<td><label class='control-label x85'>名称:</label>{$Rs.name}</td></tr>
+
+<tr><td><label class='control-label x85'>所属类别:</label>{$Rs.pid}</td>
+<td><label class='control-label x85'>编号:</label>{$Rs.number}</td></tr>
+
+<tr><td><label class='control-label x85'>排序:</label>{$Rs.sort}</td>
+<td><label class='control-label x85'>状态:</label>{$Rs.status}</td></tr>
+
+<tr><td><label class='control-label x85'>添加用户:</label>{$Rs.uname}</td>
+<td><label class='control-label x85'>添加时间:</label>{$Rs.addtime}</td></tr>
+
+<tr><td><label class='control-label x85'>更新用户:</label>{$Rs.uuname}</td>
+<td><label class='control-label x85'>更新时间:</label>{$Rs.updatetime}</td></tr>
+<tr><td colspan=2><label class='control-label x85'>备注:</label></td></tr>
+<tr><td colspan=2>{$Rs.beizhu|html_out=###}</td></tr>
+<tr><td colspan=2>
+<!--附件开始-->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-paperclip"></i> 附件</h3></div>
+                    <div class="panel-body">
+
+    {:W('FileUpload/view',array('add_file'=>$Rs['attid']))}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!--附件结束-->
+
+</td></tr>
+</tbody>
+</table>
+			</div>
+            <div class='tab-pane fade lineh20' id='jxccategory_view_2'>
+            <php>if (strlen($Rs['history']) > 0) {echo html_out($Rs['history']);} else {echo '无修改记录';}</php>
+			</div>
+            <div class='tab-pane fade' id='jxccategory_view_3'>
+<table class='table table-bordered table-striped table-hover'>
+<php>$jxcinformationlist=M('jxcinformation')->where(array('mc_id'=>I('id')))->select();</php>
+<thead>
+<tr>
+<th height=30>ID</th>
+<th>名称</th>
+<th>编号</th>
+<th>类别</th>
+<th>备注</th>
+<th>操作人</th>
+<th>入库时间</th>
+<th>详细</th>
+</tr>
+</thead>
+<tbody>
+<foreach name='jxcinformationlist' item='v'>
+<tr>
+<td>{$v.id}</td>
+<td>{$v.mi_mc|msubstr=###,0,20}</td>
+<td>{$v.mi_bh|msubstr=###,0,20}</td>
+<td>{$v.mc_id}</td>
+<td>{$v.mi_bz|msubstr=###,0,20}</td>
+<td>{$v.uname}</td>
+<td>{$v.addtime|substr=###,0,10}</td>
+<td><a href='__MODULE__/jxcinformation/view/id/{$v['id']}/navTabId/{:CONTROLLER_NAME}' data-toggle='dialog' data-width='800' data-height='500' data-id='dialog-maskjxcinformation' data-mask='true' >详细</a></td>
+</tr>
+</foreach>
+</tbody>
+</table>
+            </div>
+		</div>
+    </div>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close" data-icon="close">关闭</button></li>
+    </ul>
+</div>

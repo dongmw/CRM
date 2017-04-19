@@ -1,0 +1,251 @@
+<div class="bjui-pageContent">
+    <div style="padding:10px 0px 10px 0px; width:100%;">
+        <div class="row" style="padding:0px; margin:0px;">
+<form action="" class="" data-toggle="validate" id="form_flow_add" name="form_flow_add">
+	<input type="hidden" id="ajax" name="ajax" value="0">
+	<input type="hidden" id="add_file" name="add_file" >
+	<input type="hidden" id="type" name="type" value="{$flow_type.id}">
+	<input type="hidden" id="opmode" name="opmode" value="add">
+	<input type="hidden" id="confirm" name="confirm" value="">
+	<input type="hidden" id="confirm_name" name="confirm_name" value="">
+	<input type="hidden" id="consult" name="consult" value="">
+	<input type="hidden" id="consult_name" name="consult_name" value="">
+	<input type="hidden" id="refer" name="refer" value="">
+	<input type="hidden" id="refer_name" name="refer_name" value="">
+	<input type="hidden" id="step" name="step" value="">
+    <!--2016-06-06 新增-->
+	<input type="hidden" id="attid" name="attid" value="{$attid}">
+    <!--2016-06-06 新增-->
+
+<!--主题开始-->
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-tasks"></i> 主题</h3></div>
+                    <div class="panel-body">
+
+
+<div class="form-group col-sm-12">
+	<label for='name' class='control-label col-sm-2'>*标题</label>
+	<div class="col-sm-10">
+	<input class="form-control" type="text" id="name" name="name" data-rule="required" value="" />
+	</div>
+</div>
+
+<div class="form-group col-sm-12">
+<label class='control-label col-sm-2'>文件编号</label>
+	<div class="col-sm-10">
+    {$flow_type.doc_no_format}
+	</div>
+</div>
+
+<div class="form-group col-sm-12">
+<label class='control-label col-sm-2'>审批</label>
+	<div class="col-sm-10">
+<span id="confirm_wrap">
+{$flow_type.confirm_name}
+</span>
+	</div>
+</div>
+
+<div class="form-group col-sm-12">
+<label class='control-label col-sm-2'>协商</label>
+	<div class="col-sm-10">
+<span id="consult_wrap">
+{$flow_type.consult_name}
+</span>
+	</div>
+</div>
+
+<div class="form-group col-sm-12 hidden">
+<label class='control-label col-sm-2'>抄送</label>
+	<div class="col-sm-10">
+<span id="refer_wrap">
+{$flow_type.refer_name}
+</span>
+	</div>
+</div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--主题结束-->
+
+<!--明细开始-->
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-list-alt"></i> 明细</h3></div>
+                    <div class="panel-body">
+
+<!--模板内容开始-->
+<div class="form-group">
+<volist name="field_list" id="vo"> {:W('UserDefineField/edit',array($vo))} </volist>
+</div>
+<!--模板内容结束-->
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--明细结束-->
+
+<!--内容开始-->
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-list-alt"></i> 内容</h3></div>
+                    <div class="panel-body">
+
+
+<neq name="flow_type.is_edit" value="2">
+	<div class="col-sm-12">
+    <div style="width:100%;">
+    <textarea data-toggle='kindeditor' class="editor" id="content" name="content" style="width:100%;height:100px;">{$flow_type.content}</textarea>
+	</div>
+	</div>
+</neq>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--内容结束-->
+
+<!--附件开始-->
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-paperclip"></i> 附件</h3></div>
+                    <div class="panel-body">
+
+	<div class="col-sm-12">
+
+        <div style="display: inline-block; vertical-align: middle;">
+            <div id="j_flow_add_file_up" data-toggle="upload" data-uploader="{:U('Public/uploading','sessionid='.$uid.'&attid='.$attid.'&module=Flow')}" 
+                data-file-size-limit="1024000000"
+                data-file-type-exts="*.jpg;*.png;*.gif;*.mpg"
+                data-multi="true"
+                buttonText="添加附件"
+                data-on-upload-success="flow_add_upload_success"
+                data-icon="cloud-upload"></div>
+            <input type="hidden" name="flow_add.file" value="" id="j_flow_add_file">
+        </div>
+		<div class="uploader" id="j_flow_add_file_span"></div>
+
+	</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--附件结束-->
+
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading" style="height:45px;">
+<div class="pull-right">
+<eq name="flow_type.is_lock" value="0">
+<a onclick="popup_confirm();" class="btn-default">选择审批流程</a>
+</eq>
+<button type="button" class="btn-green" data-icon="save" onclick="save_flow_add(10);">临时保存</button>
+<button type="button" class="btn-success" data-icon="save" onclick="save_flow_add(20);">提交</button>
+<button type="button" class="btn-close" data-icon="close">取消</button>
+</div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+</div>
+</div>
+</div>
+
+
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#confirm span").on("dblclick", function() {
+			$("#confirm span").last().find("b").remove();
+		});
+		$("#consult span").on("dblclick", function() {
+			$("#consult span").last().find("b").remove();
+		});
+	}); 
+
+	function save_flow_add(step){
+		//alert(step);
+		window.onbeforeunload=null;
+		$("#confirm").val("");
+		$("#confirm_wrap  span").each(function() {
+			$("#confirm").val($("#confirm").val() + $(this).attr("data") + '|');
+		});
+		//alert($("#confirm").val());
+		//return;
+		$("#confirm_name").val($("#confirm_wrap").html());
+
+		$("#consult").val("");
+		$("#consult_wrap  span").each(function() {
+			$("#consult").val($("#consult").val() + $(this).attr("data") + '|');
+		});
+		$("#consult_name").val($("#consult_wrap").html());
+
+		$("#refer").val("");
+		$("#refer_wrap  span").each(function() {
+			$("#refer").val($("#refer").val() + $(this).attr("data") + '|');
+		});
+		$("#refer_name").val($("#refer_wrap").html());
+
+		if ($("#confirm").val().length < 2) {
+			alert('请选择审批流程');
+			return false;
+		}
+		$("#step").val(step);
+		//if (check_form("form_flow_add")) {
+			sendForm("form_flow_add", "__URL__/add/navTabId/{:CONTROLLER_NAME}");
+		//}
+	}
+
+function flow_add_upload_success(file, data) {
+    var json = $.parseJSON(data)
+    $(this).bjuiajax('ajaxDone', json)
+    if (json[BJUI.keys.statusCode] == BJUI.statusCode.ok) {
+        $('#j_flow_add_file').val(json.filename).trigger('validate');
+		
+		var sLi = '<li id=\"j_flow_add_file_span-' + json.id.toString() + '\" class="tbody">';
+		sLi += '<div style="width: 100%;" class="loading"></div>';
+		sLi += '<div class="data">';
+		sLi += '<span class="del text-center"><a href="javascript:DeleteFile_id_name(\'j_flow_add_file_span-' + json.id.toString() + '\',\'' + json.id + '\',\'{$uid}\')" style="display: inline;" class="link del">删除</a></span>';
+		sLi += '<span class="size text-right">' + GetFileSize(json.size) + '</span>';
+		sLi += '<span class="auto autocut">' + json.filename + '</span></div></li>';
+		//$(sLi).appendTo($("#j_flow_add_file_span"));
+        $('#j_flow_add_file_span').html($('#j_flow_add_file_span').html()+sLi);
+    }
+}
+</script>

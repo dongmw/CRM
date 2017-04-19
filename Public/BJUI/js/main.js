@@ -1,0 +1,73 @@
+/**
+ * @author grazel@163.com
+ */
+//function startMessage() {  shake($("#Message"), "shake", "200", 500);  }
+function startOnline() {$.getJSON("index.php/home/public/onlineinc?t=" + Math.random(), function (result) { document.getElementById("Online").innerHTML = result.Online; document.getElementById("Message").innerHTML = result.Message; document.getElementById("Mail").innerHTML = result.Mail; document.getElementById("sound").innerHTML = result.sound; result.Error; });}
+function CurentTime(){var now = new Date();var year = now.getFullYear();var month = now.getMonth() + 1; var day = now.getDate();var hh = now.getHours();var mm = now.getMinutes();var ss = now.getSeconds();var clock = year + "-";if(month < 10)clock += "0";clock += month + "-";if(day < 10)clock += "0";clock += day + " ";if(hh < 10)clock += "0";clock += hh + ":";if (mm < 10) clock += '0';clock += mm + ":";if (ss < 10) clock += '0';clock += ss;return(clock); } 
+function HTMLEnCode(str){vars="";if(str.length==0)return"";s=str.replace(/&/g,"&gt;");s=s.replace(/</g,"&lt;");s=s.replace(/>/g,"&gt;");s=s.replace(/ /g,"&nbsp;");s=s.replace(/\'/g,"'");s=s.replace(/\"/g,"&quot;");s=s.replace(/\n/g,"<br>");return s;}
+function HTMLDeCode(str){var s="";if (str.length==0)return"";s=str.replace(/&gt;/g,"&");s=s.replace(/&lt;/g,"<");s=s.replace(/&gt;/g,">");s=s.replace(/&nbsp;/g," ");s=s.replace(/'/g,"\'");s=s.replace(/&quot;/g,"\"");s=s.replace(/<br>/g,"\n");return s;}
+function htmldecode1(str) { str = str.replace(/&amp;/gi, '&');str = str.replace(/&nbsp;/gi, ' ');str = str.replace(/&quot;/gi, '"');str = str.replace(/&#39;/g, "'"); str = str.replace(/&lt;/gi, '<');str = str.replace(/&gt;/gi, '>');str = str.replace(/<br[^>]*>(?:(rn)|r|n)?/gi, 'n');return str;}
+function submitGetMsgContent(u,id) {$.getJSON("index.php/home/public/onlinechatrefreshinc?u=" + u + "&t=" + Math.random(), function (result) {if (!isNaN(parseInt(result.nb)) && parseInt(result.nb) > 0){$("#"+id).html($("#"+id).html() + HTMLDeCode(result.Content));document.getElementById(id).scrollTop = document.getElementById(id).scrollHeight;}});}
+function submitCleanUpMsgContent(u,id,id1,id2,n) {if($("#"+id1).val() != ""){$.getJSON("index.php/home/public/onlinechatrefreshinc?u=" + u + "&t=" + Math.random(), function (result) {if (!isNaN(parseInt(result.nb)) && parseInt(result.nb) > 0) {$("#"+id).html($("#"+id).html() + result.Content);}if (result.nb != ""){/*$("#"+id2).submit();*/ $("#"+id).html($("#"+id).html() + "<div class=lineh20><span class=\"cg\">" + n + "</span>　<span class=c9>(" + CurentTime() + ")</span></div><div class=\"m0080 lineh20\">" + $("#"+id1).val() + "</div>");document.getElementById(id).scrollTop = document.getElementById(id).scrollHeight;KindEditor.instances[0].html('');}});}}
+function setscrollTop(id) {document.getElementById(id).scrollTop = 0;}
+function setscrollBot(id) {document.getElementById(id).scrollTop = document.getElementById(id).scrollHeight;}
+function setscrollBotNum(id,id_) {document.getElementById(id).scrollTop = document.getElementById(id_).scrollHeight}
+function del_className(id) {document.getElementById(id).className = "";}
+function up_className(id,str) {document.getElementById(id).className = str;}
+function up_class_normal(id) {$('#'+id).removeClass("bE").addClass("bN");/*$("#"+id).css("font-weight","normal");*//*$("span#"+id).css("font-weight","normal");*//*$("#"+id+" span").css("font-weight","normal");*/}
+function up_classNameTo(id,c1,c2) {$('#'+id).removeClass(c1).addClass(c2);}
+function del_html(id) {setTimeout("del_html_inc('"+id+"')", 1000);}
+function del_html(id,m) {setTimeout("del_html_inc('"+id+"')", m);}
+function del_html_inc(id) {$('#'+id).remove();}
+function delay_time_run(run,s){setTimeout(run, s);}
+function openwin(w,h,url){var l=(window.screen.width/2)-w/2;var t=(window.screen.height/2)-h/2;window.open(url,'','width='+w+',height='+h+',top='+t+',left='+l+',menubar=no,toobar=no,scrollbars=yes,resizable=yes,status=no,loation=no');}
+function changeMonth(y,m){$.getJSON("Tools/Call_DesktopCalendar_Do.ashx?y="+y+"&m="+m+"&t=" + Math.random(), function (result) { document.getElementById("id_web_Call_DesktopCalendar").innerHTML = result.Message;$("#id_web_Call_DesktopCalendar a[target=jsajax]").each(function(){$(this).click(function(event){var $this = $(this);var rel = $this.attr("rel");if (rel) {var $rel = $("#"+rel);$rel.loadUrl($this.attr("url"), {}, function(){$rel.find("[layoutH]").layoutH();});}event.preventDefault();});});});}
+function changeMonth_Plan(url, y, m, u) { $.getJSON(url + "?y=" + y + "&m=" + m + "&u=" + u + "&t=" + Math.random(), function (result) { document.getElementById("id_web_Call_Plan_Statistics").innerHTML = result.Message; $("#id_web_Call_Plan_Statistics a[target=jsajax]").each(function () { $(this).click(function (event) { var $this = $(this); var rel = $this.attr("rel"); if (rel) { var $rel = $("#" + rel); $rel.loadUrl($this.attr("url"), {}, function () { $rel.find("[layoutH]").layoutH(); }); } event.preventDefault(); }); }); }); }
+//function changeMonth_Cost(url, y, m, u) { $.getJSON(url + "?y=" + y + "&m=" + m + "&u=" + u + "&t=" + Math.random(), function (result) { document.getElementById("id_web_Call_P_Cost_Create").innerHTML = result.Message; $("#id_web_Call_P_Cost_Create a[target=jsajax]").each(function () { $(this).click(function (event) { var $this = $(this); var rel = $this.attr("rel"); if (rel) { var $rel = $("#" + rel); $rel.loadUrl($this.attr("url"), {}, function () { $rel.find("[layoutH]").layoutH(); }); } event.preventDefault(); }); }); }); }
+/*changeMonth_Cost 上面的id是写死的  下面的是动态的*/
+function changeMonth_Cost(url, y, m, u, id) { $.getJSON(url + "?y=" + y + "&m=" + m + "&u=" + u + "&t=" + Math.random(), function (result) { document.getElementById(id).innerHTML = result.Message; $("#" + id + " a[target=jsajax]").each(function () { $(this).click(function (event) { var $this = $(this); var rel = $this.attr("rel"); if (rel) { var $rel = $("#" + rel); $rel.loadUrl($this.attr("url"), {}, function () { $rel.find("[layoutH]").layoutH(); }); } event.preventDefault(); }); }); }); }
+function change_html(id, str1, str2) { document.getElementById(id).innerHTML = (document.getElementById(id).innerHTML == str1 ? str2 : str1); }
+function getfadeToggle(id) {$('#'+id).fadeToggle(500);}
+
+/*文件上传*/
+function GetFileSize(iBytes) {var iFileKB = iBytes / 1024;iFileKB = SizeFormat(iFileKB.toString());return iFileKB + " KB";}
+function SizeFormat(s) {s = s.replace(/^(\d*)$/, "$1.");s = (s + "00").replace(/(\d*\.\d\d)\d*/, "$1");s = s.replace(".", ",");var re = /(\d)(\d{3},)/;while (re.test(s))s = s.replace(re, "$1,$2");s = s.replace(/,(\d\d)$/, ".$1");return s.replace(/^\./, "0.")}
+function DeleteFile(b, liId, sDeleteNum, sDeleteId, sDeleteFileName) {/*从显示列表中移除*/$("#" + liId).remove();/*删除处理*/DeleteUpdateFileValue(liId, sDeleteId);/*文件数量-1*/var iMFileNum = parseInt($("#" + sDeleteNum).val(), 10);if (parseInt(iMFileNum, 10) > 0) {$("#" + sDeleteNum).val(iMFileNum - 1);}}
+function DeleteUpdateFileValue(sDeleteValue, id) {/*取得上传列表中对应的隐藏文本框中的值*/var sUpdateValue = $("#" + id).val();/*删除的文件名称位于元素位置*/var iFindIndex = sUpdateValue.lastIndexOf(sDeleteValue);/*最靠近sDeleteValue变量值的'#'的元素位置*/var iStartIndex = sUpdateValue.substring(0, iFindIndex).lastIndexOf("|");/*sDeleteValue变量中最后一个字符的元素位置*/var iEndIndex = iFindIndex + sDeleteValue.length - 1;if (iStartIndex == -1) {/*位于第一组*/var sNewRightValue = $("#" + id).val().substring(iEndIndex + 2);$("#" + id).val(sNewRightValue);}else {/*判断当前删除的是不是属于最后一组*/if ((iEndIndex + 1) == sUpdateValue.length) {/*位于最后一组，删除最后一个#以后字符*/$("#" + id).val($("#" + id).val().substring(0, iStartIndex));}else {/*在中间*/var sNewLeftValue = $("#" + id).val().substring(0, iStartIndex);var sNewRightValue = $("#" + id).val().substring(iEndIndex + 1);$("#" + id).val(sNewLeftValue + sNewRightValue);}}}
+
+/*删除文件*/
+function DeleteFile_id_name(hid, tid, uid) {/*从显示列表中移除*/$("#" + hid).remove();/*删除处理*/$.getJSON("index.php/home/public/delfile/tid/"+tid+"/uid/"+uid+"?t=" + Math.random(), function (result) { result.Error; });}
+
+/*删除文件并自减附件数量*/
+function DeleteFile_id_name_reduce(hid, tid, uid, rid) {/*从显示列表中移除*/$("#" + hid).remove();/*自减*/var num = parseInt($("#" + rid).val(), 10);$("#" + rid).val(num - 1);/*删除处理*/$.getJSON("index.php/home/public/delfile/tid/"+tid+"/uid/"+uid+"?t=" + Math.random(), function (result) { result.Error; });}
+
+/*邮件签名*/
+/*function ShowMailQianMing(url,id,rel){$.getJSON(url+"&t=" + Math.random(), function (result) {var editor=$('#' + id).xheditor({tools:'mfull',skin:'default'});editor.appendHTML(result.Message);$.pdialog.close(rel);});}*/
+function ShowMailQianMing(url,id,rel){$.post(url+"&t=" + Math.random(), {}, function (result) {var editor=$('#' + id).xheditor({tools:'mfull',skin:'default'});editor.pasteHTML(result);$.pdialog.close(rel);});}
+
+/*费用超额说明*/
+function check_money(id) { var money_j; var money_jb0; var money_jb; var money_b; if (isNaN(document.addform.bg_money.value) == true) { alert("请填写数字！"); window.addform.bg_money.focus(); return false; flag = 0; } money_j = document.getElementById("money_j" + id).value; money_jb0 = ">"; money_jb = "&nbsp;"; money_b = document.getElementById("bg_money" + id).value; if (parseFloat(money_b) > parseFloat(money_j)) { document.getElementById("money_b_1" + id).innerHTML = '报告费用：' + money_b; document.getElementById("money_jb0" + id).innerHTML = money_jb0; document.getElementById("money_j_1" + id).innerHTML = '计划费用：' + money_j + '<br>超额说明：<input type="text" maxlength="100" name="bg_other" id="bg_other" class="textInput" style="width:100%;" />'; } else { document.getElementById("money_b_1" + id).innerHTML = ""; document.getElementById("money_jb" + id).innerHTML = ""; document.getElementById("money_jb0" + id).innerHTML = ""; document.getElementById("money_j_1" + id).innerHTML = ""; } money_bg = document.getElementById("bg_money" + id).value; }
+
+/*动态加载内容*/
+function get_HtmlById(url,id){$.getJSON(url+"&t=" + Math.random(), function (result) { document.getElementById(id).innerHTML = result.Message;$("#"+id+" a[target=jsdialog]").each(function(){$(this).click(function(event){var $this = $(this);var rel = $this.attr("rel");if (rel) {var $rel = $("#"+rel);$rel.loadUrl($this.attr("url"), {}, function(){$rel.find("[layoutH]").layoutH();});}event.preventDefault();});});});}
+
+/*提交表单*/
+function sendForm(formId, post_url, return_url) {if ($("#ajax").val() == 1) {var vars = $("#" + formId).serialize();$.ajax({type : "POST",url : post_url,data : vars,dataType : "json",success : function(data) {if (data.status) {ui_alert(data.info, function() {if (return_url) {location.href = return_url;}});} else {ui_error(data.info);}}});} else {$("#" + formId).attr("action", post_url);if (return_url) {set_cookie('return_url', return_url);}$("#" + formId).submit();}}
+
+/*赋值*/
+function set_val(name, val) {if ($("#" + name + " option").length > 0) {$("#" + name + " option[value='" + val + "']").attr("selected", "selected");return;}if (($("#" + name).attr("type")) === "checkbox") {if (val == 1) {$("#" + name).attr("checked", true);return;}}if ($("." + name).length > 0) {if (($("." + name).first().attr("type")) === "checkbox") {var arr_val = val.split(",");for (var s in arr_val) {$("input." + name + "[value=" + arr_val[s] + "]").attr("checked", true);}}}	if (($("#" + name).attr("type")) === "text") {$("#" + name).val(val);return;}if (($("#" + name).attr("type")) === "hidden") {$("#" + name).val(val);return;}if (($("#" + name).attr("rows")) > 0) {$("#" + name).text(val);return;}}
+
+/*打开弹出窗口*/
+function winopen(url, w, h) {alert(url);url = fix_url(url);$("html,body").css("overflow","hidden");$("div.shade").show();var _body = $("body").eq(0);if ($("#dialog").length == 0){if (!is_mobile()) {_body.append("<div id=\"dialog\" ><iframe class=\"myFrame\" src='" + url + "' style='width:" + w + "px;height:100%' scrolling='auto' ></iframe></div>");$("#dialog").css({"width" : w,"height" : h,				"position" : "fixed","z-index" : "2000","top" : ($(window).height() / 2 - h / 2),"left" : (_body.width() / 2 - w / 2),"background-color" : "#ffffff"});} else {$("div.shade").css("width", _body.width());_body.append("<div id=\"dialog\" ><iframe class=\"myFrame\" src='" + url + "' style='width:100%;height:100%' scrolling='auto' ></iframe></div>");$("#dialog").css({"width" : _body.width(),"height" : h,"position" : "fixed","z-index" : "2000","top":0,"left":0,"background-color" : "#ffffff"});}} else {$("#dialog").show();}}
+function check_form(form_id) {var check_flag = true;$("#" + form_id + " :input").each(function(i) {if ($(this).attr("check")) {if (!validate($(this).val(), $(this).attr("check"))) {ui_error($(this).attr("msg"));$(this).focus();check_flag = false;return check_flag;}}});return check_flag;}
+/* 验证数据类型*/
+function validate(data, datatype) {if (datatype.indexOf("|")) {tmp = datatype.split("|");datatype = tmp[0];data2 = tmp[1];}switch (datatype) {case "require":if (data == "") {return false;} else {return true;}break;case "email":var reg = /^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g;return reg.test(data);break;case "number":var reg = /^[0-9]+\.{0,1}[0-9]{0,3}$/;return reg.test(data);break;case "html":var reg = /<...>/;return reg.test(data);break;case "eqt":data2 = $("#" + data2).val();return data >= data2;break;}}
+
+/*联系人显示格式转换*/
+function fix_url(url) {var ss = url.split('?');url = ss[0] + "?";for (var i = 1; i < ss.length; i++) {url += ss[i] + "&";}if (ss.length > 0) {url = url.substring(0, url.length - 1);}return url;}
+
+/*去掉html*/
+function FilterPasteText(str){str = str.replace(/\r\n|\n|\r/ig, "");/*//remove html body form*/str = str.replace(/<\/?(html|body|form)(?=[\s\/>])[^>]*>/ig, "");/*//remove doctype*/str = str.replace(/<(!DOCTYPE)(\n|.)*?>/ig, "");/*//remove xml tags*/str = str.replace(/<(\/?(\?xml(:\w )?|xml|\w :\w )(?=[\s\/>]))[^>]*>/gi,"");/*//remove head*/str = str.replace(/<head[^>]*>(\n|.)*?<\/head>/ig, "");/*//remove <xxx /> */str = str.replace(/<(script|style|link|title|meta|textarea|option|select|iframe|hr)(\n|.)*?\/>/ig, "");/*//remove empty span*/str = str.replace(/<span[^>]*?><\/span>/ig, "");/*//remove <xxx>...</xxx>*/str = str.replace(/<(head|script|style|textarea|button|select|option|iframe)[^>]*>(\n|.)*?<\/\1>/ig, "");/*//remove table and <a> tag, <img> tag,<input> tag (this can help filter unclosed tag)*/str = str.replace(/<\/?(a|table|tr|td|tbody|thead|th|img|input|iframe|div)[^>]*>/ig, "");/*remove bad attributes*/do {len = str.length;str = str.replace(/(<[a-z][^>]*\s)(?:id|name|language|type|class|on\w |\w :\w )=(?:"[^"]*"|\w )\s?/gi, "$1");} while (len != str.length);return str;}
+
+function get_list_num_(id,group) {var i = group.replace(id+'[','').replace(']','');/*当前行数*/document.write(i);}
+

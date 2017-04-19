@@ -1,0 +1,93 @@
+<div class="bjui-pageContent tableContent">
+    <form action="" class="pageForm" data-toggle="validate" id="form_hrjf_edit" name="form_hrjf_edit">
+    <div class="col-md-12">
+		<input type="hidden" name="id" value="{$id}">
+        <!--2016-06-06 【新增】上传附件参数【开始】-->
+        <input type="hidden" name="attid" value="{$attid}">
+        <input type="hidden" name="hrjf_edit_MaxNum" id="hrjf_edit_MaxNum" value="10" />
+        <input type="hidden" name="hrjf_edit_FileNum" id="hrjf_edit_FileNum" value="0" />
+        <!--2016-06-06 【新增】上传附件参数【结束】-->
+          <table class="table table-condensed table-hover" width="100%">
+           <tbody>
+		   <tr><td><label for='juid_input' class='control-label x85'>员工ID:</label><input type='text' id='juid' name='juid'  size='20' data-toggle='lookup' data-url='__MODULE__/public/hruser/navTabId/{:CONTROLLER_NAME}'  value='{$Rs.juid}'  ></td><td><label for='juname_input' class='control-label x85'>员工姓名:</label><input type='text' id='juname' name='juname'  size='20' data-toggle='lookup' data-url='__MODULE__/public/hruser/navTabId/{:CONTROLLER_NAME}'  value='{$Rs.juname}'  ></td></tr>
+<tr><td><label for='type_input' class='control-label x85'>奖罚属性:</label><select name='type'  data-toggle='selectpicker' ><option value=''>请选择</option><volist name='Think.config.HRJF_TYPE' id='type'><option value='{$type}' <if condition=" $type EQ $Rs['type'] " >selected</if> >{$type}</option></volist></td><td><label for='title_input' class='control-label x85'>奖罚名称:</label><input type='text' id='title' name='title' data-rule='required;' size='20'   value='{$Rs.title}'  ></td></tr>
+<tr><td><label for='sxrq_input' class='control-label x85'>生效日期:</label><input type='text' data-toggle='datepicker' id='sxrq' name='sxrq'  data-rule='required;' size='20'   value='{$Rs.sxrq|substr=###,0,10}'  ></td><td><label for='jine_input' class='control-label x85'>奖罚金额:</label><input type='text' id='jine' name='jine'  size='20'   value='{$Rs.jine}'  ></td></tr>
+<tr><td><label for='gongzi_input' class='control-label x85'>生效工资月份:</label><input type='text' data-toggle='datepicker' id='gongzi' name='gongzi'   size='20'   value='{$Rs.gongzi|substr=###,0,10}'  ></td></tr>
+<tr><td colspan=2><label for='beizhu_input' class='control-label x85'>说明:</label><div style='display: inline-block; vertical-align: middle;'><textarea name='beizhu'   data-toggle='kindeditor' data-minheight='150' data-items='fontname, fontsize, |, forecolor, hilitecolor, bold, italic, underline, removeformat, |, justifyleft, justifycenter, justifyright, insertorderedlist, insertunorderedlist, |, emoticons, image, link'>{$Rs.beizhu}</textarea></div></td></tr>
+           </tbody>
+          </table>
+</div>
+
+          
+<!--附件开始-->
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-paperclip"></i> 附件 <span class="font-normal font12">（允许.jpg.jpeg.png.gif.bmp.mpg.rar.zip.txt.doc.docx.xls.xlsx.pdf.ppt.pptx格式，最大30MB，最多10个）</span> </h3></div>
+                    <div class="panel-body">
+
+    {:W('FileUpload/edit',array('id'=>'hrjf_edit','attid'=>$Rs['attid'],'module'=>'Hrjf'))}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--附件结束-->
+
+
+	<div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading" style="height:45px;">
+<div class="pull-right">
+<button type="button" class="btn-success" data-icon="save" onclick="save_hrjf_edit();">提交</button>
+<button type="button" class="btn-close" data-icon="close">取消</button>
+</div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+</div>
+
+
+<script type="text/javascript">
+
+	function save_hrjf_edit(){
+		window.onbeforeunload=null;
+		var ihrjf_edit_FileNum = parseInt($("#hrjf_edit_FileNum").val(), 10);
+		var ihrjf_edit_MaxNum = parseInt($("#hrjf_edit_MaxNum").val(), 10);
+		if (ihrjf_edit_FileNum > ihrjf_edit_MaxNum) {
+			alert('上传文件数量最多'+ihrjf_edit_MaxNum+'个');
+			return false;
+		}
+		sendForm("form_hrjf_edit", "__URL__/edit/navTabId/{:CONTROLLER_NAME}");
+	}
+	
+	/*上传成功*/
+	function hrjf_edit_upload_success(file, data) {
+		var json = $.parseJSON(data)
+		$(this).bjuiajax('ajaxDone', json)
+		if (json[BJUI.keys.statusCode] == BJUI.statusCode.ok) {
+			$('#j_hrjf_edit_file').val(json.filename).trigger('validate');
+			var sLi = '<li id=\"j_hrjf_edit_file_span-' + json.id.toString() + '\" class="tbody">';
+			sLi += '<div style="width: 100%;" class="loading"></div>';
+			sLi += '<div class="data">';
+			sLi += '<span class="del text-center"><a href="javascript:DeleteFile_id_name_reduce(\'j_hrjf_edit_file_span-' + json.id.toString() + '\',\'' + json.id + '\',\'<?php echo(getuserid()); ?>\',\'hrjf_edit_FileNum\')" style="display: inline;" class="link del"><i class="fa fa-remove"></i></a></span>';
+			sLi += '<span class="size text-right">' + GetFileSize(json.size) + '</span>';
+			sLi += '<span class="auto autocut">' + json.filename + '</span></div></li>';
+			$('#j_hrjf_edit_file_span').html($('#j_hrjf_edit_file_span').html()+sLi);
+			/*上传数量加1*/
+			var ihrjf_edit_FileNum = parseInt($("#hrjf_edit_FileNum").val(), 10);
+			$("#hrjf_edit_FileNum").val(ihrjf_edit_FileNum + 1);
+		}
+	}
+
+</script>

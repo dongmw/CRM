@@ -1,0 +1,51 @@
+<div class="bjui-pageHeader">
+	<div class="bjui-searchBar">
+		<h4 class="panel-title lineh22">发起流程&nbsp;<span class="font-normal font12">（点击流程项目发起流程）</span>
+		<div class="btn-group floatright" role="group">
+			<button type="button" class="btn-green" onclick="$(this).navtab('reloadForm', true);" data-icon="refresh">{:L('_REFRESH_')}</button>
+			<button type="button" class="btn-close" data-icon="close">{:L('_CLOSE_')}</button>
+        </div>
+		</h4>
+	</div>
+</div>
+
+<div class="bjui-pageContent tableContent">
+
+     <table data-toggle="tablefixed" data-width="100%" data-layout-h="0" data-nowrap="false">
+        <thead>
+            <tr class="font14">
+            <th width="10" height="32"></th>
+			<th width="80">流程分组</th>
+			<th>流程项目</th>
+            </tr>
+        </thead>
+        <tbody>
+
+<empty name="tag_list">
+<div class="m5 textcenter"><div class="alert-warning alert form-inline"><i class="fa fa-warning"></i> 没找到数据</div></div>
+<else/>
+<foreach name="tag_list" item="tag">
+<assign name="var" value="$key" />
+	<tr data-id="{$tag}">
+		<td></td>
+        <td class="font14">{$tag}</td>
+		<td>
+
+<empty name="list">
+<else/>
+<foreach name="list" item="vo">
+    <eq name="var" value="$vo.tag">
+	<a class="btn btn-green" href="{:U('add','type='.$vo['id'])}" data-toggle="navtab" data-id="navtab-flow-read">{$vo.name}</a>
+    </eq>
+</foreach>
+</empty>
+
+		</td>
+	</tr>
+</foreach>
+</empty>
+
+        </tbody>
+    </table>
+
+</div>

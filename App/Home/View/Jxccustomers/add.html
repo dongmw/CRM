@@ -1,0 +1,124 @@
+<div class="bjui-pageContent tableContent">
+<form action="" class="pageForm" data-toggle="validate" id="form_jxcsuppliers_add" name="form_jxcsuppliers_add">
+        <!--2016-06-06 【新增】上传附件参数【开始】-->
+        <input type="hidden" name="attid" value="{$attid}">
+        <input type="hidden" name="jxcsuppliers_add_MaxNum" id="jxcsuppliers_add_MaxNum" value="10" />
+        <input type="hidden" name="jxcsuppliers_add_FileNum" id="jxcsuppliers_add_FileNum" value="0" />
+        <!--2016-06-06 【新增】上传附件参数【结束】-->
+    <div class="col-md-12">
+			<table class="table table-bordered table-striped table-hover" width="100%">
+			<tbody>
+<tr><td><label for='j_form_jxcsuppliers_add_ms_type' class='control-label x85'>供应商类别：</label><select id='j_form_jxcsuppliers_add_ms_type' name='ms_type' data-toggle='selectpicker' >
+		{:fill_option($ms_type_list)}
+</select>
+</td></tr>
+<tr><td><label for='j_form_jxcsuppliers_add_ms_mc' class='control-label x85'>名称：</label><input type='text' id='j_form_jxcsuppliers_add_ms_mc' name='ms_mc' data-rule='required;' size='20' value='{$Rs.ms_mc}' maxlenth='50' ></td></tr>
+<tr><td><label for='j_form_jxcsuppliers_add_ms_bh' class='control-label x85'>编号：</label><input type='text' id='j_form_jxcsuppliers_add_ms_bh' name='ms_bh' data-rule='required;' size='20' value='{$Rs.ms_bh}' maxlenth='50' ></td></tr>
+<tr><td><label for="j_form_jxcsuppliers_add_sort" class="control-label x85">排序：</label><input type="text" size="5" data-toggle="spinner" data-min="0" data-max="100" data-step="1" data-rule="integer" name="sort" id="j_form_jxcsuppliers_add_sort" value="{$Rs['sort']}" ></td></tr>
+<tr><td><label for="j_form_jxcsuppliers_add_sort" class="control-label x85">备注：</label><div style='display: inline-block; vertical-align: middle; width:80%;'><textarea style='width:100%;' name='beizhu' rows='3'>{$Rs.beizhu}</textarea></div></td></tr>
+           </tbody>
+          </table>
+    </div>
+    
+          
+<!--联系人开始-->
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-user"></i> 联系人 <span class="font-normal font12"></span> </h3></div>
+                    <div class="panel-body">
+                    
+<div class="col-md-12"><button type="button" class="btn-success" data-toggle="tableditadd" data-target="#table_jxcsuppliers_add" data-num="1" data-icon="plus">添加联系人</button>
+</div>
+        <table id="table_jxcsuppliers_add" class="table table-bordered table-hover table-striped" data-toggle="tabledit" data-initnum="0" data-action="{:U('public/contactselect','id='.$id.'&type=hold')}" data-single-noindex="true">
+            <thead>
+<tr data-idname="jxccontact[#index#].id" id="jxccontact_add_#index#">
+<th title="No." width="38"><input type="text" readonly="readonly" name="jxccontact[#index#]" class="no" data-rule="required" value="1" size="2"></th>
+<th title="联系人"><input type="text" name="xingming[#index#]" data-rule="required;length[~50]" value="" size="37" data-group="jxccontact[#index#]"></th>
+<th title="性别"><select name="sex[#index#]" data-toggle="selectpicker" ><option value="男">男</option><option value="女">女</option></select></th>
+<th title="手机"><input type="text" name="phone[#index#]" data-rule="mobile" value="" size="37" data-group="jxccontact[#index#]"></th>
+<th title="座机"><input type="text" name="dianhua[#index#]" data-rule="length[~20]" value="" size="37" data-group="jxccontact[#index#]"></th>
+<th title="QQ"><input type="text" name="qq[#index#]" data-rule="digits;length[5~12]" value="" size="37" data-group="jxccontact[#index#]"></th>
+<th title="联系地址"><input type="text" name="address[#index#]" data-rule="length[~100]" value="" size="37" data-group="jxccontact[#index#]"></th>
+<th title="首要"><select name="first[#index#]" data-toggle="selectpicker" ><option value="是">是</option><option value="否">否</option></select></th>
+<th title="" data-addtool="true" width="65"><a href="{:U('public/flow','id='.$id.'&type=del')}" onclick="del_html_inc(jxccontact_add_#index#)" class="btn btn-red row-del">删</a></th>
+</tr>
+            </thead>
+            <tbody>{$list}
+            </tbody>
+        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--联系人结束-->
+       
+<!--附件开始-->
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-paperclip"></i> 附件 <span class="font-normal font12">（允许.jpg.jpeg.png.gif.bmp.mpg.rar.zip.txt.doc.docx.xls.xlsx.pdf.ppt.pptx格式，最大30MB，最多10个）</span> </h3></div>
+                    <div class="panel-body">
+
+	{:W('FileUpload/add',array('id'=>'jxcsuppliers_add','attid'=>$attid,'module'=>'Jxcsuppliers'))}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--附件结束-->
+
+          
+</div>
+<div class="bjui-pageFooter">
+<ul>
+<li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+<li><button type="button" class="btn-success" data-icon="save" onclick="save_jxcsuppliers_add();">提交</button></li>
+</ul>
+</form>
+</div>
+
+
+
+<script type="text/javascript">
+
+	function save_jxcsuppliers_add(){
+		window.onbeforeunload=null;
+		var ijxcsuppliers_add_FileNum = parseInt($("#jxcsuppliers_add_FileNum").val(), 10);
+		var ijxcsuppliers_add_MaxNum = parseInt($("#jxcsuppliers_add_MaxNum").val(), 10);
+		if (ijxcsuppliers_add_FileNum > ijxcsuppliers_add_MaxNum) {
+			alert('上传文件数量最多'+ijxcsuppliers_add_MaxNum+'个');
+			return false;
+		}
+		sendForm("form_jxcsuppliers_add", "__URL__/add/navTabId/{:CONTROLLER_NAME}");
+	}
+	
+	/*上传成功*/
+	function jxcsuppliers_add_upload_success(file, data) {
+		var json = $.parseJSON(data)
+		$(this).bjuiajax('ajaxDone', json)
+		if (json[BJUI.keys.statusCode] == BJUI.statusCode.ok) {
+			$('#j_jxcsuppliers_add_file').val(json.filename).trigger('validate');
+			var sLi = '<li id=\"j_jxcsuppliers_add_file_span-' + json.id.toString() + '\" class="tbody">';
+			sLi += '<div style="width: 100%;" class="loading"></div>';
+			sLi += '<div class="data">';
+			sLi += '<span class="del text-center"><a href="javascript:DeleteFile_id_name_reduce(\'j_jxcsuppliers_add_file_span-' + json.id.toString() + '\',\'' + json.id + '\',\'<?php echo(getuserid()); ?>\',\'jxcsuppliers_add_FileNum\')" style="display: inline;" class="link del"><i class="fa fa-remove"></i></a></span>';
+			sLi += '<span class="size text-right">' + GetFileSize(json.size) + '</span>';
+			sLi += '<span class="auto autocut">' + json.filename + '</span></div></li>';
+			$('#j_jxcsuppliers_add_file_span').html($('#j_jxcsuppliers_add_file_span').html()+sLi);
+			/*上传数量加1*/
+			var ijxcsuppliers_add_FileNum = parseInt($("#jxcsuppliers_add_FileNum").val(), 10);
+			$("#jxcsuppliers_add_FileNum").val(ijxcsuppliers_add_FileNum + 1);
+		}
+	}
+
+</script>

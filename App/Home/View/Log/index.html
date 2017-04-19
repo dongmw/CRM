@@ -1,0 +1,54 @@
+<div class="bjui-pageHeader">
+<form id="pagerForm" data-toggle="ajaxsearch" action="__URL__" method="post">
+	<input type="hidden" name="pageSize" value="{$numPerPage}">
+	<input type="hidden" name="pageCurrent" value="{$_REQUEST['pageNum']|default=1}">
+	<div class="bjui-searchBar">
+		<label>关键词：</label><input type="text" value="{$_REQUEST['keys']}" name="keys" class="form-control" size="15" />
+		<div class="btn-group " role="group">
+			<button type="submit" class="btn-success" data-icon="search">查询</button>
+			<button type="button" class="btn-orange" data-icon="undo" onclick="$(this).navtab('reloadForm', true);">清空查询</button>
+		</div>
+		<!--<div class="btn-group " role="group">
+			<button type="button" class="btn btn-red" data-url="__URL__/del/navTabId/{:CONTROLLER_NAME}" data-toggle="doajax" data-confirm-msg="确定要清理吗？" data-icon="remove"> 清理</button>
+		</div>-->
+		<div class="btn-group floatright" role="group">
+			<button type="button" class="btn-green" onclick="$(this).navtab('reloadForm', true);" data-icon="refresh">刷新</button>
+			<button type="button" class="btn-close" data-icon="close">关闭</button>
+		</div>
+	</div> 
+</form>
+</div>
+<div class="bjui-pageContent tableContent">
+     <table data-toggle="tablefixed" data-width="100%" data-layout-h="0" data-nowrap="false">
+        <thead>
+            <tr>
+            <th width="10" height="27"></th>
+            <th width="50" data-order-direction="desc" data-order-field="id">编号</th>
+			<th>操作人</th>
+			<th>系统环境</th>
+			<th>操作内容</th>
+			<th>相关网址</th>
+			<th data-order-direction="desc" data-order-field="addtime">操作时间</th>
+			<th>操作IP</th> 
+            </tr>
+        </thead>
+        <tbody>
+
+           <volist name="list" id="vo">
+            <tr data-id="{$vo['id']}"> <td height="30"></td><td>{$vo['id']}</td>
+			       <td>{$vo['username']}</td>
+				    <td>{$vo['os']}</td>
+					<td>{$vo['content']}</td>
+					<td>{$vo['url']}</td>
+					<td>{$vo['addtime']}</td>
+					<td><A href="http://www.ip138.com/ips138.asp?ip={$vo['ip']}&action=2" target=_blank>{$vo['ip']}</a></td>
+            </tr>
+            
+          </volist>
+        </tbody>
+    </table>
+</div>
+<div class="bjui-pageFooter">
+<div class="pages"><span>共 {$totalCount} 条  每页 {$numPerPage} 条</span></div>
+<div class="pagination-box" data-toggle="pagination" data-total="{$totalCount}" data-page-size="{$numPerPage}" data-page-current="{$currentPage}"></div>
+</div>

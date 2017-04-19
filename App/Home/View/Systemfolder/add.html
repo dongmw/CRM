@@ -1,0 +1,54 @@
+<div class="bjui-pageContent">
+<form action="__URL__/add/navTabId/{$navTabId}" class="pageForm" data-toggle="validate" id="form_system_folder_add" name="form_system_folder_add">
+	<input type="hidden" name="pid" value="{$vo.pid}">
+	<input type="hidden" name="folder" value="{$folder}">
+	<input type="hidden" name="opmode" value="add">
+
+    <table class="table table-condensed table-hover" width="100%">
+	<tbody>
+		<tr><td>
+		<label for="j_form_system_folder_add_folder" class='control-label x85'><span class="label label-default">父级目录</span></label>
+		<select id="j_form_system_folder_add_folder" name="pid" data-toggle="selectpicker" data-rule="required">
+			<option  value="0">根目录</option>
+			<foreach name="list" item="v">
+			<option value="{$v.id}">
+            <switch name="v.level"><case value="0"></case><case value="1">—</case><case value="2">——</case><case value="3">———</case><case value="4">————</case><case value="5">—————</case><case value="6">——————</case><case value="7">———————</case><default /></switch>{$v.name}
+            </option>
+			</foreach>
+		</select>
+		</td></tr>
+
+		<tr><td>
+		<label class='control-label x85' for="j_form_system_folder_add_name"><span class="label label-default">文件夹名称</span></label>
+		<input  value="{$vo.name}" class="form-control" type="text" id="j_form_system_folder_add_name" name="name" data-rule="required" msg="请输入名称">
+		</td></tr>
+
+		<tr><td>
+		<label class='control-label x85' for="j_form_system_folder_add_sort"><span class="label label-default">排序</span></label>
+		<input class="form-control" type="number" min="1" max="10000" id="j_form_system_folder_add_sort" name="sort" value="0" size="5" data-rule="required;digits" />
+		</td></tr>
+
+		<tr><td>
+		<label class='control-label x85' for="j_form_system_folder_add_is_del"><span class="label label-default">状态</span></label>
+		<select name="is_del" id="j_form_system_folder_add_is_del" data-toggle="selectpicker" data-rule="required">
+			<option value="0">启用</option>
+			<option value="1">禁用</option>
+		</select>
+		</td></tr>
+
+		<tr><td>
+		<label class='control-label x85' for="j_form_system_folder_add_remark"><span class="label label-default">备注</span></label>
+		<input class="form-control" type="text" id="j_form_system_folder_add_remark" name="remark" value="{$vo.remark}">
+		</td></tr>
+
+	</tbody>
+	</table>
+
+</form>
+</div>
+<div class="bjui-pageFooter">
+<ul>
+<li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+<li><button type="submit" class="btn-success" data-icon="save">提交</button></li>
+</ul>
+</div>

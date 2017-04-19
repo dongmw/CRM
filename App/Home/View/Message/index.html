@@ -1,0 +1,58 @@
+<div class="bjui-pageHeader">
+	<div class="bjui-searchBar">
+		<h4 class="panel-title lineh22">{:L('_MESSAGEINDEX_SendMessage_')}&nbsp;<span class="font-normal font12">（{:L('_MESSAGEINDEX_Description1_')}<span class="red">{:L('_MESSAGEINDEX_Description2_')}</span>{:L('_MESSAGEINDEX_Description3_')}）</span>
+		<div class="btn-group floatright" role="group">
+			<button type="button" class="btn-green" onclick="$(this).navtab('reloadForm', true);" data-icon="refresh">{:L('_REFRESH_')}</button>
+			<button type="button" class="btn-close" data-icon="close">{:L('_CLOSE_')}</button>
+        </div>
+        </h4>
+	</div>
+</div>
+
+<div class="bjui-pageContent tableContent">
+     <table data-toggle="tablefixed" data-width="100%" data-layout-h="0" data-nowrap="false">
+        <thead>
+            <tr>
+            <th width="10" height="27"></th>
+			<th width="120">{:L('_MESSAGEINDEX_Description4_')}</th>
+			<th>{:L('_MESSAGEINDEX_Description5_')}</th>
+            </tr>
+        </thead>
+        <tbody>
+
+<foreach name="list" item="v">
+	<tr data-id="{$v.id}">
+		<td></td>
+        <td>
+		<switch name="v.level"><case value="0"><B>{$v.title}</b></case><case value="1">—{$v.title}</case><case value="2">——{$v.title}</case><case value="3">———{$v.title}</case><case value="4">————{$v.title}</case><case value="5">—————{$v.title}</case><case value="6">——————{$v.title}</case><case value="7">———————{$v.title}</case><default /></switch>
+	    </td>
+		<td>
+
+<php>$cate=M('user')->where('depname="'.$v['title'].'" and status=1')->order("id")->select();</php>
+<foreach name="cate" item="c">
+<a href="javascript:;" data-url="__URL__/add/id/{$c.id}/name/{$c.truename}/navTabId/{:CONTROLLER_NAME}" class="btn btn-default btn-sm" data-title="{$c.truename}" data-toggle="dialog" data-id="dialog-user-{$c.id}" data-width="580" data-height="510" onclick="up_classNameTo('idmessageindexindex{$c.id}','red','c6')">{$c.truename}
+<php>
+$str = "";
+$MessageCountAll = get_MessageCountAll($c['id']);
+if ($MessageCountAll != 0){
+    	echo ' ';
+    $MessageCountNew = get_MessageCountNew($c['id']);
+    if ($MessageCountNew != 0){
+    	$str.='<span id="idmessageindexindex'.$c['id'].'" class="red font-bold">'.$MessageCountNew.'</span>/';
+    }
+    $str.='<span class="c6 font-bold">'.$MessageCountAll.'</span>';
+    echo $str;
+}
+</php>
+</a>&nbsp;
+</foreach>
+
+		</td>
+	</tr>
+</foreach>
+
+        </tbody>
+    </table>
+    
+
+</div>

@@ -1,0 +1,91 @@
+<div class="bjui-pageContent tableContent">
+<form action="" class="pageForm" data-toggle="validate" id="form_info_add" name="form_info_add">
+    <div class="col-md-12">
+		<input type="hidden" name="id" value="{$id}">
+        <!--2016-06-06 【新增】上传附件参数【开始】-->
+        <input type="hidden" name="attid" value="{$attid}">
+        <input type="hidden" name="info_add_MaxNum" id="info_add_MaxNum" value="10" />
+        <input type="hidden" name="info_add_FileNum" id="info_add_FileNum" value="0" />
+        <!--2016-06-06 【新增】上传附件参数【结束】-->
+          <table class="table table-bordered table-striped table-hover" width="100%">
+           <tbody>
+			<tr><td><label for='juid_input' class='control-label x85'>接收人ID:</label><input type='text' readonly="readonly" id='juid' name='juid' size='20' data-toggle='lookup' data-url='__MODULE__/public/user/navTabId/{:CONTROLLER_NAME}' value='{$Rs.juid}' data-rule='required;' ></td><td><label for='juname_input' class='control-label x85'>接收人:</label><input type='text' readonly="readonly" id='juname' name='juname' size='20' data-toggle='lookup' data-url='__MODULE__/public/user/navTabId/{:CONTROLLER_NAME}' value='{$Rs.juname}' data-rule='required;' ></td></tr>
+<tr><td><label for='title_input' class='control-label x85'>通知标题:</label><input type='text' id='title' name='title' data-rule='required;length[~50]' size='20' value='{$Rs.title}' ></td><td><label for='jzrq_input' class='control-label x85'>截止日期:</label><input type='text' data-rule='required;date' data-toggle='datepicker' id='jzrq' name='jzrq' size='20' value='{$Rs.jzrq|substr=###,0,10}' data-min-date="%y-%M-%d" ></td></tr>
+<tr><td colspan=2><div style='display: inline-block; vertical-align: middle;width:100%; padding:5px 0px 5px 0px; overflow:hidden;'><textarea name='value' style="width:100%;visibility:hidden;" data-toggle='kindeditor' data-minheight='150' data-items='source,|,undo,redo,|,preview,print,template,code,cut,copy,paste,|,justifyleft,justifycenter,justifyright,justifyfull,insertorderedlist,insertunorderedlist,indent,outdent,subscript,superscript,clearhtml,quickformat,selectall,|,fullscreen,/,formatblock,fontname,fontsize,|,forecolor,hilitecolor,bold,italic,underline,strikethrough,lineheight,removeformat,|,image,multiimage,flash,media,insertfile,hr,emoticons,baidumap,pagebreak,anchor,link,unlink'>{$Rs.value}</textarea></div></td></tr>
+           </tbody>
+          </table>
+    </div>
+
+
+
+<!--附件开始-->
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-paperclip"></i> 附件 <span class="font-normal font12">（允许.jpg.jpeg.png.gif.bmp.mpg.rar.zip.txt.doc.docx.xls.xlsx.pdf.ppt.pptx格式，最大30MB，最多10个）</span> </h3></div>
+                    <div class="panel-body">
+
+	{:W('FileUpload/add',array('id'=>'info_add','attid'=>$attid,'module'=>'Info'))}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--附件结束-->
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading" style="height:45px;">
+<div class="pull-right">
+<button type="button" class="btn-success" data-icon="save" onclick="save_info_add();">提交</button>
+<button type="button" class="btn-close" data-icon="close">取消</button>
+</div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</form>
+</div>
+
+<script type="text/javascript">
+
+	function save_info_add(){
+		window.onbeforeunload=null;
+		var iinfo_add_FileNum = parseInt($("#info_add_FileNum").val(), 10);
+		var iinfo_add_MaxNum = parseInt($("#info_add_MaxNum").val(), 10);
+		if (iinfo_add_FileNum > iinfo_add_MaxNum) {
+			alert('上传文件数量最多'+iinfo_add_MaxNum+'个');
+			return false;
+		}
+		sendForm("form_info_add", "__URL__/add/navTabId/{:CONTROLLER_NAME}");
+	}
+	
+	/*上传成功*/
+	function info_add_upload_success(file, data) {
+		var json = $.parseJSON(data)
+		$(this).bjuiajax('ajaxDone', json)
+		if (json[BJUI.keys.statusCode] == BJUI.statusCode.ok) {
+			$('#j_info_add_file').val(json.filename).trigger('validate');
+			var sLi = '<li id=\"j_info_add_file_span-' + json.id.toString() + '\" class="tbody">';
+			sLi += '<div style="width: 100%;" class="loading"></div>';
+			sLi += '<div class="data">';
+			sLi += '<span class="del text-center"><a href="javascript:DeleteFile_id_name_reduce(\'j_info_add_file_span-' + json.id.toString() + '\',\'' + json.id + '\',\'<?php echo(getuserid()); ?>\',\'info_add_FileNum\')" style="display: inline;" class="link del"><i class="fa fa-remove"></i></a></span>';
+			sLi += '<span class="size text-right">' + GetFileSize(json.size) + '</span>';
+			sLi += '<span class="auto autocut">' + json.filename + '</span></div></li>';
+			$('#j_info_add_file_span').html($('#j_info_add_file_span').html()+sLi);
+			/*上传数量加1*/
+			var iinfo_add_FileNum = parseInt($("#info_add_FileNum").val(), 10);
+			$("#info_add_FileNum").val(iinfo_add_FileNum + 1);
+		}
+	}
+
+</script>

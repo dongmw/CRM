@@ -1,0 +1,95 @@
+<div class="bjui-pageContent tableContent">
+<form action="" class="pageForm" data-toggle="validate" id="form_hetong_add" name="form_hetong_add">
+    <div class="col-md-12">
+		<input type="hidden" name="id" value="{$id}">
+        <!--2016-06-06 【新增】上传附件参数【开始】-->
+        <input type="hidden" name="attid" value="{$attid}">
+        <input type="hidden" name="hetong_add_MaxNum" id="hetong_add_MaxNum" value="10" />
+        <input type="hidden" name="hetong_add_FileNum" id="hetong_add_FileNum" value="0" />
+        <!--2016-06-06 【新增】上传附件参数【结束】-->
+          <table class="table table-condensed table-hover" width="100%">
+           <tbody>
+			<tr><td><label for='bianhao_input' class='control-label x85'>合同编号:</label><input type='text' id='bianhao' name='bianhao'  size='20'   value='{$Rs.bianhao}'  ></td></tr>
+<tr><td><label for='title_input' class='control-label x85'>合同名称:</label><input type='text' id='title' name='title' data-rule='required;' size='20'   value='{$Rs.title}'  ></td><td><label for='jcid_input' class='control-label x85'>客户ID:</label><input type='text' id='jcid' name='jcid'  size='20' data-toggle='lookup' data-url='__MODULE__/public/cname/navTabId/{:CONTROLLER_NAME}'  value='{$Rs.jcid}'  ></td></tr>
+<tr><td><label for='jcname_input' class='control-label x85'>客户名称:</label><input type='text' id='jcname' name='jcname'  size='20' data-toggle='lookup' data-url='__MODULE__/public/cname/navTabId/{:CONTROLLER_NAME}'  value='{$Rs.jcname}'  ></td><td><label for='xingming_input' class='control-label x85'>联系人:</label><input type='text' id='xingming' name='xingming'  size='20'   value='{$Rs.xingming}'  ></td></tr>
+<tr><td><label for='dianhua_input' class='control-label x85'>联系电话:</label><input type='text' id='dianhua' name='dianhua'  size='20'   value='{$Rs.dianhua}'  ></td><td><label for='jine_input' class='control-label x85'>合同金额:</label><input type='text' id='jine' name='jine' data-rule='required;doubles' size='20'   value='{$Rs.jine}'  ></td></tr>
+<tr><td><label for='name_input' class='control-label x85'>业务员:</label><input type='text' id='name' name='name'  size='20' data-toggle='lookup' data-url='__MODULE__/public/htuser/navTabId/{:CONTROLLER_NAME}'  value='{$Rs.name}'  ></td><td><label for='juid_input' class='control-label x85'>分享给:</label><input type='text' id='juid' name='juid'  size='20' data-toggle='lookup' data-url='__MODULE__/public/user/navTabId/{:CONTROLLER_NAME}'  value='{$Rs.juid}'  ></td></tr>
+<tr><td><label for='juname_input' class='control-label x85'>分享给:</label><input type='text' id='juname' name='juname'  size='20' data-toggle='lookup' data-url='__MODULE__/public/user/navTabId/{:CONTROLLER_NAME}'  value='{$Rs.juname}'  ></td><td><label for='dqrq_input' class='control-label x85'>到期日期:</label><input type='text' data-toggle='datepicker' id='dqrq' name='dqrq'   size='20'   value='{$Rs.dqrq|substr=###,0,10}'  ></td></tr>
+<tr><td colspan=2><label for='beizhu_input' class='control-label x85'>合同详情:</label><div style='display: inline-block; vertical-align: middle;'><textarea name='beizhu'   data-toggle='kindeditor' data-minheight='150' data-items='fontname, fontsize, |, forecolor, hilitecolor, bold, italic, underline, removeformat, |, justifyleft, justifycenter, justifyright, insertorderedlist, insertunorderedlist, |, emoticons, image, link'>{$Rs.beizhu}</textarea></div></td></tr>
+           </tbody>
+          </table>
+    </div>
+
+
+
+<!--附件开始-->
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-paperclip"></i> 附件 <span class="font-normal font12">（允许.jpg.jpeg.png.gif.bmp.mpg.rar.zip.txt.doc.docx.xls.xlsx.pdf.ppt.pptx格式，最大30MB，最多10个）</span> </h3></div>
+                    <div class="panel-body">
+
+	{:W('FileUpload/add',array('id'=>'hetong_add','attid'=>$attid,'module'=>'Hetong'))}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--附件结束-->
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading" style="height:45px;">
+<div class="pull-right">
+<button type="button" class="btn-success" data-icon="save" onclick="save_hetong_add();">提交</button>
+<button type="button" class="btn-close" data-icon="close">取消</button>
+</div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</form>
+</div>
+
+<script type="text/javascript">
+
+	function save_hetong_add(){
+		window.onbeforeunload=null;
+		var ihetong_add_FileNum = parseInt($("#hetong_add_FileNum").val(), 10);
+		var ihetong_add_MaxNum = parseInt($("#hetong_add_MaxNum").val(), 10);
+		if (ihetong_add_FileNum > ihetong_add_MaxNum) {
+			alert('上传文件数量最多'+ihetong_add_MaxNum+'个');
+			return false;
+		}
+		sendForm("form_hetong_add", "__URL__/add/navTabId/{:CONTROLLER_NAME}");
+	}
+	
+	/*上传成功*/
+	function hetong_add_upload_success(file, data) {
+		var json = $.parseJSON(data)
+		$(this).bjuiajax('ajaxDone', json)
+		if (json[BJUI.keys.statusCode] == BJUI.statusCode.ok) {
+			$('#j_hetong_add_file').val(json.filename).trigger('validate');
+			var sLi = '<li id=\"j_hetong_add_file_span-' + json.id.toString() + '\" class="tbody">';
+			sLi += '<div style="width: 100%;" class="loading"></div>';
+			sLi += '<div class="data">';
+			sLi += '<span class="del text-center"><a href="javascript:DeleteFile_id_name_reduce(\'j_hetong_add_file_span-' + json.id.toString() + '\',\'' + json.id + '\',\'<?php echo(getuserid()); ?>\',\'hetong_add_FileNum\')" style="display: inline;" class="link del"><i class="fa fa-remove"></i></a></span>';
+			sLi += '<span class="size text-right">' + GetFileSize(json.size) + '</span>';
+			sLi += '<span class="auto autocut">' + json.filename + '</span></div></li>';
+			$('#j_hetong_add_file_span').html($('#j_hetong_add_file_span').html()+sLi);
+			/*上传数量加1*/
+			var ihetong_add_FileNum = parseInt($("#hetong_add_FileNum").val(), 10);
+			$("#hetong_add_FileNum").val(ihetong_add_FileNum + 1);
+		}
+	}
+
+</script>

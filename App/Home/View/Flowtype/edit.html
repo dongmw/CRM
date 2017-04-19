@@ -1,0 +1,120 @@
+<div class="bjui-pageContent">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-tasks"></i> 添加</h3></div>
+                    <div class="panel-body">
+
+<form action="__URL__/edit/navTabId/{:CONTROLLER_NAME}" class="" data-toggle="validate" id="form_flow_type_edit" name="form_flow_type_edit">
+	<input type="hidden" name="id" value="{$vo.id}">
+	<input type="hidden" name="opmode" value="edit">
+	<div class="form-group col-sm-12">
+		<label class="col-sm-4 control-label" for="j_form_flow_type_edit_name">名称*：</label>
+		<div class="col-sm-8">
+			<input  value="{$vo.name}" class="form-control" type="text" id="j_form_flow_type_edit_name" name="name" data-rule="required" msg="请输入名称">
+		</div>
+	</div>
+	<div class="form-group col-sm-12">
+		<label class="col-sm-4 control-label" for="j_form_flow_type_edit_short">简称*：</label>
+		<div class="col-sm-8">
+			<input   value="{$vo.short}" class="form-control" type="text" id="j_form_flow_type_edit_short" name="short" data-rule="required" msg="请输入简称">
+		</div>
+	</div>
+
+	<div class="form-group col-sm-12">
+		<label class="col-sm-4 control-label" for="j_form_flow_type_edit_doc_no_format">编号*：</label>
+		<div class="col-sm-8">
+			<input value="{$vo.doc_no_format}" class="form-control" type="text" id="j_form_flow_type_edit_doc_no_format" name="doc_no_format" data-rule="required" msg="请输入编号规则">
+		</div>
+	</div>
+
+	<div class="form-group col-sm-12">
+		<label class="col-sm-4 control-label" for="j_form_flow_type_edit_tag">分组*：</label>
+		<div class="col-sm-8">
+			<select class="form-control" name="tag" id="j_form_flow_type_edit_tag">
+				{:fill_option($tag_list)}
+			</select>
+		</div>
+	</div>
+	<div class="form-group col-sm-12">
+		<label class="col-sm-4 control-label" for="j_form_flow_type_edit_request_duty">流程申请权限：</label>
+		<div class="col-sm-8">
+			<select class="form-control" name="request_duty" id="j_form_flow_type_edit_request_duty">
+				{:fill_option($duty_list)}
+			</select>
+		</div>
+	</div>
+	<div class="form-group col-sm-12">
+		<label class="col-sm-4 control-label" for="j_form_flow_type_edit_report_duty">流程报告权限：</label>
+		<div class="col-sm-8">
+			<select class="form-control" name="report_duty" id="j_form_flow_type_edit_report_duty">
+				{:fill_option($duty_list)}
+			</select>
+		</div>
+	</div>
+	<div class="form-group col-sm-12">
+		<label class="col-sm-4 control-label" for="j_form_flow_type_edit_is_sort">排序：</label>
+		<div class="col-sm-8">
+			<input class="form-control" type="text" id="j_form_flow_type_edit_is_sort" name="sort" value="{$vo.sort}">
+		</div>
+	</div>
+
+	<div class="form-group col-sm-12">
+		<label class="col-sm-4 control-label" for="j_form_flow_type_edit_is_del">状态：</label>
+		<div class="col-sm-8">
+			<select class="form-control" name="is_del" id="j_form_flow_type_edit_is_del">
+				<option value="0">启用</option>
+				<option value="1">禁用</option>
+			</select>
+		</div>
+	</div>
+	<div class="form-group col-sm-12">
+		<label class="col-sm-4 control-label" for="j_form_flow_type_edit_is_lock">流程类型：</label>
+		<div class="col-sm-8">
+			<select class="form-control" name="is_lock" id="j_form_flow_type_edit_is_lock" type="select-one">
+				<option value="0">自由</option>
+				<option value="1">固定</option>
+			</select>
+		</div>
+	</div>
+	<div class="form-group col-sm-12">
+		<label class="col-sm-4 control-label" for="j_form_flow_type_edit_is_edit">编辑器：</label>
+		<div class="col-sm-8">
+			<select class="form-control" name="is_edit" id="j_form_flow_type_edit_is_edit">
+				<option value="0">显示编辑器</option><!--审批人不能编辑-->
+				<!--<option value="1">审批人可以编辑</option>-->
+                <option value="2">不显示编辑器</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+	<div class="m5050">
+		<div style="width:100%;">
+<textarea id="flowtype_content" name="content" style="width:100%;visibility:hidden;" data-toggle="kindeditor">{$vo.content}</textarea>
+		</div>
+	</div>
+	<div class="action textright">
+		<button type="submit" class="btn btn-success" data-icon="save">保存</button>
+        <button type="button" class="btn-close" data-icon="close">取消</button>
+	</div>
+</form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		set_val("j_form_flow_type_edit_is_del", "{$vo.is_del}");
+		set_val("j_form_flow_type_edit_is_edit", "{$vo.is_edit}");
+		set_val("j_form_flow_type_edit_tag", "{$vo.tag}");
+		set_val("j_form_flow_type_edit_request_duty", "{$vo.request_duty}");
+		set_val("j_form_flow_type_edit_report_duty", "{$vo.report_duty}");
+		set_val("j_form_flow_type_edit_is_lock", "{$vo.is_lock}");
+	});
+</script>

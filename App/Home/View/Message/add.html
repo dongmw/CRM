@@ -1,0 +1,63 @@
+<form method="post" action="__URL__/add/id/{$receiver_id}/name/{$receiver_name}/navTabId/{:CONTROLLER_NAME}" class="pageForm" data-toggle="validate"  id="form_message_add_{$receiver_id}">
+<div class="">
+<input type="hidden" name="sender_id" value="{$sender_id}">
+<input type="hidden" name="sender_name" value="{$sender_name}">
+<input type="hidden" name="receiver_id" value="{$receiver_id}">
+<input type="hidden" name="receiver_name" value="{$receiver_name}">
+
+	<div class="bjui-pageContent tableContent" id="messageid_{$receiver_id}" style="bottom:203px; padding:0 0 0 5px;">
+
+<foreach name="list" item="v">
+<div class="lineh20"><span class="<if condition="$v.sender_name EQ $sender_name ">cg<else/>cb</if>">{$v.sender_name}</span>　<span class="c9">(<php>echo date("Y-m-d H:i:s",$v['create_time']);</php>)</span></div>
+<div class="m0080 lineh20"><div class="content_wrap" >{$v.content|html_out}</div></div>
+</foreach>
+
+	</div>
+</div>
+<div class="bjui-pageFooter">
+<ul><li style="width:100%; padding:5px 0px 5px 0px;height:170px; overflow:hidden;">
+<textarea id="MsgContent_{$receiver_id}" name="content" style="width:100%;visibility:hidden;" data-toggle="kindeditor" data-items="fontname, fontsize, forecolor, hilitecolor, |, bold, italic, underline, strikethrough, |, emoticons, image, insertfile, link, |, fullscreen" onBlur="javascript:FilterPasteText($('#MsgContent_{$receiver_id}').html());"></textarea>
+<!--<textarea id="MsgContent_{$receiver_id}" name="content" style="width:100%;" rows='5' ></textarea>-->
+</li></ul>
+<ul>
+<li><button type="button" class="btn-close">{:L('_CLOSE_')}</button></li>
+<!--<li><button type="button" class="btn-success" data-icon="send" id="button_message_{$receiver_id}" onclick="submitCleanUpMsgContent('{$receiver_id}','messageid_{$receiver_id}','MsgContent_{$receiver_id}','form_message_add_{$receiver_id}','{$sender_name}');"> {:L('_SEND_')}</button></li>-->
+<li><button type="submit" class="btn-success" data-icon="send"> {:L('_SEND_')}</button></li>
+<!--<li><button type="button" class="btn-green" data-icon="refresh" onclick="submitGetMsgContent('{$receiver_id}','messageid_{$receiver_id}');"> {:L('_REFRESHMESSAGE_')}</button></li>-->
+<li><button type="button" class="btn-green" data-icon="refresh" onclick="$(this).dialog('refresh', 'dialog-user-{$receiver_id}');" > {:L('_REFRESHMESSAGE_')}</button></li>
+<li><button type="button" class="btn-close" data-toggle="doajax" data-url="__URL__/del/id/{$receiver_id}/name/{$receiver_name}/navTabId/{:CONTROLLER_NAME}">{:L('_MESSAGEINDEX_DeleteAllMessages_')}</button></li>
+</ul>
+</div>
+</form>
+
+<script type="text/javascript">
+/*var editor;
+	editor = KindEditor.create('textarea[name="content"]', {
+		pasteType : 1,
+		resizeType : 1,
+		allowPreviewEmoticons : false,
+		allowImageUpload : false,
+		items : [
+			'source', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+			'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+			'insertunorderedlist', '|', 'emoticons', 'image', 'link']
+	});*/
+
+$(document).ready(function(){
+	document.getElementById('messageid_{$receiver_id}').scrollTop = document.getElementById('messageid_{$receiver_id}').scrollHeight;
+	$("#button_message_{$receiver_id}").click(function(){
+		postdata_message_add();
+	});
+});
+
+function postdata_message_add(){
+	$.ajax({
+		type: "POST",
+		url: "__URL__/add/id/{$receiver_id}/name/{$receiver_name}/navTabId/{:CONTROLLER_NAME}",
+		data: "receiver_id={$receiver_id}&receiver_name={$receiver_name}&owner_id={$sender_id}&content="+$("#MsgContent_{$receiver_id}").val(),
+		success: function(data){
+			//alert(data.message);
+		}
+	});
+}
+</script>

@@ -1,0 +1,40 @@
+<div class="bjui-pageContent tableContent">
+<form action="" class="" data-toggle="validate" id="form_jxcwarehouselist_add" name="form_jxcwarehouselist_add">
+        <input type="hidden" name="mi_id" value="{$id}">
+
+    <div class="col-md-12">
+			<table class="table table-bordered table-striped table-hover" width="100%">
+			<tbody>
+<tr><td><label for='j_form_jxcsuppliers_add_mw_id' class='control-label x85'>仓库：</label><select id='j_form_jxcsuppliers_add_mw_id' name='mw_id' data-toggle='selectpicker' data-rule="required">
+		<option value="">请选择</option>
+		<foreach name="mw_id_list" item="v">
+		<option value="{$v.id}" <if condition="$v.id EQ $Rs['mw_id'] ">selected<else/></if> >
+		<switch name="v.level"><case value="0"></case><case value="1">—</case><case value="2">——</case><case value="3">———</case><case value="4">————</case><case value="5">—————</case><case value="6">——————</case><case value="7">———————</case><default /></switch>{$v.name} <if condition="$v.status EQ 1 "><else/><font color=red>[未启用]</font></if>
+		</option>
+		</foreach>
+</select>
+</td></tr>
+<tr><td><label for="j_form_jxcwarehouselist_add_mwl_initnum" class="control-label x85">期初数量：</label><input type="text" size="20" data-rule="期初余额:required;number" id="j_form_jxcwarehouselist_add_mwl_initnum" name="mwl_initnum" value="{$Rs['mwl_initnum']|doubleval=###}" class='textright' onfocus="select()" ></td></tr>
+<tr><td><label for="j_form_jxcwarehouselist_add_mwl_price" class="control-label x85">单位成本：</label><input type="text" size="20" data-rule="期初余额:required;number" id="j_form_jxcwarehouselist_add_mwl_price" name="mwl_price" value="{$Rs['mwl_price']|doubleval=###}" class='textright' onfocus="select()" ></td></tr>
+<tr><td><label for="j_form_jxcwarehouselist_add_sort" class="control-label x85">排序：</label><input type="text" size="5" data-toggle="spinner" data-min="0" data-max="1000" data-step="1" data-rule="integer" name="sort" id="j_form_jxcwarehouselist_add_sort" value="{$Rs['sort']}" ></td></tr>
+           </tbody>
+          </table>
+    </div>
+    
+       
+</form>
+</div>
+
+<div class="bjui-pageFooter">
+<ul>
+<li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+<li><button type="button" class="btn-success" data-icon="save" onclick="save_jxcwarehouselist_add();">提交</button></li>
+</ul>
+</div>
+
+<script type="text/javascript">
+	function save_jxcwarehouselist_add(){
+		window.onbeforeunload=null;
+		sendForm("form_jxcwarehouselist_add", "__URL__/add/navTabId/navtab-jxcwarehouselist");
+	}
+</script>

@@ -1,0 +1,95 @@
+<div class="bjui-pageContent tableContent">
+    <form action="" class="pageForm" data-toggle="validate" id="form_mytask_edit" name="form_mytask_edit">
+    <div class="col-md-12">
+		<input type="hidden" name="id" value="{$id}">
+        <!--2016-06-06 【新增】上传附件参数【开始】-->
+        <input type="hidden" name="attid" value="{$attid}">
+        <input type="hidden" name="mytask_edit_MaxNum" id="mytask_edit_MaxNum" value="10" />
+        <input type="hidden" name="mytask_edit_FileNum" id="mytask_edit_FileNum" value="0" />
+        <!--2016-06-06 【新增】上传附件参数【结束】-->
+          <table class="table table-condensed table-hover" width="100%">
+           <tbody>
+		   <tr><td><label for='juid_input' class='control-label x85'>接收人ID:</label><input type='text' id='juid' name='juid'  size='20' data-toggle='lookup' data-url='__MODULE__/public/user/navTabId/{:CONTROLLER_NAME}'  value='{$Rs.juid}'  disabled></td><td><label for='juname_input' class='control-label x85'>接收人:</label><input type='text' id='juname' name='juname'  size='20' data-toggle='lookup' data-url='__MODULE__/public/user/navTabId/{:CONTROLLER_NAME}'  value='{$Rs.juname}'  disabled ></td></tr>
+<tr><td><label for='kssj_input' class='control-label x85'>开始时间:</label><input type='text' data-toggle='datepicker' data-pattern='yyyy-MM-dd HH:mm:ss' id='kssj' name='kssj'  data-rule='required;datetime' size='20'   value='{$Rs.kssj}'   disabled></td><td><label for='jssj_input' class='control-label x85'>结束时间:</label><input type='text' data-toggle='datepicker' data-pattern='yyyy-MM-dd HH:mm:ss' id='jssj' name='jssj'  data-rule='required;' size='20'   value='{$Rs.jssj}'   disabled></td></tr>
+<tr><td><label for='title_input' class='control-label x85'>任务标题:</label><input type='text' id='title' name='title' data-rule='required;' size='20'   value='{$Rs.title}'  disabled ></td></tr>
+<!--<tr><td><label for='jhid_input' class='control-label x85'>关联合同:</label><input type='text' id='jhid' name='jhid'  size='20' data-toggle='lookup' data-url='__MODULE__/public/htname/navTabId/{:CONTROLLER_NAME}'  value='{$Rs.jhid}'  ></td><td><label for='jhname_input' class='control-label x85'>关联合同:</label><input type='text' id='jhname' name='jhname'  size='20' data-toggle='lookup' data-url='__MODULE__/public/htname/navTabId/{:CONTROLLER_NAME}'  value='{$Rs.jhname}'  ></td></tr>-->
+<tr><td><label for='zhuangtai_input' class='control-label x85'>状态:</label><volist name='Think.config.TASK_STATUS' id='zhuangtai'><input type='radio'  name='zhuangtai' data-toggle='icheck'  data-label='{$zhuangtai}' value='{$zhuangtai}' <if condition=" $zhuangtai EQ $Rs['zhuangtai'] " >checked data-rule='checked'</if> ></volist></td></tr>
+<tr><td colspan=2><label for='beizhu_input' class='control-label x85'>任务内容:</label><textarea name='beizhu'  cols='65' rows='5'  disabled>{$Rs.beizhu}</textarea></td></tr>
+<tr><td colspan=2><label for='wancheng_input' class='control-label x85'>完成情况:</label><div style='display: inline-block; vertical-align: middle;'><textarea name='wancheng'  cols='65' rows='5' ></textarea><input type="hidden" name='wancheng1' value="{$Rs.wancheng}"></div></td></tr>
+           </tbody>
+          </table>
+</div>
+
+          
+<!--附件开始-->
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-paperclip"></i> 附件 <span class="font-normal font12">（允许.jpg.jpeg.png.gif.bmp.mpg.rar.zip.txt.doc.docx.xls.xlsx.pdf.ppt.pptx格式，最大30MB，最多10个）</span> </h3></div>
+                    <div class="panel-body">
+
+    {:W('FileUpload/edit',array('id'=>'mytask_edit','attid'=>$Rs['attid'],'module'=>'Mytask'))}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--附件结束-->
+
+
+	<div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading" style="height:45px;">
+<div class="pull-right">
+<button type="button" class="btn-success" data-icon="save" onclick="save_mytask_edit();">提交</button>
+<button type="button" class="btn-close" data-icon="close">取消</button>
+</div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+</div>
+
+
+<script type="text/javascript">
+
+	function save_mytask_edit(){
+		window.onbeforeunload=null;
+		var imytask_edit_FileNum = parseInt($("#mytask_edit_FileNum").val(), 10);
+		var imytask_edit_MaxNum = parseInt($("#mytask_edit_MaxNum").val(), 10);
+		if (imytask_edit_FileNum > imytask_edit_MaxNum) {
+			alert('上传文件数量最多'+imytask_edit_MaxNum+'个');
+			return false;
+		}
+		sendForm("form_mytask_edit", "__URL__/edit/navTabId/{:CONTROLLER_NAME}");
+	}
+	
+	/*上传成功*/
+	function mytask_edit_upload_success(file, data) {
+		var json = $.parseJSON(data)
+		$(this).bjuiajax('ajaxDone', json)
+		if (json[BJUI.keys.statusCode] == BJUI.statusCode.ok) {
+			$('#j_mytask_edit_file').val(json.filename).trigger('validate');
+			var sLi = '<li id=\"j_mytask_edit_file_span-' + json.id.toString() + '\" class="tbody">';
+			sLi += '<div style="width: 100%;" class="loading"></div>';
+			sLi += '<div class="data">';
+			sLi += '<span class="del text-center"><a href="javascript:DeleteFile_id_name_reduce(\'j_mytask_edit_file_span-' + json.id.toString() + '\',\'' + json.id + '\',\'<?php echo(getuserid()); ?>\',\'mytask_edit_FileNum\')" style="display: inline;" class="link del"><i class="fa fa-remove"></i></a></span>';
+			sLi += '<span class="size text-right">' + GetFileSize(json.size) + '</span>';
+			sLi += '<span class="auto autocut">' + json.filename + '</span></div></li>';
+			$('#j_mytask_edit_file_span').html($('#j_mytask_edit_file_span').html()+sLi);
+			/*上传数量加1*/
+			var imytask_edit_FileNum = parseInt($("#mytask_edit_FileNum").val(), 10);
+			$("#mytask_edit_FileNum").val(imytask_edit_FileNum + 1);
+		}
+	}
+
+</script>

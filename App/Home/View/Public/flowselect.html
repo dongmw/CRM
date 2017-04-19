@@ -1,0 +1,35 @@
+<div class="bjui-pageHeader">
+<div class="bjui-searchBar">
+    <button type="button" class="btn-success" data-toggle="tableditadd" data-target="#table_flow" data-num="1" data-icon="plus">添加{$title}流程</button>
+</div>
+</div>
+<div class="bjui-pageContent tableContent">
+<form action="index.php?m=home&c=public&a=flowselect&id={$id}&ac=save&type={$type}&navTabId={:CONTROLLER_NAME}" id="id_form_flowselect" class="pageForm" data-toggle="validate" method="post" data-callback="flowselect_callback">
+        <table id="table_flow" class="table table-bordered table-hover table-striped table-top" data-toggle="tabledit" data-initnum="0" data-action="{:U('public/flowselect','id='.$id.'&type=hold')}" data-single-noindex="true">
+            <thead>
+                <tr data-idname="customList[#index#].id">
+                    <th title="No." width="38"><input type="text" readonly="readonly" name="customList[#index#].no" class="no" data-rule="required" value="1" size="2"></th>
+                    <th title="流程对象"><input type="text" readonly="readonly" name="customList[#index#].confirm_name" data-rule="required" value="" size="37" data-toggle="lookup" data-url="{:U('public/flowlookupuser','au=user')}" data-group="customList[#index#]" data-width="700" data-height="500" data-id="dialog-max" data-max="true" data-mask="true" data-title="选择流程对象"></th>
+                    <th title="" data-addtool="true" width="65">
+                        <a href="{:U('public/flow','id='.$id.'&type=del')}" class="btn btn-red row-del">删</a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>{$list}
+            </tbody>
+        </table>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+        <li><button type="submit" class="btn-success" data-icon="save">保存</button></li>
+    </ul>
+</form>
+</div>
+<script>
+function flowselect_callback(json) {
+	document.getElementById("{$type}").value = json.confirm_s;
+	document.getElementById("{$type}_wrap").innerHTML = json.confirm_wrap;
+	$(this).dialog('closeCurrent',true);
+}
+</script>

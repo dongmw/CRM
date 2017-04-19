@@ -1,0 +1,146 @@
+<div class="bjui-pageContent tableContent">
+<form action="" class="pageForm" data-toggle="validate" id="form_jxctransfer_add" name="form_jxctransfer_add">
+        <!--2016-06-06 【新增】上传附件参数【开始】-->
+        <input type="hidden" name="id" value="{$Rs.id}">
+        <input type="hidden" name="attid" value="{$Rs.attid}">
+        <input type="hidden" name="randid" value="{$Rs.attid}">
+        <input type="hidden" name="jxcpurchase_add_MaxNum" id="jxcpurchase_add_MaxNum" value="10" />
+        <input type="hidden" name="jxcpurchase_add_FileNum" id="jxcpurchase_add_FileNum" value="0" />
+        <!--2016-06-06 【新增】上传附件参数【结束】-->
+    <div class="col-md-12 mt10">
+<table class="table table-top" width="100%">
+<thead>
+<tr height="35"><th>
+	<label for="j_form_jxctransfer_add_mp_ywtype" class="control-label x85">业务类别：</label><select data-width="80" id="j_form_jxctransfer_add_mp_ywtype" name="mp_ywtype" data-toggle="selectpicker" data-rule="required">
+		{:fill_option($ms_type_list)}
+	</select>
+</th>
+<th><label for='j_form_jxctransfer_add_mp_ddrq' class='control-label x85'>单据日期：</label><input type='text' data-rule='required;date' data-toggle='datepicker' id='j_form_jxctransfer_add_mp_ddrq' name='mp_ddrq' size='12' value='{$Rs.mp_ddrq}' data-min-date="{%y-10}-%M-%d" data-max-date="{%y+10}-%M-%d" ></th>
+</tr>
+</thead>
+</table>
+    </div>
+    
+
+<!--调拨单开始-->
+
+    <div class="col-md-12 m00100">
+<table id="table_jxcsuppliers_add" class="table table-bordered table-hover table-striped table-top" data-toggle="tabledit" data-initnum="0" data-action="{:U('public/contactselect','id='.$id.'&type=hold')}" data-single-noindex="true">
+<thead>
+<tr data-idname="jxctransfer_edit[#index#].id">
+<th title="No." width="38"><input type="text" readonly="readonly" name="jxctransfer_edit_group[#index#]" class="no textcenter" data-rule="required" value="#index#" size="1"><input type="hidden" id="jxctransfer_edit" name="jxctransfer_edit" value="#index#" size="1"></th>
+<th title="商品" style="min-width:180px;"><button href="javascript:;" data-url="index.php?m=home&c=public&a=jxcinformation" data-toggle="lookupbtn" data-group="mi_id[#index#]" style="width:7%" data-title="查找商品"><i class="fa fa-search"></i></button><input type="text" readonly="readonly" name="mi_id[#index#].mc" data-rule="required;" value="" style="width:89%"><input type="hidden" name="mi_id[#index#].id" value=""></th>
+<th title="数量" width="80"><input type="text" name="mpl_sl[#index#]" data-rule="required;number;length[~20]" onkeyup="jxctransfer_edit_get_num_('jxctransfer_edit_group',$(this).attr('data-group'),'jxctransfer_edit')" id="jxc_db_edit_transfer_sl[#index#]" value="0" style="width:100%" data-group="jxctransfer_edit_group[#index#]" onfocus="select()" class="textright"></th>
+<th title="调出仓库" width="100"><input type="text" readonly="readonly" name="mw_id0[#index#].name" data-rule="required;length[~50]" value="" style="width:100%" data-group="mw_id0[#index#]" data-toggle="lookup" data-url="index.php?m=home&c=public&a=jxcwarehouse"><input type="hidden" name="mw_id0[#index#].id" value=""></th>
+<th title="调入仓库" width="100"><input type="text" readonly="readonly" name="mw_id[#index#].name" data-rule="required;length[~50]" value="" style="width:100%" data-group="mw_id[#index#]" data-toggle="lookup" data-url="index.php?m=home&c=public&a=jxcwarehouse"><input type="hidden" name="mw_id[#index#].id" value=""></th>
+<th title="备注" width="70"><input type="text" name="mpl_bz[#index#]" data-rule="length[~50]" value="" style="width:100%"></th>
+<th title="" data-addtool="true" width="55"><a href="{:U('public/flow','id='.$id.'&type=del')}" onclick="delay_time_run('jxctransfer_edit_num_all(\'jxctransfer_edit\')', '500')" class="btn row-del"><i class="fa red fa-remove"></i></a></th>
+</tr>
+</thead>
+<tbody>{$list}
+</tbody>
+<thead>
+<tr style="height:27px">
+<th></th>
+<th>合计：</th>
+<th><input class="textright" type="text" name="mp_ghsl" id="jxc_db_edit_transfer_ghsl" data-rule="required;number;length[~20]" value="{$Rs.mp_ghsl}" style="width:100%" readonly="readonly" /></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+</table>
+    </div>
+
+<!--调拨单结束-->
+
+<!--附件开始-->
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-paperclip"></i> 附件 <span class="font-normal font12">（允许：最大文件30MB，最多数量10个）</span> </h3></div>
+                    <div class="panel-body">
+
+    {:W('FileUpload/edit',array('id'=>'jxcpurchase_edit','attid'=>$Rs['attid'],'module'=>'Jxcpurchase'))}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--附件结束-->
+
+          
+</div>
+<div class="bjui-pageFooter">
+<ul>
+<li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+<li><button type="button" class="btn-success" data-icon="save" onclick="save_jxctransfer_add();">提交</button></li>
+</ul>
+</form>
+</div>
+
+
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		set_val("j_form_jxctransfer_add_mp_ywtype", "{$Rs.mp_ywtype}");
+	});
+
+/*调拨单合计*/
+function jxctransfer_edit_get_num_(id,group,num) {
+	var i = group.replace(id+'[','').replace(']','');/*当前行数*/
+	var n = document.getElementsByName(num).length;/*数组长度*/
+	var mp_ghsl = 0;
+	for (var j=0;j<n;j++){
+		var str_mp_ghsl = "jxc_db_edit_transfer_sl[" + j +"]";
+		mp_ghsl = mp_ghsl + parseFloat(document.getElementById(str_mp_ghsl).value);
+	}
+	document.getElementById("jxc_db_edit_transfer_ghsl").value = mp_ghsl.toFixed(4);
+}
+function jxctransfer_edit_num_all(num) {
+	var n = document.getElementsByName(num).length;/*数组长度*/
+	//alert(n);
+	var transfer_ghsl = 0;
+	for (var j=0;j<n;j++){
+		var str_transfer_ghsl = "jxc_db_edit_transfer_sl[" + j +"]";
+		transfer_ghsl = transfer_ghsl + parseFloat(document.getElementById(str_transfer_ghsl).value);
+	}
+	document.getElementById("jxc_db_edit_transfer_ghsl").value = transfer_ghsl.toFixed(4);
+}
+
+	function save_jxctransfer_add(){
+		window.onbeforeunload=null;
+		var ijxctransfer_add_FileNum = parseInt($("#jxctransfer_add_FileNum").val(), 10);
+		var ijxctransfer_add_MaxNum = parseInt($("#jxctransfer_add_MaxNum").val(), 10);
+		if (ijxctransfer_add_FileNum > ijxctransfer_add_MaxNum) {
+			alert('上传文件数量最多'+ijxctransfer_add_MaxNum+'个');
+			return false;
+		}
+		sendForm("form_jxctransfer_add", "__URL__/edit/navTabId/{:CONTROLLER_NAME}");
+	}
+	
+	/*上传成功*/
+	function jxctransfer_add_upload_success(file, data) {
+		var json = $.parseJSON(data)
+		$(this).bjuiajax('ajaxDone', json)
+		if (json[BJUI.keys.statusCode] == BJUI.statusCode.ok) {
+			$('#j_jxctransfer_add_file').val(json.filename).trigger('validate');
+			var sLi = '<li id=\"j_jxctransfer_add_file_span-' + json.id.toString() + '\" class="tbody">';
+			sLi += '<div style="width: 100%;" class="loading"></div>';
+			sLi += '<div class="data">';
+			sLi += '<span class="del text-center"><a href="javascript:DeleteFile_id_name_reduce(\'j_jxctransfer_add_file_span-' + json.id.toString() + '\',\'' + json.id + '\',\'<?php echo(getuserid()); ?>\',\'jxctransfer_add_FileNum\')" style="display: inline;" class="link del"><i class="fa fa-remove"></i></a></span>';
+			sLi += '<span class="size text-right">' + GetFileSize(json.size) + '</span>';
+			sLi += '<span class="auto autocut">' + json.filename + '</span></div></li>';
+			$('#j_jxctransfer_add_file_span').html($('#j_jxctransfer_add_file_span').html()+sLi);
+			/*上传数量加1*/
+			var ijxctransfer_add_FileNum = parseInt($("#jxctransfer_add_FileNum").val(), 10);
+			$("#jxctransfer_add_FileNum").val(ijxctransfer_add_FileNum + 1);
+		}
+	}
+
+</script>

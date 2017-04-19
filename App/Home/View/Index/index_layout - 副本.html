@@ -1,0 +1,250 @@
+<!--<div class="bjui-pageHeader">
+	<div class="bjui-searchBar">
+		<h4 class="panel-title lineh24">{:L('_INDEX_LAYOUT_Todo_')}</h4>
+	</div>
+</div>-->
+
+<div class="bjui-pageContent tableContent">
+<div style="position:absolute;top:15px;right:0;width:100%;">
+  
+    <!--//工作流程 开始-->
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-table"></i> {:L('_INDEX_LAYOUT_WorkFlow_')} <a href="{:U('flow/confirm')}" data-toggle="navtab" data-id="flow/confirm" data-title="{:L('_INDEX_LAYOUT_ToDo_')}">{:L('_INDEX_LAYOUT_Detail_')}</a></h3></div>
+          <div style="min-height:185px;" class="p5">
+          
+          
+          
+<!-- Tabs -->
+<ul class="nav nav-tabs" role="tablist">
+	<li class="active"><a href="#flow-todo" role="tab" data-toggle="tab">待办</a></li>
+	<li><a href="#flow-submit" role="tab" data-toggle="tab">已提交</a></li>
+</ul>
+<!-- Tab panes -->
+<div class="tab-content m00100">
+	<div class="tab-pane fade active in" id="flow-todo">
+
+          <table class="table table-striped table-hover">
+           <thead>
+            <tr>
+			<th height=30>{:L('_INDEX_LAYOUT_ProcessProject_')}</th>
+			<th>{:L('_INDEX_LAYOUT_Title_')}</th>
+			<th>{:L('_INDEX_LAYOUT_InputPerson_')}</th>
+			<th>{:L('_INDEX_LAYOUT_InputTime_')}</th>
+			<th>{:L('_INDEX_LAYOUT_Status_')}</th>
+            </tr>
+          </thead>
+          <tbody>
+          <volist name="list_confirm" id="v">
+          <tr>
+			<td>{$v.type_name|msubstr=###,0,10}</td>
+			<td>{$v.name|msubstr=###,0,20}</a></td>
+			<td>{$v.user_name}</td>
+			<td>{$v.create_time|toDate='Y-m-d'}</td>
+			<td>{$v.step|show_step=1}</td>
+          </tr>
+          </volist>
+         </tbody>
+        </table>
+
+
+    </div>
+	<div class="tab-pane fade" id="flow-submit">
+
+          <table class="table table-striped table-hover">
+           <thead>
+            <tr>
+			<th height=30>{:L('_INDEX_LAYOUT_ProcessProject_')}</th>
+			<th>{:L('_INDEX_LAYOUT_Title_')}</th>
+			<th>{:L('_INDEX_LAYOUT_InputPerson_')}</th>
+			<th>{:L('_INDEX_LAYOUT_InputTime_')}</th>
+			<th>{:L('_INDEX_LAYOUT_Status_')}</th>
+            </tr>
+          </thead>
+          <tbody>
+          <volist name="list_confirm" id="v">
+          <tr>
+			<td>{$v.type_name|msubstr=###,0,10}</td>
+			<td>{$v.name|msubstr=###,0,20}</a></td>
+			<td>{$v.user_name}</td>
+			<td>{$v.create_time|toDate='Y-m-d'}</td>
+			<td>{$v.step|show_step=1}</td>
+          </tr>
+          </volist>
+         </tbody>
+        </table>
+
+    </div>
+</div>
+
+          
+          
+        </div>
+      </div>
+    </div>
+    <!--//工作流程 结束-->
+    
+    <!--//我的任务 开始-->
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-pencil-square-o"></i> {:L('_INDEX_LAYOUT_MyTask_')} <a href="{:U('mytask/index')}" data-toggle="navtab" data-id="mytask/index" data-title="{:L('_INDEX_LAYOUT_MyTask_')}">{:L('_INDEX_LAYOUT_Detail_')}</a></h3></div>
+          <div style="min-height:185px">
+          <table class="table table-bordered table-striped table-hover">
+           <thead>
+            <tr>
+            <th height=30>{:L('_INDEX_LAYOUT_StartTime_')}</th>
+            <th>{:L('_INDEX_LAYOUT_EndTime_')}</th>
+            <th>{:L('_INDEX_LAYOUT_TaskTitle_')}</th>
+            <th>{:L('_INDEX_LAYOUT_Author_')}</th>
+            <th>{:L('_INDEX_LAYOUT_Time_')}</th>
+            <th>{:L('_INDEX_LAYOUT_Status_')}</th>
+            </tr>
+          </thead>
+          <tbody>
+          <php>$list=M('task')->where(array('juid'=>array('like','%'.session(uid).'%')))->order("id desc")->limit(5)->select();</php>
+          <volist id="v" name="list">
+          <tr>
+            <td>{$v.kssj|substr=###,0,10}</td>
+            <td>{$v.jssj|substr=###,0,10}</td>
+            <td>{$v.title|msubstr=###,0,20}</td>
+            <td>{$v.uname}</td>
+            <td>{$v.addtime|substr=###,0,10}</td>
+            <td><php>if ($v['zhuangtai'] == '已完成') {echo '<span class="label label-success">'.$v['zhuangtai'].'</span>';} else {echo '<span class="label label-default">'.$v['zhuangtai'].'</span>';}</php></td>
+          </tr>
+          </volist>
+         </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+    <!--//我的任务 结束-->
+    
+    <!--//通知公告 开始-->
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-volume-up"></i>  {:L('_INDEX_LAYOUT_Notice_')} <a href="{:U('myinfo/index')}" data-toggle="navtab" data-id="myinfo/index" data-title="{:L('_INDEX_LAYOUT_Notice_')}">{:L('_INDEX_LAYOUT_Detail_')}</a></h3></div>
+          <div style="min-height:185px">
+          <table class="table table-bordered table-striped table-hover">
+           <thead>
+            <tr>
+            <th height=30>{:L('_INDEX_LAYOUT_NoticeTitle_')}</th>
+            <th>{:L('_INDEX_LAYOUT_EndTime_')}</th>
+            <th>{:L('_INDEX_LAYOUT_Author_')}</th>
+            <th>{:L('_INDEX_LAYOUT_Time_')}</th>
+            </tr>
+          </thead>
+          <tbody>
+          <php>$list=M('info')->where(array('juid'=>array('like','%'.session(uid).'%')))->order("id desc")->limit(5)->select();</php>
+          <volist id="v" name="list">
+          <tr>
+            <td>{$v.title|msubstr=###,0,20}</td>
+            <td>{$v.jzrq|substr=###,0,10}</td>
+            <td>{$v.uname}</td>
+            <td>{$v.addtime|substr=###,0,10}</td>
+          </tr>
+          </volist>
+         </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+    <!--//通知公告 结束-->
+     
+	<!--//文档查看 开始-->
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-table"></i> {:L('_INDEX_LAYOUT_DocumentView_')} <a href="{:U('document/index')}" data-toggle="navtab" data-id="document/index" data-title="{:L('_INDEX_LAYOUT_DocumentView_')}">{:L('_INDEX_LAYOUT_Detail_')}</a></h3></div>
+          <div style="min-height:185px">
+          <table class="table table-bordered table-striped table-hover">
+           <thead>
+            <tr>
+			<th height=30>{:L('_INDEX_LAYOUT_Folder_')}</th>
+			<th>{:L('_INDEX_LAYOUT_DocumentName_')}</th>
+			<th>{:L('_INDEX_LAYOUT_InputTime_')}</th>
+            </tr>
+          </thead>
+          <tbody>
+          <volist name="list_document" id="v">
+          <tr>
+			<td>{$v.folder_name|msubstr=###,0,20}</td>
+			<td>{$v.name|msubstr=###,0,20}</a></td>
+			<td>{$v.create_time|toDate='Y-m-d'}</td>
+          </tr>
+          </volist>
+         </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+    <!--//文档查看 结束-->
+
+    <!--//员工去向 开始-->
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-user-md"></i> {:L('_INDEX_LAYOUT_StaffWhereabouts_')} <a href="{:U('mygos/index')}" data-toggle="navtab" data-id="mygos/index" data-title="{:L('_INDEX_LAYOUT_StaffWhereabouts_')}">{:L('_INDEX_LAYOUT_Detail_')}</a></h3></div>
+          <div style="min-height:185px">
+          <table class="table table-bordered table-striped table-hover">
+           <thead>
+            <tr>
+            <th height=30>{:L('_INDEX_LAYOUT_StartTime_')}</th>
+            <th>{:L('_INDEX_LAYOUT_EndTime_')}</th>
+            <th>{:L('_INDEX_LAYOUT_Explain_')}</th>
+            <th>{:L('_INDEX_LAYOUT_Name_')}</th>
+            <th>{:L('_INDEX_LAYOUT_Department_')}</th>
+            </tr>
+          </thead>
+          <tbody>
+          <php>$list=M('mygo')->order("id desc")->limit(5)->select();</php>
+          <volist id="v" name="list">
+          <tr>
+            <td>{$v.kssj|substr=###,0,10}</td>
+            <td>{$v.jssj|substr=###,0,10}</td>
+            <td>{$v.title|msubstr=###,0,20}</td>
+            <td>{$v.uname|msubstr=###,0,20}</td>
+            <td>{$v.bumen|msubstr=###,0,20}</td>
+          </tr>
+          </volist>
+         </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+    <!--//员工去向 结束-->
+   
+    <!--//客户跟踪 开始-->
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-phone-square"></i>  {:L('_INDEX_LAYOUT_CustomerTracking_')} <a href="{:U('cust/daoqi')}" data-toggle="navtab" data-id="{:U('cust/daoqi')}" data-title="{:L('_INDEX_LAYOUT_CustomerTracking_')}">{:L('_INDEX_LAYOUT_Detail_')}</a></h3></div>
+          <div style="min-height:185px">
+          <table class="table table-bordered table-striped table-hover">
+           <thead>
+            <tr>
+            <th height=30>{:L('_INDEX_LAYOUT_CustomerName_')}</th>
+            <th>{:L('_INDEX_LAYOUT_Progress_')}</th>
+            <th>{:L('_INDEX_LAYOUT_ContactPerson_')}</th>
+            <th>{:L('_INDEX_LAYOUT_PhoneNumber_')}</th>
+            <th>{:L('_INDEX_LAYOUT_NextContact_')}</th>
+            <th>{:L('_INDEX_LAYOUT_LastUpdate_')}</th>
+            </tr>
+          </thead>
+          <tbody>
+          <php>$list=M('cust')->where(array("uid"=>array('EQ', session("uid")),"juid"=>array('like','%'.session("uid").'%'),"_logic"=>"or"))->order('updatetime desc')->limit(5)->select();</php>
+          <volist id="v" name="list">
+          <tr>
+            <td>{$v.title|msubstr=###,0,20}</td>
+            <td>{$v.fenlei}</td>
+            <td>{$v.xingming}</td>
+            <td>{$v.phone}</td>
+            <td>{$v.xcrq|substr=###,0,10}</td>
+            <td>{$v.updatetime|substr=###,0,10}</td>
+          </tr>
+          </volist>
+         </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+    <!--//客户跟踪 结束-->
+
+</div>
+</div>

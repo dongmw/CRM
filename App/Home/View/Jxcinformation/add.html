@@ -1,0 +1,118 @@
+<div class="bjui-pageContent tableContent">
+<form action="" class="pageForm" data-toggle="validate" id="form_jxcinformation_add" name="form_jxcinformation_add">
+        <!--2016-06-06 【新增】上传附件参数【开始】-->
+        <input type="hidden" name="attid" value="{$attid}">
+        <input type="hidden" name="jxcinformation_add_MaxNum" id="jxcinformation_add_MaxNum" value="10" />
+        <input type="hidden" name="jxcinformation_add_FileNum" id="jxcinformation_add_FileNum" value="0" />
+        <!--2016-06-06 【新增】上传附件参数【结束】-->
+    <div class="col-md-12">
+			<table class="table table-bordered table-striped table-hover" width="100%">
+			<tbody>
+<tr><td>
+	<label for="j_form_jxcinformation_add_pid" class="control-label x85">类别：</label><select data-width="200" id="j_form_jxcinformation_add_pid" name="mc_id" data-toggle="selectpicker" data-rule="required">
+		<option value="">请选择</option>
+		<foreach name="list_jxccategory" item="v">
+		<option value="{$v.id}" <if condition="$v.id EQ $Rs['mc_id'] ">selected<else/></if> >
+		<switch name="v.level"><case value="0"></case><case value="1">—</case><case value="2">——</case><case value="3">———</case><case value="4">————</case><case value="5">—————</case><case value="6">——————</case><case value="7">———————</case><default /></switch>{$v.name} <if condition="$v.status EQ 1 "><else/><font color=red>[未启用]</font></if>
+		</option>
+		</foreach>
+	</select>
+</td>
+<td><label for='j_form_jxcinformation_add_mi_cj' class='control-label x85'>生产厂家：</label><input type="text" id='j_form_jxcinformation_add_mi_cj' readonly="readonly" name="mi_cj[].name" data-rule="required;length[~100]" value="" size='20' data-group="mi_cj[]" data-toggle="lookup" data-url="index.php?m=home&c=public&a=jxcsuppliers&type=85" data-title="选择生产厂家"><input type="hidden" name="mi_cj[].id" value=""></td>
+<td><label for='j_form_jxcinformation_add_mi_mc' class='control-label x85'>名称：</label><input type='text' id='j_form_jxcinformation_add_mi_mc' name='mi_mc' data-rule='required;' size='20' value='{$Rs.mi_mc}' maxlenth='50' ></td></tr>
+<tr>
+<td><label for='j_form_jxcinformation_add_mi_bh' class='control-label x85'>编号：</label><input type='text' id='j_form_jxcinformation_add_mi_bh' name='mi_bh' data-rule='required;' size='20' value='{$Rs.mi_bh}' maxlenth='50' ></td>
+<td><label for='j_form_jxcinformation_add_mi_gg' class='control-label x85'>规格型号：</label><input type='text' id='j_form_jxcinformation_add_mi_gg' name='mi_gg' data-rule='required;' size='20' value='{$Rs.mi_gg}' maxlenth='50' ></td>
+<td><label for='j_form_jxcinformation_add_mi_dw' class='control-label x85'>单位：</label><select data-width="200" id="j_form_jxcinformation_add_mi_dw" name="mi_dw" data-toggle="selectpicker" data-rule="required">
+<option value="">请选择</option>
+{:fill_option($type_list)}
+</select></td></tr>
+<tr><td><label for='j_form_jxcinformation_add_mi_cctj' class='control-label x85'>存储条件：</label><input type='text' id='j_form_jxcinformation_add_mi_cctj' name='mi_cctj' data-rule='' size='20' value='{$Rs.mi_cctj}' maxlenth='50' ></td>
+<td><label for='j_form_jxcinformation_add_mi_sx' class='control-label x85'>库存上限：</label><input type='text' id='j_form_jxcinformation_add_mi_sx' name='mi_sx' data-rule='required;' size='20' value='0' maxlenth='50' class='textright' onfocus="select()" ></td>
+<td><label for='j_form_jxcinformation_add_mi_xx' class='control-label x85'>库存下限：</label><input type='text' id='j_form_jxcinformation_add_mi_xx' name='mi_xx' data-rule='required;' size='20' value='0' maxlenth='50' class='textright' onfocus="select()" ></td></tr>
+
+<tr><td><label for='j_form_jxcinformation_add_mi_dj' class='control-label x85'>采购价：</label><input type='text' id='j_form_jxcinformation_add_mi_dj' name='mi_dj' data-rule='required;' size='20' value='0' maxlenth='50' class='textright' onfocus="select()" ></td>
+<td><label for='j_form_jxcinformation_add_mi_pf' class='control-label x85'>批发价：</label><input type='text' id='j_form_jxcinformation_add_mi_pf' name='mi_pf' data-rule='required;' size='20' value='0' maxlenth='50' class='textright' onfocus="select()" ></td>
+<td><label for='j_form_jxcinformation_add_mi_ls' class='control-label x85'>零售价：</label><input type='text' id='j_form_jxcinformation_add_mi_ls' name='mi_ls' data-rule='required;' size='20' value='0' maxlenth='50' class='textright' onfocus="select()" ></td></tr>
+
+<tr><td><label for='j_form_jxcinformation_add_mi_vip' class='control-label x85'>VIP会员价：</label><input type='text' id='j_form_jxcinformation_add_mi_vip' name='mi_vip' data-rule='required;' size='20' value='0' maxlenth='50' class='textright' onfocus="select()" ></td>
+<td><label for='j_form_jxcinformation_add_mi_zk1' class='control-label x85'>折扣率一(%)：</label><input type='text' id='j_form_jxcinformation_add_mi_zk1' name='mi_zk1' data-rule='required;' size='20' value='0' maxlenth='50' class='textright' onfocus="select()" ></td>
+<td><label for='j_form_jxcinformation_add_mi_zk2' class='control-label x85'>折扣率二(%)：</label><input type='text' id='j_form_jxcinformation_add_mi_zk2' name='mi_zk2' data-rule='required;' size='20' value='0' maxlenth='50' class='textright' onfocus="select()" ></td></tr>
+
+<tr><td><label for='j_form_jxcinformation_add_mi_sl' class='control-label x85'>税率：</label><input type='text' id='j_form_jxcinformation_add_mi_sl' name='mi_sl' data-rule='required;' size='20' value='0' maxlenth='50' class='textright' onfocus="select()" ></td>
+<td><label for='j_form_jxcinformation_add_mi_txm' class='control-label x85'>条形码：</label><input type='text' id='j_form_jxcinformation_add_mi_txm' name='mi_txm' data-rule='' size='20' value='{$Rs.mi_txm}' maxlenth='50' ></td>
+<td><label for='j_form_jxcinformation_add_mi_zjm' class='control-label x85'>助记码：</label><input type='text' id='j_form_jxcinformation_add_mi_zjm' name='mi_zjm' data-rule='' size='20' value='{$Rs.mi_zjm}' maxlenth='50' ></td></tr>
+
+<tr><td><label for="j_form_jxcinformation_add_storage" class="control-label x85">首选仓库：</label><input type="text" id='j_form_jxcinformation_add_mw_id' readonly="readonly" name="mw_id[].name" data-rule="required;length[~100]" value="" size='20' data-group="mw_id[]" data-toggle="lookup" data-url="index.php?m=home&c=public&a=jxcwarehouse" data-title="选择首选仓库"><input type="hidden" name="mw_id[].id" value=""></td>
+<td colspan=2><label for="j_form_jxcinformation_add_sort" class="control-label x85">排序：</label><input type="text" size="5" data-toggle="spinner" data-min="0" data-max="100" data-step="1" data-rule="integer" name="sort" id="j_form_jxcinformation_add_sort" value="{$Rs['sort']}" onfocus="select()" ></td></tr>
+
+<tr><td colspan=3><label for="j_form_jxcinformation_add_sort" class="control-label x85">备注：</label><div style='display: inline-block; vertical-align: middle; width:80%;'><textarea style='width:100%;' name='mi_bz' rows='3'>{$Rs.mi_bz}</textarea></div></td></tr>
+           </tbody>
+          </table>
+    </div>
+    
+       
+<!--附件开始-->
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-paperclip"></i> 附件 <span class="font-normal font12">（允许.jpg.jpeg.png.gif.bmp.mpg.rar.zip.txt.doc.docx.xls.xlsx.pdf.ppt.pptx格式，最大30MB，最多10个）</span> </h3></div>
+                    <div class="panel-body">
+
+	{:W('FileUpload/add',array('id'=>'jxcinformation_add','attid'=>$attid,'module'=>'Jxcinformation'))}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--附件结束-->
+
+          
+</div>
+<div class="bjui-pageFooter">
+<ul>
+<li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+<li><button type="button" class="btn-success" data-icon="save" onclick="save_jxcinformation_add();">提交</button></li>
+</ul>
+</form>
+</div>
+
+
+
+<script type="text/javascript">
+
+	function save_jxcinformation_add(){
+		window.onbeforeunload=null;
+		var ijxcinformation_add_FileNum = parseInt($("#jxcinformation_add_FileNum").val(), 10);
+		var ijxcinformation_add_MaxNum = parseInt($("#jxcinformation_add_MaxNum").val(), 10);
+		if (ijxcinformation_add_FileNum > ijxcinformation_add_MaxNum) {
+			alert('上传文件数量最多'+ijxcinformation_add_MaxNum+'个');
+			return false;
+		}
+		sendForm("form_jxcinformation_add", "__URL__/add/navTabId/{:CONTROLLER_NAME}");
+	}
+	
+	/*上传成功*/
+	function jxcinformation_add_upload_success(file, data) {
+		var json = $.parseJSON(data)
+		$(this).bjuiajax('ajaxDone', json)
+		if (json[BJUI.keys.statusCode] == BJUI.statusCode.ok) {
+			$('#j_jxcinformation_add_file').val(json.filename).trigger('validate');
+			var sLi = '<li id=\"j_jxcinformation_add_file_span-' + json.id.toString() + '\" class="tbody">';
+			sLi += '<div style="width: 100%;" class="loading"></div>';
+			sLi += '<div class="data">';
+			sLi += '<span class="del text-center"><a href="javascript:DeleteFile_id_name_reduce(\'j_jxcinformation_add_file_span-' + json.id.toString() + '\',\'' + json.id + '\',\'<?php echo(getuserid()); ?>\',\'jxcinformation_add_FileNum\')" style="display: inline;" class="link del"><i class="fa fa-remove"></i></a></span>';
+			sLi += '<span class="size text-right">' + GetFileSize(json.size) + '</span>';
+			sLi += '<span class="auto autocut">' + json.filename + '</span></div></li>';
+			$('#j_jxcinformation_add_file_span').html($('#j_jxcinformation_add_file_span').html()+sLi);
+			/*上传数量加1*/
+			var ijxcinformation_add_FileNum = parseInt($("#jxcinformation_add_FileNum").val(), 10);
+			$("#jxcinformation_add_FileNum").val(ijxcinformation_add_FileNum + 1);
+		}
+	}
+
+</script>

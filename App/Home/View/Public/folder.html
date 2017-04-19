@@ -1,0 +1,29 @@
+<div class="bjui-pageHeader">
+<div class="bjui-searchBar">
+    <button type="button" class="btn-success" data-toggle="tableditadd" data-target="#table_folder" data-num="1" data-icon="plus">添加{$title}</button>
+    <!--<div class="alert alert-info search-inline"><i class="fa fa-info-circle"></i> 双击行可编辑</div>-->
+</div>
+</div>
+<div class="bjui-pageContent tableContent">
+<form action="index.php?m=home&c=public&a=folder&id={$id}&ac=save&type={$type}&navTabId={:CONTROLLER_NAME}" id="id_form_folder" class="pageForm" data-toggle="validate" method="post">
+        <table id="table_folder" class="table table-bordered table-hover table-striped table-top" data-toggle="tabledit" data-initnum="0" data-action="{:U('public/folder','id='.$id.'&type=hold')}" data-single-noindex="true">
+            <thead>
+                <tr data-idname="customList[#index#].id">
+                    <th title="No." width="38"><input type="text" readonly="readonly" name="customList[#index#].no" class="no" data-rule="required" value="1" size="2"></th>
+                    <th title="操作对象"><input type="text" readonly="readonly" name="customList[#index#].confirm_name" data-rule="required" value="" size="37" data-toggle="lookup" data-url="{:U('public/folderlookupuser')}" data-group="customList[#index#]" data-width="700" data-height="500" data-id="dialog-max" data-max="true" data-mask="true"></th>
+                    <th title="" data-addtool="true" width="65">
+                        <a href="{:U('public/folder','id='.$id.'&type=del')}" class="btn btn-red row-del">删</a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>{$list}
+            </tbody>
+        </table>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+        <li><button type="submit" class="btn-success" data-icon="save">保存</button></li>
+    </ul>
+</div>
+</form>
+</div>

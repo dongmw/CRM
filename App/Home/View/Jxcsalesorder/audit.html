@@ -1,0 +1,77 @@
+<div class="bjui-pageHeader">
+<form id="pagerForm" data-toggle="ajaxsearch" action="__SELF__" method="post">
+	<input type="hidden" name="pageSize" value="{$numPerPage}">
+	<input type="hidden" name="pageCurrent" value="{$_REQUEST['pageNum']|default=1}">
+	<div class="bjui-searchBar">
+		<label>关键词：</label><input type="text" value="{$_REQUEST['keys']}" name="keys" class="form-control" size="15" />
+		<div class="btn-group " role="group">
+			<button type="submit" class="btn-success" data-icon="search">查询</button>
+			<button type="button" class="btn-orange" data-icon="undo" onclick="$(this).navtab('reloadForm', true);">清空查询</button>
+		</div>
+		<div class="btn-group " role="group">
+			<!--<button type="button" class="btn btn-success" data-url="__URL__/add/navTabId/{:CONTROLLER_NAME}" data-toggle="dialog" data-width="950" data-height="500" data-id="dialog-mask" data-mask="true" data-icon="plus"> 添加</button>-->
+			<!--<button type="button" class="btn btn-blue" data-url="__URL__/outxls" data-toggle="doexport" data-icon="arrow-down" data-confirm-msg="确定要导出吗？"> 导出</button>-->
+			<button type="button" class="btn btn-danger" data-url="__URL__/del/navTabId/{:CONTROLLER_NAME}" data-toggle="doajax" data-confirm-msg="确定要清理吗？" data-icon="remove" title="清理所有无效信息"> 清理</button>
+		</div>
+		<div class="btn-group floatright" role="group">
+			<button type="button" class="btn-green" onclick="$(this).navtab('reloadForm', true);" data-icon="refresh">刷新</button>
+			<button type="button" class="btn-close" data-icon="close">关闭</button>
+		</div>
+	</div> 
+</form>
+</div>
+<div class="bjui-pageContent tableContent">
+     <table data-toggle="tablefixed" data-width="100%" data-layout-h="0" data-nowrap="true">
+        <thead>
+            <tr>
+<th width="10" height="30"></th>
+<th data-order-field='id'>ID</th>
+<th data-order-field='mp_ddrq'>订单日期</th>
+<th data-order-field='mp_ddbh'>订单编号</th>
+<th data-order-field='mp_ywtype'>业务类别</th>
+<th data-order-field='ms_id'>客户</th>
+<th data-order-field='mp_ghje'>金额</th>
+<th data-order-field='mp_ghsl'>数量</th>
+<th data-order-field='mp_ddzt' class="textcenter">订单状态</th>
+<th data-order-field='mp_jhrq'>交货日期</th>
+<th data-order-field='mp_zdr'>制单人</th>
+<th data-order-field='mp_cgr'>采购人</th>
+<th data-order-field='mp_shr'>审核人</th>
+<th>备注</th>
+<th class="textcenter" width="35">排序</th>
+<th class="textcenter" width="50">详细</th>
+<th class="textcenter" width="50" <php>echo display(CONTROLLER_NAME.'/del');</php> >状态</th>
+<th class="textcenter" width="50" <php>echo display(CONTROLLER_NAME.'/edit');</php> >审核</th>
+            </tr>
+        </thead>
+        <tbody>
+
+          <volist name="list" id="v">
+          <tr>
+<td></td>
+<td>{$v.id}</td>
+<td>{$v.mp_ddrq}</td>
+<td>{$v.mp_ddbh}</td>
+<td>{$v.mp_ywtype|get_table_field=###,'id','name','system_tag'}</td>
+<td>{$v.ms_id|get_table_field=###,'id','mc_mc','jxccustomers'}</td>
+<td class="textright">{$v.mp_ghje|doubleval=###}</td>
+<td class="textright">{$v.mp_ghsl|doubleval=###}</td>
+<td class="textcenter">{$v.mp_ddzt|get_table_field=###,'id','name','system_tag'}</td>
+<td>{$v.mp_jhrq}</td>
+<td>{$v.mp_zdr|get_table_field=###,'id','truename','user'}</td>
+<td>{$v.mp_cgr|get_table_field=###,'id','truename','user'}</td>
+<td>{$v.mp_shr|get_table_field=###,'id','truename','user'}</td>
+<td>{$v.beizhu|html_out=###}</td>
+<td class="textcenter">{$v.sort}</td>
+<td class="textcenter"><a href="__URL__/view/id/{$v['id']}/navTabId/{:CONTROLLER_NAME}" class="btn btn-green btn-sm" data-toggle="dialog" data-width="900" data-height="500" data-id="dialog-mask" data-mask="true" >详细</a></td>
+<td class="textcenter" <php>echo display(CONTROLLER_NAME.'/del');</php> ><a href="javascript:;" data-url="__URL__/del/id/{$v['id']}/navTabId/{:CONTROLLER_NAME}" data-toggle="doajax" data-confirm-msg="确定要操作吗？"><if condition="$v.status EQ 1 "><span class="label label-success" title="点击设为无效">有效</span><else/><span class="label label-default" title="点击设为有效">无效</span></if></a></td>
+<td class="textcenter" <php>echo display(CONTROLLER_NAME.'/edit');</php> ><if condition="$v.status EQ 1 "><eq name="v.mp_shr" value="0"><a href="javascript:;" data-url="__URL__/confirm/id/{$v['id']}/navTabId/{:CONTROLLER_NAME}" data-toggle="doajax"><span class="label label-success" title="点击通过审核">审核</span></a><else/></eq></if></td>
+         </tr> 
+          </volist>
+        </tbody>
+    </table>
+</div>
+<div class="bjui-pageFooter">
+<div class="pages"><span>共 {$totalCount} 条  每页 {$numPerPage} 条</span></div>
+<div class="pagination-box" data-toggle="pagination" data-total="{$totalCount}" data-page-size="{$numPerPage}" data-page-current="{$currentPage}"></div>
+</div>

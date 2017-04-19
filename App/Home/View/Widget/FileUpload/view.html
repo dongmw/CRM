@@ -1,0 +1,16 @@
+<notempty name="file_list">
+<div class="col-sm-12">
+    <div class="uploader">
+        <volist name="file_list" id="file">
+            <li class="tbody">
+                <div style="width: 100%;" class="loading"></div>
+                <div class="data">
+                    <span class="del text-center"> <a class="link del" target="_blank" href="{:U('public/down?attach_id='.f_encode($file['id']))}"><i class="fa fa-download"></i></a> </span>
+                    <span class="size text-right" >{$file.size|reunit}</span>
+                    <span class="auto autocut" title="{$file.name}">{$file.filedesc}</span>
+                </div>
+            </li>
+        </volist>
+    </div>
+</div>
+</notempty>

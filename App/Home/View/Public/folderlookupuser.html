@@ -1,0 +1,72 @@
+<div class="bjui-pageContent">
+<!-- Tabs -->
+<ul class="nav nav-tabs" role="tablist">
+	<li class="active"><a href="#flowlookupuser1" role="tab" data-toggle="tab">部门</a></li>
+	<li><a href="#flowlookupuser2" role="tab" data-toggle="tab">人员</a></li>
+</ul>
+<!-- Tab panes -->
+<div class="tab-content m00100">
+	<div class="tab-pane fade active in" id="flowlookupuser1">
+
+
+<!--******************************** 部门 ********************************-->
+    <table data-toggle="tablefixed" data-width="100%">
+        <thead>
+            <tr>
+                <th height="30px">部门</th>
+                <th width="74">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+<foreach name="depname_list" item="v">
+<tr>
+    <td>
+    		<switch name="v.level"><case value="0"><B>{$v.title}</b></case><case value="1">—{$v.title}</case><case value="2">——{$v.title}</case><case value="3">———{$v.title}</case><case value="4">————{$v.title}</case><case value="5">—————{$v.title}</case><case value="6">——————{$v.title}</case><case value="7">———————{$v.title}</case><default /></switch>
+	     <if condition="$v.status EQ 1 "><else/><img src="__PUBLIC__/images/locked.gif" border="0"/></if>
+	</td>
+    <td>
+        <a href="javascript:;" data-toggle="lookupback" data-args="{confirm_name:'部门:{$v.title}|{$v.id}'}" class="btn btn-blue" title="选择本项" data-icon="check">选择</a>
+    </td>
+</tr>
+</foreach>
+
+        </tbody>
+    </table>
+<!--******************************** 部门 ********************************-->
+
+
+    </div>
+	<div class="tab-pane fade" id="flowlookupuser2">
+        
+
+<!--******************************** 人员 ********************************-->
+    <table data-toggle="tablefixed" data-width="100%">
+        <thead>
+            <tr>
+                <th height="30px">名称</th>
+                <th>部门</th>
+                <th>职位</th>
+                <th width="74">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+<foreach name="user_list" item="v">
+<tr>
+    <td>{$v.truename}</td>
+    <td>{$v.posname}</td>
+    <td>{$v.depname}</td>
+    <td>
+        <a href="javascript:;" data-toggle="lookupback" data-args="{confirm_name:'人员:{$v.truename}/{$v.posname}|{$v.username}'}" class="btn btn-blue" title="选择本项" data-icon="check">选择</a>
+    </td>
+</tr>
+</foreach>
+
+        </tbody>
+    </table>
+<!--******************************** 人员 ********************************-->
+
+
+    </div>
+</div>
+
+</div>

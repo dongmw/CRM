@@ -1,0 +1,51 @@
+<div class="bjui-pageContent">
+<form action="" class="pageForm" data-toggle="validate" id="form_flow_type_index" name="form_flow_type_index">
+<div class="bjui-pageHeader">
+<div class="bjui-searchBar">
+    <div class="btn-group" role="group">
+<a href="{:U('add','type='.$type.'&navTabId=settlementtype')}" data-toggle="dialog" data-id="navtab-system_tag-edit" class="btn btn-success" data-icon="plus" <php>echo display(CONTROLLER_NAME.'/add');</php>>添加</a>
+<a class="btn btn-danger" href="__URL__/mark/action/del" data-toggle="doajaxchecked" data-idname="id" data-group="id" <php>echo display(CONTROLLER_NAME.'/mark');</php>>启用/禁用</a>
+    </div>
+    <div class="btn-group floatright" role="group">
+        <button type="button" class="btn-green" onclick="$(this).navtab('reloadForm', true);" data-icon="refresh">刷新</button>
+        <button type="button" class="btn-close" data-icon="close">关闭</button>
+    </div>
+</div>
+</div>
+<!-- 功能操作区域结束 -->
+<div class="ul_table border-bottom">
+	<ul>
+		<li class="thead"  >
+			<label class="inline pull-left col-3">
+                <input type="checkbox" class="checkboxCtrl" data-group="id" data-toggle="icheck">
+                <span class="lbl"></span></label>
+                <span class="col-14">编号 </span>
+			<div class="pull-right">		
+                <span class="col-15">备注</span>
+                <span class="col-5">排序</span>
+                <span class="col-5">状态</span>
+			</div>
+			<span class="autocut auto">名称</span>
+		</li>
+<empty name="tag_list">
+	<li class="no-data">没找到数据</li>
+<else/>
+    <foreach name="tag_list" item="vo">
+        <li class="tbody" >
+        <label class="inline pull-left col-3"><input class="ace" type="checkbox" name="id" data-toggle="icheck" value="{$vo.id}" /><span class="lbl"></span></label>
+        <span  class="col-14" >{$vo.id}&nbsp;</span>
+        <div class="pull-right">
+        <span class="col-15">{$vo.remark}&nbsp;</span>
+        <span class="col-5">{$vo.sort}&nbsp;</span>
+        <span class="col-5">{$vo.is_del|status=1}&nbsp;</span>
+        </div >
+        <span class="autocut auto"><a href="{:U('edit','id='.$vo['id'].'&type='.$type.'&navTabId=settlementtype')}" data-toggle="dialog" data-id="navtab-system_tag-edit" data-title="修改"><span class="label label-primary">{$vo.name}</span></a></span>
+        </li>
+    </foreach>
+</empty>
+	</ul>
+</div>
+</form>
+</div>
+
+

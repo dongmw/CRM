@@ -1,0 +1,93 @@
+<form action="" class="pageForm" data-toggle="validate" id="form_jxcwarehouse_add" name="form_jxcwarehouse_add">
+        <!--2016-06-06 【新增】上传附件参数【开始】-->
+        <input type="hidden" name="attid" value="{$attid}">
+        <input type="hidden" name="jxcwarehouse_add_MaxNum" id="jxcwarehouse_add_MaxNum" value="10" />
+        <input type="hidden" name="jxcwarehouse_add_FileNum" id="jxcwarehouse_add_FileNum" value="0" />
+        <!--2016-06-06 【新增】上传附件参数【结束】-->
+<div class="bjui-pageContent tableContent">
+    <div class="col-md-12">
+			<table class="table table-bordered table-striped table-hover" width="100%">
+			<tbody>
+<tr><td>
+	<label for="j_pid" class="control-label x85">上级菜单：</label><select id="j_pid" name="pid" data-toggle="selectpicker" data-rule="required">
+	<option value="0">顶级</option>
+		<foreach name="list" item="v">
+		<option value="{$v.id}" <if condition="$v.id EQ $Rs['pid'] ">selected<else/></if> >
+		<switch name="v.level"><case value="0"></case><case value="1">—</case><case value="2">——</case><case value="3">———</case><case value="4">————</case><case value="5">—————</case><case value="6">——————</case><case value="7">———————</case><default /></switch>{$v.name} <if condition="$v.status EQ 1 "><else/><font color=red>[未启用]</font></if>
+		</option>
+		</foreach>
+	</select>
+</td></tr>
+<tr><td><label for='j_form_jxcwarehouse_add_name' class='control-label x85'>名称：</label><input type='text' id='j_form_jxcwarehouse_add_name' name='name' data-rule='required;' size='20' value='{$Rs.name}' maxlenth='50' ></td></tr>
+<tr><td><label for='j_form_jxcwarehouse_add_number' class='control-label x85'>编号：</label><input type='text' id='j_form_jxcwarehouse_add_number' name='number' data-rule='required;' size='20' value='{$Rs.number}' maxlenth='50' ></td></tr>
+<tr><td><label for="j_form_jxcwarehouse_add_sort" class="control-label x85">排序：</label><input type="text" size="5" data-toggle="spinner" data-min="0" data-max="100" data-step="1" data-rule="integer" name="sort" id="j_form_jxcwarehouse_add_sort" value="{$Rs['sort']}" ></td></tr>
+<tr><td><label for="j_form_jxcwarehouse_add_sort" class="control-label x85">备注：</label><div style='display: inline-block; vertical-align: middle; width:80%;'><textarea style='width:100%;' name='beizhu' rows='3'>{$Rs.beizhu}</textarea></div></td></tr>
+           </tbody>
+          </table>
+    </div>
+    
+       
+<!--附件开始-->
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-paperclip"></i> 附件 <span class="font-normal font12">（允许.jpg.jpeg.png.gif.bmp.mpg.rar.zip.txt.doc.docx.xls.xlsx.pdf.ppt.pptx格式，最大30MB，最多10个）</span> </h3></div>
+                    <div class="panel-body">
+
+	{:W('FileUpload/add',array('id'=>'jxcwarehouse_add','attid'=>$attid,'module'=>'Jxcwarehouse'))}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--附件结束-->
+
+          
+</div>
+<div class="bjui-pageFooter">
+<ul>
+<li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+<li><button type="button" class="btn-success" data-icon="save" onclick="save_jxcwarehouse_add();">提交</button></li>
+</ul>
+</div>
+</form>
+
+
+
+<script type="text/javascript">
+
+	function save_jxcwarehouse_add(){
+		window.onbeforeunload=null;
+		var ijxcwarehouse_add_FileNum = parseInt($("#jxcwarehouse_add_FileNum").val(), 10);
+		var ijxcwarehouse_add_MaxNum = parseInt($("#jxcwarehouse_add_MaxNum").val(), 10);
+		if (ijxcwarehouse_add_FileNum > ijxcwarehouse_add_MaxNum) {
+			alert('上传文件数量最多'+ijxcwarehouse_add_MaxNum+'个');
+			return false;
+		}
+		sendForm("form_jxcwarehouse_add", "__URL__/add/navTabId/{:CONTROLLER_NAME}");
+	}
+	
+	/*上传成功*/
+	function jxcwarehouse_add_upload_success(file, data) {
+		var json = $.parseJSON(data)
+		$(this).bjuiajax('ajaxDone', json)
+		if (json[BJUI.keys.statusCode] == BJUI.statusCode.ok) {
+			$('#j_jxcwarehouse_add_file').val(json.filename).trigger('validate');
+			var sLi = '<li id=\"j_jxcwarehouse_add_file_span-' + json.id.toString() + '\" class="tbody">';
+			sLi += '<div style="width: 100%;" class="loading"></div>';
+			sLi += '<div class="data">';
+			sLi += '<span class="del text-center"><a href="javascript:DeleteFile_id_name_reduce(\'j_jxcwarehouse_add_file_span-' + json.id.toString() + '\',\'' + json.id + '\',\'<?php echo(getuserid()); ?>\',\'jxcwarehouse_add_FileNum\')" style="display: inline;" class="link del"><i class="fa fa-remove"></i></a></span>';
+			sLi += '<span class="size text-right">' + GetFileSize(json.size) + '</span>';
+			sLi += '<span class="auto autocut">' + json.filename + '</span></div></li>';
+			$('#j_jxcwarehouse_add_file_span').html($('#j_jxcwarehouse_add_file_span').html()+sLi);
+			/*上传数量加1*/
+			var ijxcwarehouse_add_FileNum = parseInt($("#jxcwarehouse_add_FileNum").val(), 10);
+			$("#jxcwarehouse_add_FileNum").val(ijxcwarehouse_add_FileNum + 1);
+		}
+	}
+
+</script>

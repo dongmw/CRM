@@ -1,0 +1,1 @@
+a:3:{i:0;s:7:"role_id";i:1;s:7:"duty_id";s:5:"_type";a:2:{s:7:"role_id";s:20:"smallint(6) unsigned";s:7:"duty_id";s:20:"smallint(6) unsigned";}}
